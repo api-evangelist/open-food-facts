@@ -1,9 +1,9 @@
 aid: open-food-facts
 name: Open Food Facts
 description: >-
-  Open Food Facts is a food products database made by everyone, for everyone.
-  You can use it to make better food choices, and as it is open data, anyone can
-  re-use it for any purpose. 
+  Open Food Facts is a food products database made by everyone, for everyone. You
+  can use it to make better food choices, and as it is open data, anyone can re-use
+  it for any purpose.
 type: Index
 position: Consumer
 access: 3rd-Party
@@ -19,9 +19,9 @@ apis:
   - aid: open-food-facts:open-food-facts
     name: Open Food Facts
     description: >-
-      Open Food Facts is a food products database made by everyone, for
-      everyone. You can use it to make better food choices, and as it is open
-      data, anyone can re-use it for any purpose. 
+      Open Food Facts is a food products database made by everyone, for everyone.
+      You can use it to make better food choices, and as it is open data, anyone can
+      re-use it for any purpose.
     humanURL: ' https://world.openfoodfacts.org/'
     tags:
       - API
