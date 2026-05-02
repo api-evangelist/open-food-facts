@@ -1,0 +1,227 @@
+openapi: 3.1.0
+info:
+  title: Open Food Facts API
+  description: >-
+    Open Food Facts is a collaborative, free, and open database of food
+    products from around the world. The HTTP API provides read access to
+    product data by barcode, full-text and faceted search, and access to
+    Open Food Facts taxonomies.
+  version: '2.0'
+  contact:
+    name: Open Food Facts
+    url: https://world.openfoodfacts.org/
+    email: reuse@openfoodfacts.org
+  license:
+    name: Open Database License (ODbL)
+    url: https://opendatacommons.org/licenses/odbl/1-0/
+servers:
+  - url: https://world.openfoodfacts.org
+    description: Worldwide instance
+  - url: https://{country}.openfoodfacts.org
+    description: Country-specific instance
+    variables:
+      country:
+        default: world
+        description: Country subdomain (e.g., us, fr, de)
+paths:
+  /api/v2/product/{barcode}:
+    get:
+      summary: Get a product by barcode
+      description: Retrieve a single product by its barcode (EAN/UPC).
+      operationId: getProductByBarcode
+      parameters:
+        - name: barcode
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Product barcode such as an EAN-13.
+        - name: fields
+          in: query
+          schema:
+            type: string
+          description: Comma-separated list of fields to return.
+        - name: lc
+          in: query
+          schema:
+            type: string
+          description: Language code for localized fields (e.g., en, fr).
+      responses:
+        '200':
+          description: Product record (status 1) or not-found marker (status 0).
+  /api/v2/product/{barcode}.json:
+    get:
+      summary: Get a product by barcode (JSON)
+      description: JSON-extension form of the product retrieval endpoint.
+      operationId: getProductByBarcodeJson
+      parameters:
+        - name: barcode
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: blame
+          in: query
+          schema:
+            type: integer
+            enum: [0, 1]
+          description: When 1, include modification history.
+      responses:
+        '200':
+          description: Product record.
+  /api/v2/search:
+    get:
+      summary: Search products
+      description: >-
+        Faceted product search supporting filters by category, brand, label,
+        country, ingredient, additive, allergen, nutrition grade, and bulk
+        barcode lookup.
+      operationId: searchProducts
+      parameters:
+        - name: code
+          in: query
+          schema:
+            type: string
+          description: Comma-separated list of barcodes for bulk lookup.
+        - name: categories_tags_en
+          in: query
+          schema:
+            type: string
+        - name: brands_tags
+          in: query
+          schema:
+            type: string
+        - name: labels_tags
+          in: query
+          schema:
+            type: string
+        - name: countries_tags_en
+          in: query
+          schema:
+            type: string
+        - name: nutrition_grades_tags
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+            maximum: 1000
+        - name: sort_by
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Paginated product results.
+  /api/v2/taxonomy:
+    get:
+      summary: Retrieve taxonomy entries
+      description: Look up canonical taxonomy entries (categories, labels, ingredients, etc.).
+      operationId: getTaxonomy
+      parameters:
+        - name: tagtype
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - additives
+              - allergens
+              - brands
+              - categories
+              - countries
+              - ingredients
+              - labels
+              - languages
+              - origins
+              - packaging
+              - states
+              - traces
+        - name: tags
+          in: query
+          schema:
+            type: string
+          description: Comma-separated taxonomy tag identifiers.
+        - name: fields
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Taxonomy entries.
+  /api/v3/taxonomy_suggestions:
+    get:
+      summary: Taxonomy autocomplete suggestions
+      operationId: taxonomySuggestions
+      parameters:
+        - name: tagtype
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: string
+          in: query
+          schema:
+            type: string
+          description: Prefix to match.
+        - name: lc
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of taxonomy suggestions.
+  /api/v3/product/{barcode}:
+    get:
+      summary: Get a product (v3)
+      description: v3 product retrieval, under active development.
+      operationId: getProductV3
+      parameters:
+        - name: barcode
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product record (v3 envelope).
+  /cgi/suggest.pl:
+    get:
+      summary: Legacy suggestion endpoint
+      description: Legacy CGI endpoint for taxonomy suggestions.
+      operationId: legacySuggest
+      parameters:
+        - name: tagtype
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: term
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of suggestions.

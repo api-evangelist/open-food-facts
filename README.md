@@ -16,7 +16,7 @@ Open Food Facts is a food products database made by everyone, for everyone. You 
 ## Timestamps
 
 - **Created:** 2025-03-01 
-- **Modified:** 2026-03-16 
+- **Modified:** 2026-04-28 
 
 ## APIs
 
@@ -33,6 +33,7 @@ Open Food Facts is a food products database made by everyone, for everyone. You 
 #### Properties
 
 - [Documentation]( https://world.openfoodfacts.org/)
+- [OpenAPI](openapi/open-food-facts-openapi.yml)
 
 ## Maintainers
 
