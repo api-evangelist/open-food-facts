@@ -1,0 +1,483 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Open Food Facts API
+  description: Open Food Facts is a collaborative, free, and open database of food products from around the world. The HTTP
+    API provides read access to product data by barcode, full-text and faceted search, and access to Open Food Facts taxonomies.
+  tags:
+  - Open
+  - Food
+  - Facts
+  - API
+  created: '2026-05-06'
+  modified: '2026-05-06'
+capability:
+  consumes:
+  - type: http
+    namespace: open-food-facts
+    baseUri: https://world.openfoodfacts.org
+    description: Open Food Facts API HTTP API.
+    resources:
+    - name: api-v2-product-barcode
+      path: /api/v2/product/{barcode}
+      operations:
+      - name: getproductbybarcode
+        method: GET
+        description: Get a product by barcode
+        inputParameters:
+        - name: barcode
+          in: path
+          type: string
+          required: true
+          description: Product barcode such as an EAN-13.
+        - name: fields
+          in: query
+          type: string
+          description: Comma-separated list of fields to return.
+        - name: lc
+          in: query
+          type: string
+          description: Language code for localized fields (e.g., en, fr).
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-v2-product-barcode-json
+      path: /api/v2/product/{barcode}.json
+      operations:
+      - name: getproductbybarcodejson
+        method: GET
+        description: Get a product by barcode (JSON)
+        inputParameters:
+        - name: barcode
+          in: path
+          type: string
+          required: true
+        - name: fields
+          in: query
+          type: string
+        - name: blame
+          in: query
+          type: integer
+          description: When 1, include modification history.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-v2-search
+      path: /api/v2/search
+      operations:
+      - name: searchproducts
+        method: GET
+        description: Search products
+        inputParameters:
+        - name: code
+          in: query
+          type: string
+          description: Comma-separated list of barcodes for bulk lookup.
+        - name: categories_tags_en
+          in: query
+          type: string
+        - name: brands_tags
+          in: query
+          type: string
+        - name: labels_tags
+          in: query
+          type: string
+        - name: countries_tags_en
+          in: query
+          type: string
+        - name: nutrition_grades_tags
+          in: query
+          type: string
+        - name: fields
+          in: query
+          type: string
+        - name: page
+          in: query
+          type: integer
+        - name: page_size
+          in: query
+          type: integer
+        - name: sort_by
+          in: query
+          type: string
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-v2-taxonomy
+      path: /api/v2/taxonomy
+      operations:
+      - name: gettaxonomy
+        method: GET
+        description: Retrieve taxonomy entries
+        inputParameters:
+        - name: tagtype
+          in: query
+          type: string
+          required: true
+        - name: tags
+          in: query
+          type: string
+          description: Comma-separated taxonomy tag identifiers.
+        - name: fields
+          in: query
+          type: string
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-v3-taxonomy-suggestions
+      path: /api/v3/taxonomy_suggestions
+      operations:
+      - name: taxonomysuggestions
+        method: GET
+        description: Taxonomy autocomplete suggestions
+        inputParameters:
+        - name: tagtype
+          in: query
+          type: string
+          required: true
+        - name: string
+          in: query
+          type: string
+          description: Prefix to match.
+        - name: lc
+          in: query
+          type: string
+        - name: limit
+          in: query
+          type: integer
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-v3-product-barcode
+      path: /api/v3/product/{barcode}
+      operations:
+      - name: getproductv3
+        method: GET
+        description: Get a product (v3)
+        inputParameters:
+        - name: barcode
+          in: path
+          type: string
+          required: true
+        - name: fields
+          in: query
+          type: string
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: cgi-suggest-pl
+      path: /cgi/suggest.pl
+      operations:
+      - name: legacysuggest
+        method: GET
+        description: Legacy suggestion endpoint
+        inputParameters:
+        - name: tagtype
+          in: query
+          type: string
+          required: true
+        - name: term
+          in: query
+          type: string
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    port: 8080
+    namespace: open-food-facts-rest
+    description: REST adapter for Open Food Facts API.
+    resources:
+    - path: /api/v2/product/{barcode}
+      name: getproductbybarcode
+      operations:
+      - method: GET
+        name: getproductbybarcode
+        description: Get a product by barcode
+        call: open-food-facts.getproductbybarcode
+        with:
+          barcode: rest.barcode
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /api/v2/product/{barcode}.json
+      name: getproductbybarcodejson
+      operations:
+      - method: GET
+        name: getproductbybarcodejson
+        description: Get a product by barcode (JSON)
+        call: open-food-facts.getproductbybarcodejson
+        with:
+          barcode: rest.barcode
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /api/v2/search
+      name: searchproducts
+      operations:
+      - method: GET
+        name: searchproducts
+        description: Search products
+        call: open-food-facts.searchproducts
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /api/v2/taxonomy
+      name: gettaxonomy
+      operations:
+      - method: GET
+        name: gettaxonomy
+        description: Retrieve taxonomy entries
+        call: open-food-facts.gettaxonomy
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /api/v3/taxonomy_suggestions
+      name: taxonomysuggestions
+      operations:
+      - method: GET
+        name: taxonomysuggestions
+        description: Taxonomy autocomplete suggestions
+        call: open-food-facts.taxonomysuggestions
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /api/v3/product/{barcode}
+      name: getproductv3
+      operations:
+      - method: GET
+        name: getproductv3
+        description: Get a product (v3)
+        call: open-food-facts.getproductv3
+        with:
+          barcode: rest.barcode
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /cgi/suggest.pl
+      name: legacysuggest
+      operations:
+      - method: GET
+        name: legacysuggest
+        description: Legacy suggestion endpoint
+        call: open-food-facts.legacysuggest
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: open-food-facts-mcp
+    transport: http
+    description: MCP adapter for Open Food Facts API for AI agent use.
+    tools:
+    - name: getproductbybarcode
+      description: Get a product by barcode
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-food-facts.getproductbybarcode
+      with:
+        barcode: tools.barcode
+        fields: tools.fields
+        lc: tools.lc
+      inputParameters:
+      - name: barcode
+        type: string
+        description: Product barcode such as an EAN-13.
+        required: true
+      - name: fields
+        type: string
+        description: Comma-separated list of fields to return.
+      - name: lc
+        type: string
+        description: Language code for localized fields (e.g., en, fr).
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getproductbybarcodejson
+      description: Get a product by barcode (JSON)
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-food-facts.getproductbybarcodejson
+      with:
+        barcode: tools.barcode
+        fields: tools.fields
+        blame: tools.blame
+      inputParameters:
+      - name: barcode
+        type: string
+        description: barcode
+        required: true
+      - name: fields
+        type: string
+        description: fields
+      - name: blame
+        type: integer
+        description: When 1, include modification history.
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: searchproducts
+      description: Search products
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-food-facts.searchproducts
+      with:
+        code: tools.code
+        categories_tags_en: tools.categories_tags_en
+        brands_tags: tools.brands_tags
+        labels_tags: tools.labels_tags
+        countries_tags_en: tools.countries_tags_en
+        nutrition_grades_tags: tools.nutrition_grades_tags
+        fields: tools.fields
+        page: tools.page
+        page_size: tools.page_size
+        sort_by: tools.sort_by
+      inputParameters:
+      - name: code
+        type: string
+        description: Comma-separated list of barcodes for bulk lookup.
+      - name: categories_tags_en
+        type: string
+        description: categories_tags_en
+      - name: brands_tags
+        type: string
+        description: brands_tags
+      - name: labels_tags
+        type: string
+        description: labels_tags
+      - name: countries_tags_en
+        type: string
+        description: countries_tags_en
+      - name: nutrition_grades_tags
+        type: string
+        description: nutrition_grades_tags
+      - name: fields
+        type: string
+        description: fields
+      - name: page
+        type: integer
+        description: page
+      - name: page_size
+        type: integer
+        description: page_size
+      - name: sort_by
+        type: string
+        description: sort_by
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: gettaxonomy
+      description: Retrieve taxonomy entries
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-food-facts.gettaxonomy
+      with:
+        tagtype: tools.tagtype
+        tags: tools.tags
+        fields: tools.fields
+      inputParameters:
+      - name: tagtype
+        type: string
+        description: tagtype
+        required: true
+      - name: tags
+        type: string
+        description: Comma-separated taxonomy tag identifiers.
+      - name: fields
+        type: string
+        description: fields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: taxonomysuggestions
+      description: Taxonomy autocomplete suggestions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-food-facts.taxonomysuggestions
+      with:
+        tagtype: tools.tagtype
+        string: tools.string
+        lc: tools.lc
+        limit: tools.limit
+      inputParameters:
+      - name: tagtype
+        type: string
+        description: tagtype
+        required: true
+      - name: string
+        type: string
+        description: Prefix to match.
+      - name: lc
+        type: string
+        description: lc
+      - name: limit
+        type: integer
+        description: limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getproductv3
+      description: Get a product (v3)
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-food-facts.getproductv3
+      with:
+        barcode: tools.barcode
+        fields: tools.fields
+      inputParameters:
+      - name: barcode
+        type: string
+        description: barcode
+        required: true
+      - name: fields
+        type: string
+        description: fields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: legacysuggest
+      description: Legacy suggestion endpoint
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-food-facts.legacysuggest
+      with:
+        tagtype: tools.tagtype
+        term: tools.term
+      inputParameters:
+      - name: tagtype
+        type: string
+        description: tagtype
+        required: true
+      - name: term
+        type: string
+        description: term
+      outputParameters:
+      - type: object
+        mapping: $.
