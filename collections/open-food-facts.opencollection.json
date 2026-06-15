@@ -1,0 +1,243 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Open Food Facts API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Get a product by barcode",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://world.openfoodfacts.org/api/v2/product/:barcode",
+        "params": [
+          {
+            "name": "barcode",
+            "value": "",
+            "type": "path",
+            "description": "Product barcode such as an EAN-13."
+          },
+          {
+            "name": "fields",
+            "value": "",
+            "type": "query",
+            "description": "Comma-separated list of fields to return."
+          },
+          {
+            "name": "lc",
+            "value": "",
+            "type": "query",
+            "description": "Language code for localized fields (e.g., en, fr)."
+          }
+        ]
+      },
+      "docs": "Retrieve a single product by its barcode (EAN/UPC)."
+    },
+    {
+      "info": {
+        "name": "Get a product by barcode (JSON)",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://world.openfoodfacts.org/api/v2/product/:barcode.json",
+        "params": [
+          {
+            "name": "barcode",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "fields",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "blame",
+            "value": "",
+            "type": "query",
+            "description": "When 1, include modification history."
+          }
+        ]
+      },
+      "docs": "JSON-extension form of the product retrieval endpoint."
+    },
+    {
+      "info": {
+        "name": "Search products",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://world.openfoodfacts.org/api/v2/search",
+        "params": [
+          {
+            "name": "code",
+            "value": "",
+            "type": "query",
+            "description": "Comma-separated list of barcodes for bulk lookup."
+          },
+          {
+            "name": "categories_tags_en",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "brands_tags",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "labels_tags",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "countries_tags_en",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "nutrition_grades_tags",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "fields",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "page",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "page_size",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "sort_by",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "Faceted product search supporting filters by category, brand, label, country, ingredient, additive, allergen, nutrition grade, and bulk barcode lookup."
+    },
+    {
+      "info": {
+        "name": "Retrieve taxonomy entries",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://world.openfoodfacts.org/api/v2/taxonomy",
+        "params": [
+          {
+            "name": "tagtype",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "tags",
+            "value": "",
+            "type": "query",
+            "description": "Comma-separated taxonomy tag identifiers."
+          },
+          {
+            "name": "fields",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "Look up canonical taxonomy entries (categories, labels, ingredients, etc.)."
+    },
+    {
+      "info": {
+        "name": "Taxonomy autocomplete suggestions",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://world.openfoodfacts.org/api/v3/taxonomy_suggestions",
+        "params": [
+          {
+            "name": "tagtype",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "string",
+            "value": "",
+            "type": "query",
+            "description": "Prefix to match."
+          },
+          {
+            "name": "lc",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "limit",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "Taxonomy autocomplete suggestions"
+    },
+    {
+      "info": {
+        "name": "Get a product (v3)",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://world.openfoodfacts.org/api/v3/product/:barcode",
+        "params": [
+          {
+            "name": "barcode",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "fields",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "v3 product retrieval, under active development."
+    },
+    {
+      "info": {
+        "name": "Legacy suggestion endpoint",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://world.openfoodfacts.org/cgi/suggest.pl",
+        "params": [
+          {
+            "name": "tagtype",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "term",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "Legacy CGI endpoint for taxonomy suggestions."
+    }
+  ],
+  "bundled": true
+}

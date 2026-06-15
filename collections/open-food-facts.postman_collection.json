@@ -1,0 +1,737 @@
+{
+  "item": [
+    {
+      "id": "cce9be69-e982-4495-bf14-5320a48d3a6e",
+      "name": "Get a product by barcode",
+      "request": {
+        "name": "Get a product by barcode",
+        "description": {
+          "content": "Retrieve a single product by its barcode (EAN/UPC).",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "api",
+            "v2",
+            "product",
+            ":barcode"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "fields",
+              "value": "<string>",
+              "description": "Comma-separated list of fields to return."
+            },
+            {
+              "disabled": false,
+              "key": "lc",
+              "value": "<string>",
+              "description": "Language code for localized fields (e.g., en, fr)."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "barcode",
+              "description": "(Required) Product barcode such as an EAN-13."
+            }
+          ]
+        },
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "7f2c53d6-5bfe-4b55-b2fb-a8d62119872b",
+          "name": "Product record (status 1) or not-found marker (status 0).",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "product",
+                ":barcode"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "<string>"
+                },
+                {
+                  "key": "lc",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "barcode",
+                  "description": "(Required) Product barcode such as an EAN-13."
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "d61c5597-a442-4673-824c-2546278e95b3",
+      "name": "Get a product by barcode (JSON)",
+      "request": {
+        "name": "Get a product by barcode (JSON)",
+        "description": {
+          "content": "JSON-extension form of the product retrieval endpoint.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "api",
+            "v2",
+            "product",
+            "{{barcode}}.json"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "fields",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "blame",
+              "value": "<integer>",
+              "description": "When 1, include modification history."
+            }
+          ],
+          "variable": []
+        },
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "19775def-0309-4fa8-a3ac-199450d1207b",
+          "name": "Product record.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "product",
+                "{{barcode}}.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "<string>"
+                },
+                {
+                  "key": "blame",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "5594afac-414b-409d-ad6d-ab39e1bdb4f4",
+      "name": "Search products",
+      "request": {
+        "name": "Search products",
+        "description": {
+          "content": "Faceted product search supporting filters by category, brand, label, country, ingredient, additive, allergen, nutrition grade, and bulk barcode lookup.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "api",
+            "v2",
+            "search"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "code",
+              "value": "<string>",
+              "description": "Comma-separated list of barcodes for bulk lookup."
+            },
+            {
+              "disabled": false,
+              "key": "categories_tags_en",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "brands_tags",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "labels_tags",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "countries_tags_en",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "nutrition_grades_tags",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "fields",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "page",
+              "value": "<integer>"
+            },
+            {
+              "disabled": false,
+              "key": "page_size",
+              "value": "<integer>"
+            },
+            {
+              "disabled": false,
+              "key": "sort_by",
+              "value": "<string>"
+            }
+          ],
+          "variable": []
+        },
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "493e9446-7919-4e3b-86a7-7ef92229a4e6",
+          "name": "Paginated product results.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "code",
+                  "value": "<string>"
+                },
+                {
+                  "key": "categories_tags_en",
+                  "value": "<string>"
+                },
+                {
+                  "key": "brands_tags",
+                  "value": "<string>"
+                },
+                {
+                  "key": "labels_tags",
+                  "value": "<string>"
+                },
+                {
+                  "key": "countries_tags_en",
+                  "value": "<string>"
+                },
+                {
+                  "key": "nutrition_grades_tags",
+                  "value": "<string>"
+                },
+                {
+                  "key": "fields",
+                  "value": "<string>"
+                },
+                {
+                  "key": "page",
+                  "value": "<integer>"
+                },
+                {
+                  "key": "page_size",
+                  "value": "<integer>"
+                },
+                {
+                  "key": "sort_by",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "d0aab04d-9c2e-48fd-84fa-07aa53b79521",
+      "name": "Retrieve taxonomy entries",
+      "request": {
+        "name": "Retrieve taxonomy entries",
+        "description": {
+          "content": "Look up canonical taxonomy entries (categories, labels, ingredients, etc.).",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "api",
+            "v2",
+            "taxonomy"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "tagtype",
+              "value": "<string>",
+              "description": "(Required) "
+            },
+            {
+              "disabled": false,
+              "key": "tags",
+              "value": "<string>",
+              "description": "Comma-separated taxonomy tag identifiers."
+            },
+            {
+              "disabled": false,
+              "key": "fields",
+              "value": "<string>"
+            }
+          ],
+          "variable": []
+        },
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "6807d4f6-2050-4c25-bc76-0302e6d817e2",
+          "name": "Taxonomy entries.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "taxonomy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "tagtype",
+                  "value": "<string>"
+                },
+                {
+                  "key": "tags",
+                  "value": "<string>"
+                },
+                {
+                  "key": "fields",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "a4b3ed86-9158-40c4-9f73-bd0df8ccdbe7",
+      "name": "Taxonomy autocomplete suggestions",
+      "request": {
+        "name": "Taxonomy autocomplete suggestions",
+        "description": {},
+        "url": {
+          "path": [
+            "api",
+            "v3",
+            "taxonomy_suggestions"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "tagtype",
+              "value": "<string>",
+              "description": "(Required) "
+            },
+            {
+              "disabled": false,
+              "key": "string",
+              "value": "<string>",
+              "description": "Prefix to match."
+            },
+            {
+              "disabled": false,
+              "key": "lc",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "limit",
+              "value": "<integer>"
+            }
+          ],
+          "variable": []
+        },
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "774a1c62-901e-424b-8f09-8c5474763ffa",
+          "name": "List of taxonomy suggestions.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "taxonomy_suggestions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "tagtype",
+                  "value": "<string>"
+                },
+                {
+                  "key": "string",
+                  "value": "<string>"
+                },
+                {
+                  "key": "lc",
+                  "value": "<string>"
+                },
+                {
+                  "key": "limit",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "f9a051a5-ebb3-4587-9956-69282c9b34bb",
+      "name": "Get a product (v3)",
+      "request": {
+        "name": "Get a product (v3)",
+        "description": {
+          "content": "v3 product retrieval, under active development.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "api",
+            "v3",
+            "product",
+            ":barcode"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "fields",
+              "value": "<string>"
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "barcode",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "c27270b9-d145-491b-ad7c-5d4811a7e1d7",
+          "name": "Product record (v3 envelope).",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "product",
+                ":barcode"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "barcode",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "1a362945-3e5e-4c38-b64f-dfa9610b91fa",
+      "name": "Legacy suggestion endpoint",
+      "request": {
+        "name": "Legacy suggestion endpoint",
+        "description": {
+          "content": "Legacy CGI endpoint for taxonomy suggestions.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "cgi",
+            "suggest.pl"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "tagtype",
+              "value": "<string>",
+              "description": "(Required) "
+            },
+            {
+              "disabled": false,
+              "key": "term",
+              "value": "<string>"
+            }
+          ],
+          "variable": []
+        },
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "125459ca-9de7-4bbc-bb1d-a06fb906bfad",
+          "name": "List of suggestions.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "cgi",
+                "suggest.pl"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "tagtype",
+                  "value": "<string>"
+                },
+                {
+                  "key": "term",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://world.openfoodfacts.org",
+      "key": "baseUrl"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "(Required) ",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<string>",
+      "key": "barcode"
+    }
+  ],
+  "info": {
+    "_postman_id": "45ed53d6-a510-4ab2-be07-b73d5bc627c4",
+    "name": "Open Food Facts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Open Food Facts is a collaborative, free, and open database of food products from around the world. The HTTP API provides read access to product data by barcode, full-text and faceted search, and access to Open Food Facts taxonomies.\n\nContact Support:\n Name: Open Food Facts\n Email: reuse@openfoodfacts.org",
+      "type": "text/plain"
+    }
+  }
+}
