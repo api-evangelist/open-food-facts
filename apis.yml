@@ -13,10 +13,16 @@ modified: '2026-05-19'
 url: https://raw.githubusercontent.com/api-evangelist/open-food-facts/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 common:
+  - type: VulnerabilityDisclosure
+    url: security/open-food-facts-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/open-food-facts-domain-security.yml
   - type: GitHubOrganization
     url: https://github.com/openfoodfacts
   - type: LinkedIn
     url: https://www.linkedin.com/company/open-food-facts
+  - url: https://blog.openfoodfacts.org/en/feed/
+    type: Blog
 apis:
   - aid: open-food-facts:open-food-facts
     name: Open Food Facts
