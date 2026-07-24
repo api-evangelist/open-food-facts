@@ -1,0 +1,62 @@
+openapi: 3.1.0
+info:
+  title: Open Food Facts Cgi Taxonomy API
+  description: Open Food Facts is a collaborative, free, and open database of food products from around the world. The HTTP API provides read access to product data by barcode, full-text and faceted search, and access to Open Food Facts taxonomies.
+  version: '2.0'
+  contact:
+    name: Open Food Facts
+    url: https://world.openfoodfacts.org/
+    email: reuse@openfoodfacts.org
+  license:
+    name: Open Database License (ODbL)
+    url: https://opendatacommons.org/licenses/odbl/1-0/
+servers:
+- url: https://world.openfoodfacts.org
+  description: Worldwide instance
+- url: https://{country}.openfoodfacts.org
+  description: Country-specific instance
+  variables:
+    country:
+      default: world
+      description: Country subdomain (e.g., us, fr, de)
+tags:
+- name: Taxonomy
+paths:
+  /api/v2/taxonomy:
+    get:
+      summary: Retrieve taxonomy entries
+      description: Look up canonical taxonomy entries (categories, labels, ingredients, etc.).
+      operationId: getTaxonomy
+      parameters:
+      - name: tagtype
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - additives
+          - allergens
+          - brands
+          - categories
+          - countries
+          - ingredients
+          - labels
+          - languages
+          - origins
+          - packaging
+          - states
+          - traces
+      - name: tags
+        in: query
+        schema:
+          type: string
+        description: Comma-separated taxonomy tag identifiers.
+      - name: fields
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Taxonomy entries.
+      tags:
+      - Taxonomy

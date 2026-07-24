@@ -1,0 +1,99 @@
+openapi: 3.1.0
+info:
+  title: Open Food Facts Cgi Product API
+  description: Open Food Facts is a collaborative, free, and open database of food products from around the world. The HTTP API provides read access to product data by barcode, full-text and faceted search, and access to Open Food Facts taxonomies.
+  version: '2.0'
+  contact:
+    name: Open Food Facts
+    url: https://world.openfoodfacts.org/
+    email: reuse@openfoodfacts.org
+  license:
+    name: Open Database License (ODbL)
+    url: https://opendatacommons.org/licenses/odbl/1-0/
+servers:
+- url: https://world.openfoodfacts.org
+  description: Worldwide instance
+- url: https://{country}.openfoodfacts.org
+  description: Country-specific instance
+  variables:
+    country:
+      default: world
+      description: Country subdomain (e.g., us, fr, de)
+tags:
+- name: Product
+paths:
+  /api/v2/product/{barcode}:
+    get:
+      summary: Get a product by barcode
+      description: Retrieve a single product by its barcode (EAN/UPC).
+      operationId: getProductByBarcode
+      parameters:
+      - name: barcode
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Product barcode such as an EAN-13.
+      - name: fields
+        in: query
+        schema:
+          type: string
+        description: Comma-separated list of fields to return.
+      - name: lc
+        in: query
+        schema:
+          type: string
+        description: Language code for localized fields (e.g., en, fr).
+      responses:
+        '200':
+          description: Product record (status 1) or not-found marker (status 0).
+      tags:
+      - Product
+  /api/v2/product/{barcode}.json:
+    get:
+      summary: Get a product by barcode (JSON)
+      description: JSON-extension form of the product retrieval endpoint.
+      operationId: getProductByBarcodeJson
+      parameters:
+      - name: barcode
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fields
+        in: query
+        schema:
+          type: string
+      - name: blame
+        in: query
+        schema:
+          type: integer
+          enum:
+          - 0
+          - 1
+        description: When 1, include modification history.
+      responses:
+        '200':
+          description: Product record.
+      tags:
+      - Product
+  /api/v3/product/{barcode}:
+    get:
+      summary: Get a product (v3)
+      description: v3 product retrieval, under active development.
+      operationId: getProductV3
+      parameters:
+      - name: barcode
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fields
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Product record (v3 envelope).
+      tags:
+      - Product
