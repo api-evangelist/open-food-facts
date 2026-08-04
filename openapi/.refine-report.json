@@ -1,0 +1,22 @@
+{
+  "provider": "open-food-facts",
+  "sources": [
+    "open-food-facts-cgi-api-openapi.yml",
+    "open-food-facts-product-api-openapi.yml",
+    "open-food-facts-search-api-openapi.yml",
+    "open-food-facts-taxonomy-api-openapi.yml",
+    "open-food-facts-taxonomy-suggestions-api-openapi.yml"
+  ],
+  "outputs": [
+    "open-food-facts-cgi-api-openapi.yml",
+    "open-food-facts-product-api-openapi.yml",
+    "open-food-facts-search-api-openapi.yml",
+    "open-food-facts-taxonomy-api-openapi.yml",
+    "open-food-facts-taxonomy-suggestions-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
