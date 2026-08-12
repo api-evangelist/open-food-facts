@@ -47,8 +47,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/open-food-facts-cgi-api-openapi.yml
-  - type: Documentation
-    url: ' https://world.openfoodfacts.org/'
 - aid: open-food-facts:open-food-facts-product-api
   name: Open Food Facts Product API
   description: The Product API from Open Food Facts — 3 operation(s) for product.
@@ -58,8 +56,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/open-food-facts-product-api-openapi.yml
-  - type: Documentation
-    url: ' https://world.openfoodfacts.org/'
 - aid: open-food-facts:open-food-facts-search-api
   name: Open Food Facts Search API
   description: The Search API from Open Food Facts — 1 operation(s) for search.
@@ -69,8 +65,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/open-food-facts-search-api-openapi.yml
-  - type: Documentation
-    url: ' https://world.openfoodfacts.org/'
 - aid: open-food-facts:open-food-facts-taxonomy-api
   name: Open Food Facts Taxonomy API
   description: The Taxonomy API from Open Food Facts — 1 operation(s) for taxonomy.
@@ -80,8 +74,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/open-food-facts-taxonomy-api-openapi.yml
-  - type: Documentation
-    url: ' https://world.openfoodfacts.org/'
 - aid: open-food-facts:open-food-facts-taxonomy-suggestions-api
   name: Open Food Facts Taxonomy Suggestions API
   description: >-
@@ -92,8 +84,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/open-food-facts-taxonomy-suggestions-api-openapi.yml
-  - type: Documentation
-    url: ' https://world.openfoodfacts.org/'
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
