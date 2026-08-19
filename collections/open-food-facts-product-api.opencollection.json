@@ -1,0 +1,101 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Open Food Facts Cgi Product API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Product",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a product by barcode",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://world.openfoodfacts.org/api/v2/product/:barcode",
+            "params": [
+              {
+                "name": "barcode",
+                "value": "",
+                "type": "path",
+                "description": "Product barcode such as an EAN-13."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "lc",
+                "value": "",
+                "type": "query",
+                "description": "Language code for localized fields (e.g., en, fr)."
+              }
+            ]
+          },
+          "docs": "Retrieve a single product by its barcode (EAN/UPC)."
+        },
+        {
+          "info": {
+            "name": "Get a product by barcode (JSON)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://world.openfoodfacts.org/api/v2/product/:barcode.json",
+            "params": [
+              {
+                "name": "barcode",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "blame",
+                "value": "",
+                "type": "query",
+                "description": "When 1, include modification history."
+              }
+            ]
+          },
+          "docs": "JSON-extension form of the product retrieval endpoint."
+        },
+        {
+          "info": {
+            "name": "Get a product (v3)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://world.openfoodfacts.org/api/v3/product/:barcode",
+            "params": [
+              {
+                "name": "barcode",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "v3 product retrieval, under active development."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

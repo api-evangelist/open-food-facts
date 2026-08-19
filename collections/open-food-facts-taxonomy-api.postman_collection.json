@@ -1,0 +1,125 @@
+{
+  "item": [
+    {
+      "id": "80c759bb-32dc-45fa-8c16-4d67082e7921",
+      "name": "Taxonomy",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "659a8961-311a-41eb-9253-2004619b14e6",
+          "name": "Retrieve taxonomy entries",
+          "request": {
+            "name": "Retrieve taxonomy entries",
+            "description": {
+              "content": "Look up canonical taxonomy entries (categories, labels, ingredients, etc.).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "taxonomy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "tagtype",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "tags",
+                  "value": "<string>",
+                  "description": "Comma-separated taxonomy tag identifiers."
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "21af6caa-2d85-467c-93bc-eb9bd15afc99",
+              "name": "Taxonomy entries.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "taxonomy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tagtype",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://world.openfoodfacts.org",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "273d6506-9950-4045-b152-7276f3ad4fad",
+    "name": "Open Food Facts Cgi Taxonomy API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Open Food Facts is a collaborative, free, and open database of food products from around the world. The HTTP API provides read access to product data by barcode, full-text and faceted search, and access to Open Food Facts taxonomies.\n\nContact Support:\n Name: Open Food Facts\n Email: reuse@openfoodfacts.org",
+      "type": "text/plain"
+    }
+  }
+}

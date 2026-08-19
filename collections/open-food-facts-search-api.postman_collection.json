@@ -1,0 +1,187 @@
+{
+  "item": [
+    {
+      "id": "1c46e740-5956-4d49-9272-b7d139ac5da7",
+      "name": "Search",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2b711134-3705-4ba0-b09f-768ab30d0172",
+          "name": "Search products",
+          "request": {
+            "name": "Search products",
+            "description": {
+              "content": "Faceted product search supporting filters by category, brand, label, country, ingredient, additive, allergen, nutrition grade, and bulk barcode lookup.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "code",
+                  "value": "<string>",
+                  "description": "Comma-separated list of barcodes for bulk lookup."
+                },
+                {
+                  "disabled": false,
+                  "key": "categories_tags_en",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "brands_tags",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "labels_tags",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "countries_tags_en",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "nutrition_grades_tags",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ff14b3e7-696c-499f-8569-b6a05ec11a58",
+              "name": "Paginated product results.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "categories_tags_en",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "brands_tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "labels_tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "countries_tags_en",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "nutrition_grades_tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://world.openfoodfacts.org",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "0be40a81-ba38-40fa-a17c-af11df3984e6",
+    "name": "Open Food Facts Cgi Search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Open Food Facts is a collaborative, free, and open database of food products from around the world. The HTTP API provides read access to product data by barcode, full-text and faceted search, and access to Open Food Facts taxonomies.\n\nContact Support:\n Name: Open Food Facts\n Email: reuse@openfoodfacts.org",
+      "type": "text/plain"
+    }
+  }
+}

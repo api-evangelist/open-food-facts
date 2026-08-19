@@ -1,0 +1,113 @@
+{
+  "item": [
+    {
+      "id": "413295f9-3af6-45b7-ae73-5c44b2656252",
+      "name": "Cgi",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bd70ae60-a83a-4eff-b5c9-94f49cc57552",
+          "name": "Legacy suggestion endpoint",
+          "request": {
+            "name": "Legacy suggestion endpoint",
+            "description": {
+              "content": "Legacy CGI endpoint for taxonomy suggestions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cgi",
+                "suggest.pl"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "tagtype",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "term",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "53f78a50-5a5b-4cba-a90a-38beaf624d61",
+              "name": "List of suggestions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cgi",
+                    "suggest.pl"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tagtype",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "term",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://world.openfoodfacts.org",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "eba8d2a7-6286-4946-bc56-082c99c5c265",
+    "name": "Open Food Facts Cgi API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Open Food Facts is a collaborative, free, and open database of food products from around the world. The HTTP API provides read access to product data by barcode, full-text and faceted search, and access to Open Food Facts taxonomies.\n\nContact Support:\n Name: Open Food Facts\n Email: reuse@openfoodfacts.org",
+      "type": "text/plain"
+    }
+  }
+}

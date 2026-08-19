@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Open Food Facts Cgi Taxonomy API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Taxonomy",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve taxonomy entries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://world.openfoodfacts.org/api/v2/taxonomy",
+            "params": [
+              {
+                "name": "tagtype",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "tags",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated taxonomy tag identifiers."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Look up canonical taxonomy entries (categories, labels, ingredients, etc.)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,82 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Open Food Facts Cgi Search API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://world.openfoodfacts.org/api/v2/search",
+            "params": [
+              {
+                "name": "code",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of barcodes for bulk lookup."
+              },
+              {
+                "name": "categories_tags_en",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "brands_tags",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "labels_tags",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "countries_tags_en",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "nutrition_grades_tags",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Faceted product search supporting filters by category, brand, label, country, ingredient, additive, allergen, nutrition grade, and bulk barcode lookup."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

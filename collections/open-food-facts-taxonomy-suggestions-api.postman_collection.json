@@ -1,0 +1,131 @@
+{
+  "item": [
+    {
+      "id": "e50a6436-511e-4419-b6ec-6829f902cd16",
+      "name": "Taxonomy Suggestions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "55f31560-7698-4d70-a448-45586a959d02",
+          "name": "Taxonomy autocomplete suggestions",
+          "request": {
+            "name": "Taxonomy autocomplete suggestions",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "taxonomy_suggestions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "tagtype",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "string",
+                  "value": "<string>",
+                  "description": "Prefix to match."
+                },
+                {
+                  "disabled": false,
+                  "key": "lc",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "da1479f0-877c-49db-b72a-eff04f01d3c4",
+              "name": "List of taxonomy suggestions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "taxonomy_suggestions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tagtype",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "string",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "lc",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://world.openfoodfacts.org",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "27311d89-b104-4727-8bb6-5a8df0d186b1",
+    "name": "Open Food Facts Cgi Taxonomy Suggestions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Open Food Facts is a collaborative, free, and open database of food products from around the world. The HTTP API provides read access to product data by barcode, full-text and faceted search, and access to Open Food Facts taxonomies.\n\nContact Support:\n Name: Open Food Facts\n Email: reuse@openfoodfacts.org",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Open Food Facts Cgi API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Cgi",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Legacy suggestion endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://world.openfoodfacts.org/cgi/suggest.pl",
+            "params": [
+              {
+                "name": "tagtype",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "term",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Legacy CGI endpoint for taxonomy suggestions."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
