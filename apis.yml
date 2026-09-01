@@ -54,7 +54,7 @@ apis:
   description: The Cgi API from Open Food Facts — 1 operation(s) for cgi.
   humanURL: ' https://world.openfoodfacts.org/'
   tags:
-  - Cgi
+  - CGI
   tags_raw:
   - Cgi
   properties:
