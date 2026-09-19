@@ -1,8 +1,12 @@
 aid: open-food-facts
 name: Open Food Facts
 description: >-
-  Open Food Facts is a food products database made by everyone, for everyone. You can use it to make better food
-  choices, and as it is open data, anyone can re-use it for any purpose.
+  Open Food Facts is a collaborative, free and open database of food products from around the world, built by
+  everyone for everyone. Anyone can scan a barcode and contribute product data, and the whole database is
+  published under the Open Database License so it can be re-used for any purpose. The project publishes a
+  documented public HTTP API for reading and writing product data, plus a family of companion services —
+  Open Prices, Search-a-licious full-text search, the Folksonomy engine, facet knowledge panels and the
+  NutriPatrol moderation API — alongside official SDKs in Python, JavaScript, Dart, Ruby, PHP and Go.
 type: Index
 deliveryModel:
   model: unknown
@@ -27,18 +31,59 @@ accessModel:
   - plans
   generated: '2026-07-22'
   method: derived
-position: Consuming
+position: Producing
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/open-food-facts.png
-tags: []
+tags:
+  - Food
+  - Nutrition
+  - Open Data
+  - Product Data
+  - Barcodes
+  - Taxonomy
+  - Prices
+  - Search
+tags_raw:
+  - Food
+  - Nutrition
+  - Open Data
+  - Product Data
+  - Barcode
+  - Taxonomy
+  - Prices
+  - Search
 created: '2025-03-01'
-modified: '2026-05-19'
+modified: '2026-09-17'
 url: https://raw.githubusercontent.com/api-evangelist/open-food-facts/refs/heads/main/apis.yml
 specificationVersion: '0.23'
 common:
+  - type: OAuthScopes
+    url: scopes/open-food-facts-scopes.yml
+  - type: Website
+    url: https://world.openfoodfacts.org/
+  - type: DeveloperPortal
+    url: https://openfoodfacts.github.io/openfoodfacts-server/api/
+  - type: Documentation
+    url: https://openfoodfacts.github.io/openfoodfacts-server/
+  - type: APIReference
+    url: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v2/
+  - type: GettingStarted
+    url: https://openfoodfacts.github.io/openfoodfacts-server/api/tutorial-off-api/
+  - type: Support
+    url: https://forum.openfoodfacts.org/
+  - type: Roadmap
+    url: https://wiki.openfoodfacts.org/Roadmap
+  - type: SignUp
+    url: https://world.openfoodfacts.org/cgi/user.pl
+  - type: TermsOfService
+    url: https://world.openfoodfacts.org/terms-of-use
+  - type: PrivacyPolicy
+    url: https://world.openfoodfacts.org/privacy
   - type: AgenticAccess
     url: agentic-access/open-food-facts-agentic-access.yml
   - type: VulnerabilityDisclosure
+    url: security/open-food-facts-vulnerability-disclosure.yml
+  - type: Security
     url: security/open-food-facts-vulnerability-disclosure.yml
   - type: DomainSecurity
     url: security/open-food-facts-domain-security.yml
@@ -48,11 +93,199 @@ common:
     url: https://www.linkedin.com/company/open-food-facts
   - url: https://blog.openfoodfacts.org/en/feed/
     type: Blog
+  - type: Packages
+    url: packages/open-food-facts-packages.yml
+  - type: SDKs
+    url: packages/open-food-facts-packages.yml
+  - type: Components
+    url: components/open-food-facts-components.yml
+  - type: WellKnown
+    url: well-known/open-food-facts-well-known.yml
+  - type: SecurityTxt
+    url: well-known/open-food-facts-security.txt
+  - type: Authentication
+    url: authentication/open-food-facts-authentication.yml
+  - type: ErrorCatalog
+    url: errors/open-food-facts-problem-types.yml
+  - type: Conventions
+    url: conventions/open-food-facts-conventions.yml
+  - type: Conformance
+    url: conformance/open-food-facts-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/open-food-facts-lifecycle.yml
+  - type: StatusPage
+    url: https://status.openfoodfacts.org/
+  - type: Deprecation
+    url: lifecycle/open-food-facts-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/open-food-facts-changelog.yml
+  - type: RateLimits
+    url: rate-limits/open-food-facts-rate-limits.yml
+  - type: Plans
+    url: plans/open-food-facts-plans-pricing.yml
+  - type: Sandbox
+    url: sandbox/open-food-facts-sandbox.yml
+  - type: Vocabulary
+    url: vocabulary/open-food-facts-taxonomies.yml
+  - type: DataModel
+    url: data-model/open-food-facts-data-model.yml
+  - type: LLMsTxt
+    url: llms/open-food-facts-llms.txt
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: FinOps
+    url: finops/open-food-facts-finops.yml
 apis:
+- aid: open-food-facts:open-food-facts-api-v2
+  name: Open Food Facts API v2
+  description: >-
+    The Open Food Facts read/write HTTP API, version 2 — product lookup by barcode, faceted and full-text
+    search, image upload and product edit. Published by the project as an OpenAPI 3.1 document in the
+    openfoodfacts-server repository and rendered at the v2 reference.
+  humanURL: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v2/
+  baseURL: https://world.openfoodfacts.org
+  tags:
+  - Product
+  - Search
+  - Image
+  tags_raw:
+  - Product
+  - Search
+  - Images
+  properties:
+  - type: OpenAPI
+    url: openapi/open-food-facts-api-v2-openapi.yml
+  - type: OpenAPI
+    name: Provider-hosted OpenAPI (openfoodfacts.github.io)
+    url: https://openfoodfacts.github.io/openfoodfacts-server/api/ref/api.yaml
+  - type: Overlay
+    url: overlays/open-food-facts-api-v2-overlay.yaml
+  - type: Documentation
+    url: https://openfoodfacts.github.io/openfoodfacts-server/api/
+- aid: open-food-facts:open-food-facts-api-v3
+  name: Open Food Facts API v3
+  description: >-
+    Version 3 of the Open Food Facts HTTP API — the current recommended version, with standardized response
+    envelopes, the v3.3 image structure and taxonomy-suggestion endpoints. Published by the project as an
+    OpenAPI 3.1 document and marked "under development" by its own info block.
+  humanURL: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v3/
+  baseURL: https://world.openfoodfacts.org
+  tags:
+  - Product
+  - Taxonomy
+  - Image
+  tags_raw:
+  - Product
+  - Taxonomy
+  - Images
+  properties:
+  - type: OpenAPI
+    url: openapi/open-food-facts-api-v3-openapi.yml
+  - type: OpenAPI
+    name: Provider-hosted OpenAPI (openfoodfacts.github.io)
+    url: https://openfoodfacts.github.io/openfoodfacts-server/api/ref/api-v3.yaml
+  - type: Overlay
+    url: overlays/open-food-facts-api-v3-overlay.yaml
+  - type: ChangeLog
+    url: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-api-and-product-schema-change-log/
+- aid: open-food-facts:open-food-facts-open-prices
+  name: Open Prices API
+  description: >-
+    Open Prices is Open Food Facts' open crowdsourced database of product prices. Its REST API covers prices,
+    proofs, locations, products, users and stats, and serves its own OpenAPI 3.0.3 document from the live host.
+  humanURL: https://prices.openfoodfacts.org/api/docs
+  baseURL: https://prices.openfoodfacts.org
+  tags:
+  - Prices
+  - Retail
+  properties:
+  - type: OpenAPI
+    url: openapi/open-food-facts-open-prices-openapi.yml
+  - type: OpenAPI
+    name: Provider-hosted OpenAPI (prices.openfoodfacts.org)
+    url: https://prices.openfoodfacts.org/api/schema
+  - type: Overlay
+    url: overlays/open-food-facts-open-prices-overlay.yaml
+  - type: Documentation
+    url: https://prices.openfoodfacts.org/api/docs
+- aid: open-food-facts:open-food-facts-search-a-licious
+  name: Search-a-licious API
+  description: >-
+    Search-a-licious is the pluggable search service Open Food Facts runs over the product collection. It
+    exposes search, facet and chart endpoints and serves its own OpenAPI 3.1 document from the live host.
+  humanURL: https://search.openfoodfacts.org/docs
+  baseURL: https://search.openfoodfacts.org
+  tags:
+  - Search
+  - Facets
+  properties:
+  - type: OpenAPI
+    url: openapi/open-food-facts-search-a-licious-openapi.json
+  - type: OpenAPI
+    name: Provider-hosted OpenAPI (search.openfoodfacts.org)
+    url: https://search.openfoodfacts.org/openapi.json
+  - type: Overlay
+    url: overlays/open-food-facts-search-a-licious-overlay.yaml
+- aid: open-food-facts:open-food-facts-folksonomy
+  name: Folksonomy Engine API
+  description: >-
+    The Folksonomy Engine lets contributors attach free property/value pairs to Open Food Facts products. It
+    serves its own OpenAPI 3.1 document and uses an OAuth2 password flow against the Open Food Facts account
+    system.
+  humanURL: https://api.folksonomy.openfoodfacts.org/docs
+  baseURL: https://api.folksonomy.openfoodfacts.org
+  tags:
+  - Folksonomy
+  - Tags
+  properties:
+  - type: OpenAPI
+    url: openapi/open-food-facts-folksonomy-openapi.json
+  - type: OpenAPI
+    name: Provider-hosted OpenAPI (api.folksonomy.openfoodfacts.org)
+    url: https://api.folksonomy.openfoodfacts.org/openapi.json
+  - type: Overlay
+    url: overlays/open-food-facts-folksonomy-overlay.yaml
+- aid: open-food-facts:open-food-facts-facets-knowledge-panels
+  name: Facets Knowledge Panels API
+  description: >-
+    Serves knowledge panels for an Open Food Facts facet — category, label, brand and similar — so client
+    applications can render the same explanatory panels the website shows. Serves its own OpenAPI 3.1 document.
+  humanURL: https://facets-kp.openfoodfacts.org/docs
+  baseURL: https://facets-kp.openfoodfacts.org
+  tags:
+  - Knowledge Panels
+  - Facets
+  properties:
+  - type: OpenAPI
+    url: openapi/open-food-facts-facets-knowledge-panels-openapi.json
+  - type: OpenAPI
+    name: Provider-hosted OpenAPI (facets-kp.openfoodfacts.org)
+    url: https://facets-kp.openfoodfacts.org/openapi.json
+  - type: Overlay
+    url: overlays/open-food-facts-facets-knowledge-panels-overlay.yaml
+- aid: open-food-facts:open-food-facts-nutripatrol
+  name: NutriPatrol API
+  description: >-
+    NutriPatrol is the Open Food Facts moderation backend — it takes tickets and flags on products and images
+    and exposes them to the moderation front end. Serves its own OpenAPI 3.1 document from the live host.
+  humanURL: https://nutripatrol.openfoodfacts.org/api/docs
+  baseURL: https://nutripatrol.openfoodfacts.org
+  tags:
+  - Moderation
+  - Trust and Safety
+  properties:
+  - type: OpenAPI
+    url: openapi/open-food-facts-nutripatrol-openapi.json
+  - type: OpenAPI
+    name: Provider-hosted OpenAPI (nutripatrol.openfoodfacts.org)
+    url: https://nutripatrol.openfoodfacts.org/api/openapi.json
+  - type: Overlay
+    url: overlays/open-food-facts-nutripatrol-overlay.yaml
 - aid: open-food-facts:open-food-facts-cgi-api
   name: Open Food Facts Cgi API
   description: The Cgi API from Open Food Facts — 1 operation(s) for cgi.
-  humanURL: ' https://world.openfoodfacts.org/'
+  humanURL: https://world.openfoodfacts.org/
+  baseURL: https://world.openfoodfacts.org
   tags:
   - CGI
   tags_raw:
@@ -63,7 +296,8 @@ apis:
 - aid: open-food-facts:open-food-facts-product-api
   name: Open Food Facts Product API
   description: The Product API from Open Food Facts — 3 operation(s) for product.
-  humanURL: ' https://world.openfoodfacts.org/'
+  humanURL: https://world.openfoodfacts.org/
+  baseURL: https://world.openfoodfacts.org
   tags:
   - Product
   properties:
@@ -72,7 +306,8 @@ apis:
 - aid: open-food-facts:open-food-facts-search-api
   name: Open Food Facts Search API
   description: The Search API from Open Food Facts — 1 operation(s) for search.
-  humanURL: ' https://world.openfoodfacts.org/'
+  humanURL: https://world.openfoodfacts.org/
+  baseURL: https://world.openfoodfacts.org
   tags:
   - Search
   properties:
@@ -81,7 +316,8 @@ apis:
 - aid: open-food-facts:open-food-facts-taxonomy-api
   name: Open Food Facts Taxonomy API
   description: The Taxonomy API from Open Food Facts — 1 operation(s) for taxonomy.
-  humanURL: ' https://world.openfoodfacts.org/'
+  humanURL: https://world.openfoodfacts.org/
+  baseURL: https://world.openfoodfacts.org
   tags:
   - Taxonomy
   properties:
@@ -91,7 +327,8 @@ apis:
   name: Open Food Facts Taxonomy Suggestions API
   description: >-
     The Taxonomy Suggestions API from Open Food Facts — 1 operation(s) for taxonomy suggestions.
-  humanURL: ' https://world.openfoodfacts.org/'
+  humanURL: https://world.openfoodfacts.org/
+  baseURL: https://world.openfoodfacts.org
   tags:
   - Taxonomy Suggestions
   properties:
@@ -100,3 +337,8 @@ apis:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-17'
+  status: enriched
+  artifacts_added: 34
+  pass: local-v3
