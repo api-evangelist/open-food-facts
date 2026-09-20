@@ -2,16 +2,16 @@
 kin_checks:
   slug: open-food-facts
   schema_version: 0.22.0
-  scored_at: '2026-09-18'
-  run_ts: 2026-09-18T231945
+  scored_at: '2026-09-19'
+  run_ts: 2026-09-19T193153
   note: Actionable checks (missed + partial) in `checks`, plus the ids that did not
     apply in `na`. Everything else in rubric/scoring-0.22.0.yml was earned; counts
     below let you verify that.
   counts:
     total: 136
-    earned: 45
+    earned: 44
     partial: 22
-    missed: 44
+    missed: 45
     na: 25
   checks:
   - id: multiple_apis
@@ -55,6 +55,9 @@ kin_checks:
     status: missed
   - id: webhooks_advertised
     status: missed
+  - id: roadmap_present
+    status: missed
+    detail: pointer liveness 0.0
   - id: examples_published
     status: missed
   - id: sdk_count_3
