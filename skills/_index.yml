@@ -1,0 +1,37 @@
+generated: '2026-09-17'
+method: generated
+source: >-
+  Grounded in operationIds read from openapi/open-food-facts-api-v2-openapi.yml,
+  openapi/open-food-facts-api-v3-openapi.yml and openapi/open-food-facts-search-a-licious-openapi.json,
+  plus the rate-limit, authentication and licence rules published at
+  https://openfoodfacts.github.io/openfoodfacts-server/api/
+provider: Open Food Facts
+providerId: open-food-facts
+description: >-
+  Packaged agent skills for the Open Food Facts API family. Every operationId referenced below exists in a
+  published Open Food Facts contract in this repository — none was invented. Open Food Facts publishes no
+  skills or AGENTS.md of its own; these are API Evangelist generations.
+skills:
+  - name: open-food-facts-lookup-product-by-barcode
+    file: open-food-facts-lookup-product-by-barcode.md
+    api: Open Food Facts API v3
+    operations: [get-api-v3-product-code, get-product-by-code]
+  - name: open-food-facts-search-products
+    file: open-food-facts-search-products.md
+    api: Search-a-licious API
+    operations:
+      - search_search_post
+      - search_get_search_get
+      - get-search
+      - taxonomy_autocomplete_autocomplete_get
+      - get-api-v3-taxonomy-canonicalize-tags
+  - name: open-food-facts-contribute-product-edit
+    file: open-food-facts-contribute-product-edit.md
+    api: Open Food Facts API v3
+    operations:
+      - patch-api-v3-product-code
+      - post-api-v3-product-code-images
+      - delete-api-v3-product-code-images-uploaded-imgid
+      - post-api-v3-product_revert
+      - get-cgi-session.pl
+      - post-cgi-product_jqm2.pl

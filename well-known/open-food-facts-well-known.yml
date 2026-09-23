@@ -1,0 +1,131 @@
+generated: '2026-09-17'
+method: probed
+source: live HTTPS probes of every host named in apis.yml baseURL/humanURL and every OpenAPI servers[] entry
+provider: Open Food Facts
+providerId: open-food-facts
+note: security.txt is served identically on world.openfoodfacts.org and openfoodfacts.org and is saved verbatim
+  as open-food-facts-security.txt. prices.openfoodfacts.org answers 200 on /.well-known/security.txt with the Vue
+  single-page-app shell, which is not a document and is recorded as a miss. No OpenID/OAuth discovery, api-catalog
+  or ai-plugin document is served on any host.
+hosts:
+- host: world.openfoodfacts.org
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: open-food-facts-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: openfoodfacts.org
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: open-food-facts-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: www.openfoodfacts.org
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: open-food-facts-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: prices.openfoodfacts.org
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document — treated as a miss
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document — treated as a miss
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document — treated as a miss
+  - path: /.well-known/api-catalog
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document — treated as a miss
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document — treated as a miss
+- host: search.openfoodfacts.org
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: api.folksonomy.openfoodfacts.org
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: facets-kp.openfoodfacts.org
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: nutripatrol.openfoodfacts.org
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document — treated as a miss
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document — treated as a miss
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document — treated as a miss
+  - path: /.well-known/api-catalog
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document — treated as a miss
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    note: 200 returned an HTML/SPA shell, not a document — treated as a miss
+- host: openfoodfacts.github.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404

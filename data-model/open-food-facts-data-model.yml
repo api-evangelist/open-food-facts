@@ -1,0 +1,180 @@
+generated: '2026-09-17'
+method: derived
+source: >-
+  openapi/open-food-facts-api-v2-openapi.yml, openapi/open-food-facts-api-v3-openapi.yml,
+  openapi/open-food-facts-open-prices-openapi.yml, openapi/open-food-facts-folksonomy-openapi.json,
+  openapi/open-food-facts-nutripatrol-openapi.json
+provider: Open Food Facts
+providerId: open-food-facts
+description: >-
+  The entity graph across the Open Food Facts API family, derived from $ref links and id-reference fields in
+  the published contracts. Everything hangs off one identifier: the GS1 barcode.
+primary_key:
+  entity: Product
+  field: code
+  format: EAN-13 / UPC barcode, normalized per the project's barcode-normalization rules
+  note: >-
+    There are no opaque prefixed object ids on the core product surface. Companion services mint their own
+    integer surrogate keys (price id, proof id, flag id, ticket id) and join back to Product by `code`.
+entities:
+  - name: Product
+    api: Open Food Facts API v2 / v3
+    schema: Product
+    key: code
+    composed_of:
+      - Product-Base
+      - Product-Misc
+      - Product-Tags
+      - Product-Images
+      - Product-Eco-Score
+      - Product-Forest-Footprint-2026
+      - Product-Ingredients
+      - Product-Nutrition
+      - Product-Nutrition-v3.5
+      - Product-Nutriscore
+      - Product-Quality
+      - Product-Extended
+      - Product-Metadata
+      - Product-Knowledge-Panels
+      - Product-Attribute-Groups
+    note: >-
+      Product is an allOf composition of fifteen facet schemas — the `fields` query parameter selects which
+      facets are materialized in a response.
+  - name: Ingredient
+    api: Open Food Facts API v2
+    schema: Ingredient
+    note: Self-nesting — sub-ingredients are contained inside their parent ingredient (product schema 997).
+  - name: Nutrient
+    api: Open Food Facts API v2
+    schema: Nutrient
+  - name: AttributeGroup
+    api: Open Food Facts API v2 / v3
+    schema: Product-Attribute-Groups
+  - name: KnowledgePanel
+    api: Facets Knowledge Panels API / Open Food Facts API v3
+    schema: KnowledgePanel
+  - name: TaxonomyTag
+    api: Open Food Facts API v3
+    note: Canonical taxonomy identifier, e.g. en:breakfast-cereals. Backed by vocabulary/open-food-facts-taxonomies.yml.
+  - name: Price
+    api: Open Prices API
+    schema: Price
+    key: id
+  - name: Proof
+    api: Open Prices API
+    schema: Proof
+    key: id
+  - name: ReceiptItem
+    api: Open Prices API
+    schema: ReceiptItem
+    key: id
+  - name: PriceTag
+    api: Open Prices API
+    key: id
+  - name: Location
+    api: Open Prices API
+    schema: Location
+    key: id
+    external_key: OpenStreetMap osm_type + osm_id
+  - name: Challenge
+    api: Open Prices API
+    schema: Challenge
+    key: id
+  - name: Badge
+    api: Open Prices API
+    schema: Badge
+    key: id
+  - name: User
+    api: Open Prices API / Folksonomy Engine API
+    key: user_id
+  - name: ProductTag
+    api: Folksonomy Engine API
+    schema: ProductTag
+    key: product + k
+    note: Free property/value pair attached to a product — the folksonomy layer over the core taxonomy.
+  - name: Flag
+    api: NutriPatrol API / Open Prices API
+    schema: Flag
+    key: id
+  - name: Ticket
+    api: NutriPatrol API
+    schema: Ticket
+    key: id
+relationships:
+  - from: Product
+    to: Ingredient
+    type: has_many
+    via: ingredients
+  - from: Ingredient
+    to: Ingredient
+    type: has_many
+    via: ingredients
+  - from: Product
+    to: Nutrient
+    type: has_many
+    via: nutriments
+  - from: Product
+    to: TaxonomyTag
+    type: has_many
+    via: categories_tags, labels_tags, brands_tags, additives_tags, allergens_tags, countries_tags
+  - from: Product
+    to: KnowledgePanel
+    type: has_many
+    via: knowledge_panels
+  - from: Product
+    to: AttributeGroup
+    type: has_many
+    via: attribute_groups
+  - from: Price
+    to: Product
+    type: belongs_to
+    via: product_code
+  - from: Price
+    to: Location
+    type: belongs_to
+    via: location_id
+  - from: Price
+    to: Proof
+    type: belongs_to
+    via: proof_id
+  - from: Price
+    to: User
+    type: belongs_to
+    via: owner
+  - from: Proof
+    to: Location
+    type: belongs_to
+    via: location_id
+  - from: ReceiptItem
+    to: Proof
+    type: belongs_to
+    via: proof_id
+  - from: PriceTag
+    to: Proof
+    type: belongs_to
+    via: proof_id
+  - from: Location
+    to: Price
+    type: has_many
+    via: location_id
+  - from: Badge
+    to: User
+    type: has_many
+    via: badges_users
+  - from: ProductTag
+    to: Product
+    type: belongs_to
+    via: product
+  - from: Flag
+    to: Ticket
+    type: belongs_to
+    via: ticket_id
+  - from: Ticket
+    to: Product
+    type: belongs_to
+    via: barcode
+join_key:
+  field: code / barcode / product_code
+  detail: >-
+    Product.code is the join key across every service — Open Prices stores it as product_code, NutriPatrol as
+    barcode, Folksonomy as product. An agent holding one barcode can traverse the entire family.

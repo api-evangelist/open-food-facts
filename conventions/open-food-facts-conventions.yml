@@ -1,0 +1,116 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://openfoodfacts.github.io/openfoodfacts-server/api/ (rate limits, User-Agent, auth),
+  openapi/open-food-facts-api-v2-openapi.yml, openapi/open-food-facts-api-v3-openapi.yml,
+  openapi/open-food-facts-open-prices-openapi.yml
+provider: Open Food Facts
+providerId: open-food-facts
+description: >-
+  Cross-cutting runtime semantics an agent needs before it calls the Open Food Facts surface.
+auth:
+  style: >-
+    Keyless for reads. Every client must send a custom User-Agent of the form "AppName/Version
+    (ContactEmail)"; the project blocks unidentifiable problem traffic. Writes require an account — a
+    session cookie obtained from /cgi/session.pl (preferred, IP-restricted, 10 sessions per user) or
+    user_id/password parameters on the request. Open Prices uses a bearer token from POST /api/v1/auth.
+    Folksonomy uses an OAuth2 password flow.
+  detail: authentication/open-food-facts-authentication.yml
+idempotency:
+  supported: false
+  coverage: none
+  mechanism: null
+  header: null
+  scope: []
+  detail: >-
+    No Idempotency-Key header, request-id deduplication or replay window is documented or declared in any
+    of the seven published specs. Writes are product edits keyed by barcode, so a repeated POST/PATCH
+    re-applies the same field values and creates a new product revision each time rather than being
+    rejected as a duplicate. An agent retrying a write must expect extra revisions in the product history.
+pagination:
+  style: page-number
+  params:
+    - name: page
+      note: 1-based page index (v2 search, Open Prices list endpoints)
+    - name: page_size
+      note: items per page (v2 search, Open Prices)
+  response_fields: [count, page, page_size, page_count]
+  detail: >-
+    Search-a-licious (/search) uses page and page_size and returns count plus the page echo in the
+    SuccessSearchResponse envelope. Open Prices list endpoints return DRF-style paginated envelopes.
+field_selection:
+  supported: true
+  detail: >-
+    The product endpoints take a `fields` query parameter naming exactly which product fields to return
+    (including the pseudo-values "all" and "knowledge_panels"), which is the primary way to keep responses
+    small on a record that can exceed a megabyte.
+metadata:
+  detail: >-
+    v3 responses use a standardized envelope; v2 product reads return {code, status, status_verbose,
+    product}. A missing product returns HTTP 404 from product schema version 996 onward (earlier versions
+    returned 200 with status 0).
+request_tracing:
+  request_id_header: null
+  detail: No request-id or correlation header is documented; support requests are traced by the client's User-Agent contact.
+versioning: lifecycle/open-food-facts-lifecycle.yml
+errors: errors/open-food-facts-problem-types.yml
+error_envelope:
+  format: custom
+  rfc9457: false
+  detail: >-
+    v2 returns {code, status, status_verbose}. v3 returns an envelope with errors[] and warnings[] arrays
+    carrying {field, impact, message} objects. The FastAPI services (Search-a-licious, Folksonomy,
+    Facets Knowledge Panels, NutriPatrol) return HTTP 422 with the standard {detail:[{loc,msg,type}]}
+    validation body. None of these is application/problem+json.
+rate_limit_signaling:
+  detail: >-
+    15 req/min/IP for product reads, 10 req/min/IP for search, plus an unpublished global ceiling; HTTP 503
+    on exhaustion. No RateLimit-* response headers are documented or observed, so an agent has no runtime
+    remaining-quota signal and must self-pace.
+  artifact: rate-limits/open-food-facts-rate-limits.yml
+reversibility:
+  grade: documented
+  applies_to: write
+  detail: >-
+    Open Food Facts keeps a full revision history for every product and exposes an explicit reversal
+    operation. No time window is stated anywhere in the documentation or the spec, so this grades as
+    documented rather than verified — an agent can undo a bad edit, but the project does not commit to how
+    long the revision it wants remains revertible.
+  operations:
+    - surface: Open Food Facts API v3
+      write_operation: patch-api-v3-product-code
+      reversal_operation: post-api-v3-product_revert
+      reversal_summary: Revert Product to Previous Revision
+      window: null
+      window_source: null
+      docs: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v3/
+    - surface: Open Food Facts API v3
+      write_operation: post-api-v3-product-code-images
+      reversal_operation: delete-api-v3-product-code-images-uploaded-imgid
+      reversal_summary: Delete Product Image
+      window: null
+      window_source: null
+      docs: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v3/
+    - surface: Open Food Facts API v2
+      write_operation: post-cgi-product_image_crop.pl
+      reversal_operation: post-cgi-product_image_unselect.pl
+      reversal_summary: Unselect Image
+      window: null
+      window_source: null
+      docs: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v2/
+    - surface: Open Prices API
+      write_operation: prices_create
+      reversal_operation: prices_destroy
+      reversal_summary: Delete a price entry the caller created
+      window: null
+      window_source: null
+      docs: https://prices.openfoodfacts.org/api/docs
+  note: >-
+    No reversal window is asserted here because none is published. Inventing one on a crowdsourced database
+    would be worse than recording the gap.
+dry_run_mode:
+  supported: false
+  detail: >-
+    No preview/validate/dry-run parameter is declared on any write operation across the seven specs. The
+    documented rehearsal path is the staging deployment at world.openfoodfacts.net — see
+    sandbox/open-food-facts-sandbox.yml.

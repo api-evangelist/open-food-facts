@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Open Food Facts Cgi API
   description: Open Food Facts is a collaborative, free, and open database of food products from around the world. The HTTP API provides read access to product data by barcode, full-text and faceted search, and access to Open Food Facts taxonomies.

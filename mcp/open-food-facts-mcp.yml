@@ -1,0 +1,68 @@
+generated: '2026-09-17'
+method: derived
+source: >-
+  openapi/open-food-facts-api-v2-openapi.yml, openapi/open-food-facts-api-v3-openapi.yml,
+  openapi/open-food-facts-search-a-licious-openapi.json
+status: candidate
+provider: Open Food Facts
+providerId: open-food-facts
+description: >-
+  Open Food Facts does not publish an MCP server of its own. This is a CANDIDATE tool list derived from the
+  project's own OpenAPI operations so the shape of an eventual server is on record. It is not deployed,
+  not reachable, and must not be read as an agent surface.
+deployment:
+  mode: none
+  auth: none
+  verified: derived
+search_evidence:
+  searched: '2026-09-17'
+  queries:
+    - github.com/openfoodfacts repository listing (4 pages) — no repository whose name or description names MCP
+    - registry.npmjs.org search for "openfoodfacts" — every MCP package found belongs to a third party
+    - web search for an official Open Food Facts MCP server
+  third_party_servers:
+    - name: openfoodfacts-mcp
+      package: https://www.npmjs.com/package/openfoodfacts-mcp
+      publisher: domdomegg (community)
+      official: false
+    - name: '@cyanheads/openfoodfacts-mcp-server'
+      package: https://www.npmjs.com/package/@cyanheads/openfoodfacts-mcp-server
+      publisher: cyanheads (community)
+      official: false
+    - name: '@pipeworx/mcp-openfoodfacts'
+      package: https://www.npmjs.com/package/@pipeworx/mcp-openfoodfacts
+      publisher: pipeworx-io (community)
+      official: false
+  note: >-
+    Several community MCP servers wrap the public Open Food Facts API. None is published by the Open Food
+    Facts organization, so none is recorded as a provider agent surface and no MCPServer pointer is wired
+    in apis.yml.
+tools:
+  - name: get_product
+    description: Get a product's full record by barcode.
+    rest: [get-api-v3-product-code, get-product-by-code]
+    api: Open Food Facts API v3
+  - name: search_products
+    description: Search products with facet filters.
+    rest: [get-search]
+    api: Open Food Facts API v2
+  - name: full_text_search
+    description: Full-text and facet search over the product collection via Search-a-licious.
+    rest: [search_search_post, search_get_search_get]
+    api: Search-a-licious API
+  - name: autocomplete_taxonomy
+    description: Autocomplete a taxonomy term (category, label, brand).
+    rest: [taxonomy_autocomplete_autocomplete_get, get-api-v3-taxonomy_suggestions-taxonomy]
+    api: Search-a-licious API / Open Food Facts API v3
+  - name: canonicalize_tags
+    description: Resolve local-language tags to canonical taxonomy ids.
+    rest: [get-api-v3-taxonomy-canonicalize-tags]
+    api: Open Food Facts API v3
+  - name: get_tag_knowledge_panels
+    description: Get the knowledge panels rendered for a taxonomy tag.
+    rest: [get-api-v3-tag-tagtype-tag_or_tagid, knowledge_panel_knowledge_panel_get]
+    api: Open Food Facts API v3 / Facets Knowledge Panels API
+  - name: list_prices
+    description: List crowdsourced prices for a product or location.
+    rest: [prices_list, products_code_retrieve]
+    api: Open Prices API

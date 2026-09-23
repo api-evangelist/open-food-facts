@@ -1,0 +1,23 @@
+generated: '2026-09-17'
+method: searched
+source: https://github.com/openfoodfacts/openfoodfacts-webcomponents
+provider: Open Food Facts
+providerId: open-food-facts
+description: >-
+  First-party client-side UI components Open Food Facts publishes so third-party applications can embed the
+  same editing and contribution surfaces the official apps use.
+families:
+  - name: Open Food Facts Web Components
+    kind: web-components
+    repository: https://github.com/openfoodfacts/openfoodfacts-webcomponents
+    loader:
+      registry: npm
+      package: '@openfoodfacts/openfoodfacts-webcomponents'
+      version: 1.16.0
+      published: '2026-01-28'
+    description: >-
+      A set of custom elements for Open Food Facts that help build editing interfaces — contribution and
+      annotation flows, knowledge panels and product editing widgets — without reimplementing them.
+    note: >-
+      The repository README is the published reference; the project does not host a separate component
+      gallery site that this probe could find.

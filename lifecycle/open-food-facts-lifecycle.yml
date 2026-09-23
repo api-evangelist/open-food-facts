@@ -1,0 +1,53 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://openfoodfacts.github.io/openfoodfacts-server/api/,
+  https://openfoodfacts.github.io/openfoodfacts-server/api/ref-api-and-product-schema-change-log/,
+  https://status.openfoodfacts.org/
+provider: Open Food Facts
+providerId: open-food-facts
+description: >-
+  How Open Food Facts versions, deprecates and reports on its API surface.
+versioning:
+  style: uri-path
+  pattern: /api/v{major}/
+  current: v3
+  supported: [v2, v3]
+  detail: >-
+    The major version is in the path. A separate product schema version (schema_version, currently 1004) is
+    carried on every product record and moves independently of the URL version.
+deprecation:
+  policy_published: true
+  url: https://openfoodfacts.github.io/openfoodfacts-server/api/
+  summary: >-
+    The project's API documentation names v3 as the current recommended version and states that v2 is
+    deprecated but still supported. There is no dated sunset commitment and no Sunset/Deprecation response
+    header (RFC 8594) is documented or observed.
+  sunset_headers: false
+  rfc8594: false
+  deprecated_surfaces:
+    - name: Open Food Facts API v2
+      status: deprecated-but-supported
+      successor: Open Food Facts API v3
+      evidence: https://openfoodfacts.github.io/openfoodfacts-server/api/
+    - name: /cgi/*.pl endpoints
+      status: legacy
+      note: >-
+        The Perl CGI endpoints (product_jqm2.pl, product_image_upload.pl, suggest.pl, session.pl) remain the
+        documented write path for v2 and are progressively replaced by the /api/v3 equivalents
+        (patch-api-v3-product-code, post-api-v3-product-code-images).
+      evidence: openapi/open-food-facts-api-v2-openapi.yml
+status_page:
+  url: https://status.openfoodfacts.org/
+  http_status: 200
+  platform: Upptime
+  repository: https://github.com/openfoodfacts/openfoodfacts-upptime
+  machine_readable: >-
+    Upptime publishes its history as JSON/YAML in the repository above, so uptime history is retrievable
+    without scraping the page.
+sla:
+  published: false
+  note: >-
+    Open Food Facts is a non-profit association running on donations and publishes no availability SLA. The
+    API documentation asks heavy users to download the bulk data export instead of hammering the live API.
+change_log: changelog/open-food-facts-changelog.yml

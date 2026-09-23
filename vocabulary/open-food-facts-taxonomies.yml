@@ -1,0 +1,58 @@
+generated: '2026-09-17'
+method: searched
+source: https://static.openfoodfacts.org/data/taxonomies/
+provider: Open Food Facts
+providerId: open-food-facts
+description: >-
+  Open Food Facts publishes its controlled vocabularies — the taxonomies that normalise categories,
+  ingredients, labels, additives, allergens, countries, brands and nutrients across every language — as
+  public JSON files. They are the canonical term lists behind every tag in the product API, and they are
+  editable by the community through the project's Taxonomy Editor.
+format: json
+license:
+  name: Open Database License (ODbL)
+  url: https://opendatacommons.org/licenses/odbl/1-0/
+editor: https://github.com/openfoodfacts/taxonomy-editor
+taxonomies:
+  - name: categories
+    url: https://static.openfoodfacts.org/data/taxonomies/categories.json
+    http_status: 200
+    bytes: 4667328
+  - name: ingredients
+    url: https://static.openfoodfacts.org/data/taxonomies/ingredients.json
+    http_status: 200
+    bytes: 3332299
+  - name: labels
+    url: https://static.openfoodfacts.org/data/taxonomies/labels.json
+    http_status: 200
+    bytes: 1178783
+  - name: additives
+    url: https://static.openfoodfacts.org/data/taxonomies/additives.json
+    http_status: 200
+    bytes: 905999
+  - name: countries
+    url: https://static.openfoodfacts.org/data/taxonomies/countries.json
+    http_status: 200
+    bytes: 721532
+  - name: nutrients
+    url: https://static.openfoodfacts.org/data/taxonomies/nutrients.json
+    http_status: 200
+    bytes: 166378
+  - name: brands
+    url: https://static.openfoodfacts.org/data/taxonomies/brands.json
+    http_status: 200
+    bytes: 97883
+  - name: allergens
+    url: https://static.openfoodfacts.org/data/taxonomies/allergens.json
+    http_status: 200
+    bytes: 10168
+api_access:
+  - operationId: get-api-v3-taxonomy-canonicalize-tags
+    description: Resolve local-language tags to canonical taxonomy identifiers.
+  - operationId: get-api-v3-taxonomy-display-tags
+    description: Render canonical taxonomy identifiers in a chosen display language.
+  - operationId: get-api-v3-taxonomy_suggestions-taxonomy
+    description: Suggest taxonomy entries for an in-progress term.
+note: >-
+  The directory index at https://static.openfoodfacts.org/data/taxonomies/ returns 403; each individual
+  taxonomy file is served publicly and each URL above was probed on 2026-09-17.

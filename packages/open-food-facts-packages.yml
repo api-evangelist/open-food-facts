@@ -1,0 +1,121 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  registry.npmjs.org, pypi.org, rubygems.org, pub.dev, repo.packagist.org, proxy.golang.org and
+  search.maven.org metadata endpoints, cross-checked against the github.com/openfoodfacts organization
+provider: Open Food Facts
+providerId: open-food-facts
+description: >-
+  First-party Open Food Facts client libraries. Every entry marked official:true is published from a
+  repository inside the github.com/openfoodfacts organization. Versions and publication dates were read
+  from each registry's own unauthenticated metadata endpoint on 2026-09-17.
+packages:
+  - name: openfoodfacts
+    language: Python
+    registry: pypi
+    url: https://pypi.org/project/openfoodfacts/
+    repository: https://github.com/openfoodfacts/openfoodfacts-python
+    official: true
+    version: 5.3.0
+    published: '2026-07-07'
+  - name: '@openfoodfacts/openfoodfacts-nodejs'
+    language: JavaScript/TypeScript
+    registry: npm
+    url: https://www.npmjs.com/package/@openfoodfacts/openfoodfacts-nodejs
+    repository: https://github.com/openfoodfacts/openfoodfacts-js
+    official: true
+    version: 2.0.0-alpha.35
+    published: '2026-09-03'
+    note: Latest published release is a 2.0 alpha; the last stable 1.x line is superseded by this pre-release.
+  - name: openfoodfacts
+    language: Dart/Flutter
+    registry: pub.dev
+    url: https://pub.dev/packages/openfoodfacts
+    repository: https://github.com/openfoodfacts/openfoodfacts-dart
+    official: true
+    version: 3.30.2
+    published: '2026-02-15'
+  - name: openfoodfacts
+    language: Ruby
+    registry: rubygems
+    url: https://rubygems.org/gems/openfoodfacts
+    repository: https://github.com/openfoodfacts/openfoodfacts-ruby
+    official: true
+    version: 0.10.0
+    published: '2025-09-29'
+  - name: openfoodfacts/openfoodfacts-php
+    language: PHP
+    registry: packagist
+    url: https://packagist.org/packages/openfoodfacts/openfoodfacts-php
+    repository: https://github.com/openfoodfacts/openfoodfacts-php
+    official: true
+    version: v0.4.0
+    published: '2025-07-29'
+  - name: openfoodfacts/openfoodfacts-laravel
+    language: PHP (Laravel)
+    registry: packagist
+    url: https://packagist.org/packages/openfoodfacts/openfoodfacts-laravel
+    repository: https://github.com/openfoodfacts/openfoodfacts-laravel
+    official: true
+    version: v0.8.0
+    published: '2026-06-06'
+  - name: github.com/openfoodfacts/openfoodfacts-go
+    language: Go
+    registry: go
+    url: https://pkg.go.dev/github.com/openfoodfacts/openfoodfacts-go
+    repository: https://github.com/openfoodfacts/openfoodfacts-go
+    official: true
+    version: v1.0.0
+    published: '2022-05-06'
+    note: >-
+      Decay signal — the only tagged Go module release predates API v3 entirely (v3 shipped 2024-12-12 per the
+      project's own change log), so the Go wrapper cannot describe the current contract.
+  - name: '@openfoodfacts/openfoodfacts-webcomponents'
+    language: JavaScript (Web Components)
+    registry: npm
+    url: https://www.npmjs.com/package/@openfoodfacts/openfoodfacts-webcomponents
+    repository: https://github.com/openfoodfacts/openfoodfacts-webcomponents
+    official: true
+    version: 1.16.0
+    published: '2026-01-28'
+    note: UI component library rather than an API client — also catalogued in components/.
+  - name: openfoodfacts-java
+    language: Java
+    registry: null
+    url: https://github.com/openfoodfacts/openfoodfacts-java
+    repository: https://github.com/openfoodfacts/openfoodfacts-java
+    official: true
+    version: null
+    published: null
+    note: >-
+      Checked search.maven.org for group org.openfoodfacts and for the term "openfoodfacts" on 2026-09-17 —
+      no first-party coordinates exist. The only Maven Central artifacts are third-party (pl.coderion).
+      Source-only distribution.
+  - name: openfoodfacts-kotlin
+    language: Kotlin
+    registry: null
+    url: https://github.com/openfoodfacts/openfoodfacts-kotlin
+    repository: https://github.com/openfoodfacts/openfoodfacts-kotlin
+    official: true
+    version: null
+    published: null
+    note: No Maven Central coordinates found on 2026-09-17; source-only distribution.
+  - name: openfoodfacts-rust
+    language: Rust
+    registry: null
+    url: https://github.com/openfoodfacts/openfoodfacts-rust
+    repository: https://github.com/openfoodfacts/openfoodfacts-rust
+    official: true
+    version: null
+    published: null
+    note: >-
+      crates.io/api/v1/crates/openfoodfacts answered "crate does not exist" on 2026-09-17 — the Rust SDK is
+      not published to crates.io.
+not_official:
+  - name: openfoodfacts-cli
+    registry: npm
+    url: https://www.npmjs.com/package/openfoodfacts-cli
+    note: Third-party (github.com/emmekappa/openfoodfacts-cli) — not published by Open Food Facts.
+  - name: pl.coderion:openfoodfacts-java-wrapper
+    registry: maven
+    note: Third-party Java wrapper on Maven Central, last released 2021 — not published by Open Food Facts.

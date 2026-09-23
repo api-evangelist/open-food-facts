@@ -1,0 +1,108 @@
+generated: '2026-09-17'
+method: derived
+source: >-
+  openapi/open-food-facts-api-v2-openapi.yml, openapi/open-food-facts-api-v3-openapi.yml,
+  openapi/open-food-facts-search-a-licious-openapi.json, openapi/open-food-facts-folksonomy-openapi.json,
+  openapi/open-food-facts-nutripatrol-openapi.json, openapi/open-food-facts-facets-knowledge-panels-openapi.json;
+  enriched from https://openfoodfacts.github.io/openfoodfacts-server/api/
+provider: Open Food Facts
+providerId: open-food-facts
+format: custom
+rfc9457: false
+description: >-
+  Error responses declared across the Open Food Facts API family. Three different envelopes are in play —
+  the v2 status envelope, the v3 errors[]/warnings[] envelope, and the FastAPI 422 validation body on the
+  Python services. None of them is application/problem+json.
+envelopes:
+  - id: v2-status-envelope
+    applies_to: [Open Food Facts API v2]
+    media_type: application/json
+    shape: '{ code, status, status_verbose }'
+    detail: >-
+      status is 1 on success and 0 on failure; status_verbose carries the human string, e.g.
+      "no code or invalid code". Observed live on GET /api/v2/openapi.json (2026-09-17).
+  - id: v3-errors-envelope
+    applies_to: [Open Food Facts API v3]
+    media_type: application/json
+    shape: '{ errors: [ { field, impact, message } ], warnings: [ ... ], ... }'
+    detail: >-
+      v3 standardized the response envelope so that partial success is representable — warnings do not fail
+      the request, errors do.
+  - id: fastapi-validation
+    applies_to:
+      - Search-a-licious API
+      - Folksonomy Engine API
+      - Facets Knowledge Panels API
+      - NutriPatrol API
+    media_type: application/json
+    shape: '{ detail: [ { loc: [...], msg, type } ] }'
+    schema: HTTPValidationError
+    detail: The FastAPI-based services return HTTP 422 with the standard validation-error body.
+problem_types:
+  - status: 404
+    id: product-not-found
+    title: Product not found
+    envelope: v2-status-envelope
+    operations: [get-product-by-code, get-api-v3-product-code]
+    remediation: >-
+      The barcode is not in the database. From product schema version 996 onward a missing product returns
+      404 rather than 200 with status 0. Normalize the barcode first (see the project's barcode
+      normalization reference) before concluding it is absent.
+    docs: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-barcode-normalization/
+  - status: 404
+    id: invalid-code
+    title: No code or invalid code
+    envelope: v2-status-envelope
+    status_verbose: no code or invalid code
+    operations: [get-product-by-code]
+    remediation: Supply a valid EAN-13/UPC barcode in the path.
+  - status: 401
+    id: unauthorized-write
+    title: Authentication required
+    envelope: v2-status-envelope
+    operations: [post-cgi-product_jqm2.pl, get-cgi-product_image_upload.pl, get-cgi-session.pl]
+    remediation: >-
+      Write operations need a valid session cookie from /cgi/session.pl, or user_id and password parameters.
+      user_id is the account username, never the email address.
+  - status: 403
+    id: forbidden
+    title: Forbidden
+    envelope: v3-errors-envelope
+    operations: [patch-api-v3-product-code, post-api-v3-product-code-images]
+    remediation: The authenticated account is not permitted to perform this edit.
+  - status: 302
+    id: redirect-on-write
+    title: Redirect after a CGI write
+    envelope: none
+    operations: [post-cgi-product_image_crop.pl, post-cgi-product_image_unselect.pl]
+    remediation: >-
+      The legacy Perl CGI write endpoints answer with a 302 rather than a JSON body. Follow the redirect or
+      use the /api/v3 equivalents, which return JSON.
+  - status: 422
+    id: validation-error
+    title: Unprocessable entity
+    envelope: fastapi-validation
+    operations:
+      - search_search_post
+      - taxonomy_autocomplete_autocomplete_get
+      - product_tag_add_product_post
+      - create_flag_api_v1_flags_post
+      - knowledge_panel_knowledge_panel_get
+    remediation: Read detail[].loc to find the offending parameter and detail[].type for the constraint that failed.
+  - status: 503
+    id: rate-limited
+    title: Service unavailable — rate limit exceeded
+    envelope: none
+    operations: [get-product-by-code, get-search, get-api-v3-product-code]
+    remediation: >-
+      Documented, but not declared in any spec. Returned when the per-IP ceiling (15 req/min reads, 10
+      req/min search) or the global ceiling is exceeded. No Retry-After is documented — back off and retry.
+    docs: https://openfoodfacts.github.io/openfoodfacts-server/api/
+    method: searched
+gaps:
+  - >-
+    The published specs declare no 4xx response at all on the Open Prices API (only 200/201/204), so its
+    error shapes are not machine-readable from the contract.
+  - >-
+    The 503 rate-limit response is documented in prose but is absent from every OpenAPI document, which is
+    the single most consequential undeclared error for an agent.

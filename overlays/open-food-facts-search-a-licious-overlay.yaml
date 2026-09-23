@@ -1,0 +1,47 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enrichment overlay — Search-a-licious API
+  version: 1.0.0
+extends: open-food-facts-search-a-licious-openapi.json
+x-generated: '2026-09-17'
+x-method: generated
+x-source: API Evangelist enrichment pipeline; every value traced to the artifact or docs URL named in the action.
+actions:
+- target: $.info
+  description: Record the API Evangelist enrichment artifacts that accompany this contract.
+  update:
+    x-api-evangelist:
+      provider: Open Food Facts
+      providerId: open-food-facts
+      profile: https://apis.io/provider/open-food-facts/
+      artifacts:
+        authentication: authentication/open-food-facts-authentication.yml
+        conventions: conventions/open-food-facts-conventions.yml
+        errors: errors/open-food-facts-problem-types.yml
+        rate_limits: rate-limits/open-food-facts-rate-limits.yml
+        lifecycle: lifecycle/open-food-facts-lifecycle.yml
+        data_model: data-model/open-food-facts-data-model.yml
+        vocabulary: vocabulary/open-food-facts-taxonomies.yml
+- target: $.info
+  description: Carry the published per-IP rate limits, which the contract itself does not declare.
+  update:
+    x-rate-limits:
+      product_reads_per_minute_per_ip: 15
+      search_per_minute_per_ip: 10
+      exhausted_status: 503
+      headers: null
+      source: https://openfoodfacts.github.io/openfoodfacts-server/api/
+- target: $.info
+  description: State the identification requirement every client must satisfy.
+  update:
+    x-client-identification:
+      header: User-Agent
+      format: AppName/Version (ContactEmail)
+      required: true
+      source: https://openfoodfacts.github.io/openfoodfacts-server/api/
+- target: $
+  description: Add the production host this document is served from; the source contract declares no servers[] block.
+  update:
+    servers:
+    - url: https://search.openfoodfacts.org
+      description: Production host — the same host this OpenAPI document was fetched from on 2026-09-17.

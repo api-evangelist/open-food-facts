@@ -1,0 +1,95 @@
+generated: '2026-09-17'
+method: derived
+source: >-
+  openapi/open-food-facts-api-v2-openapi.yml, openapi/open-food-facts-api-v3-openapi.yml,
+  openapi/open-food-facts-folksonomy-openapi.json, openapi/open-food-facts-open-prices-openapi.yml;
+  https://openfoodfacts.github.io/openfoodfacts-server/api/
+provider: Open Food Facts
+providerId: open-food-facts
+description: >-
+  Cross-cutting and domain standards the Open Food Facts contracts declare for themselves. Reward-only —
+  an absent standard is recorded as conforms:false with the evidence that was checked, not as a penalty.
+conformance:
+  - id: openapi
+    conforms: true
+    version: '3.1.0 (v2, v3, Search-a-licious, Folksonomy, Facets KP, NutriPatrol); 3.0.3 (Open Prices)'
+    evidence: openapi/open-food-facts-api-v3-openapi.yml
+  - id: oauth2
+    conforms: true
+    detail: >-
+      Partial — only the Folksonomy Engine declares an oauth2 securityScheme, and only the password
+      (resource-owner) flow with no scopes. The core product API uses a session cookie, not OAuth.
+    evidence: openapi/open-food-facts-folksonomy-openapi.json#/components/securitySchemes/OAuth2PasswordBearer
+  - id: oidc
+    conforms: false
+    evidence: >-
+      /.well-known/openid-configuration returns 404 on every Open Food Facts host probed 2026-09-17; see
+      well-known/open-food-facts-well-known.yml.
+  - id: rfc9457
+    conforms: false
+    detail: No application/problem+json response is declared anywhere; three bespoke error envelopes are in use.
+    evidence: errors/open-food-facts-problem-types.yml
+  - id: idempotency
+    conforms: false
+    detail: No idempotency key or replay-protection mechanism is declared or documented.
+    evidence: conventions/open-food-facts-conventions.yml
+  - id: pagination
+    conforms: true
+    detail: page / page_size query parameters with a count in the response envelope.
+    evidence: openapi/open-food-facts-search-a-licious-openapi.json
+  - id: rfc9116-security-txt
+    conforms: true
+    detail: A well-formed security.txt with Contact and Policy is served from the registrable domain and www.
+    evidence: https://world.openfoodfacts.org/.well-known/security.txt
+  - id: rfc8594-sunset
+    conforms: false
+    detail: v2 is described as deprecated in prose, but no Sunset or Deprecation response header is documented.
+    evidence: lifecycle/open-food-facts-lifecycle.yml
+domain_standards:
+  - id: gs1-gtin
+    name: GS1 GTIN / EAN-13 / UPC product identification
+    conforms: true
+    detail: >-
+      The whole product surface is keyed on the GS1 barcode. The `code` path parameter is defined in the
+      contract as an EAN-13/UPC barcode, the project publishes a barcode-normalization reference describing
+      how leading zeros and short codes are canonicalized to EAN-13, and product schema version 999 was a
+      breaking change to exactly that normalization. A buyer who already speaks GTIN integrates with no
+      bespoke identifier mapping.
+    evidence:
+      - openapi/open-food-facts-api-v2-openapi.yml#/paths/~1api~1v2~1product~1{code}/get/parameters
+      - https://openfoodfacts.github.io/openfoodfacts-server/api/ref-barcode-normalization/
+  - id: odbl-open-data
+    name: Open Database License (ODbL 1.0) / DbCL
+    conforms: true
+    detail: >-
+      Declared in the contract itself — info.license is "data: ODbL" with x-identifier ODbL-1.0 — not merely
+      claimed on a marketing page. Product images are CC BY-SA.
+    evidence: openapi/open-food-facts-api-v2-openapi.yml#/info/license
+  - id: nutri-score
+    name: Nutri-Score front-of-pack nutrition label
+    conforms: true
+    detail: >-
+      The contract exposes the official French/European Nutri-Score grade and score as first-class product
+      schema fields (Product-Nutriscore), computed to the published national algorithm rather than a
+      bespoke rating.
+    evidence: openapi/open-food-facts-api-v2-openapi.yml#/components/schemas/Product-Nutriscore
+  - id: nova
+    name: NOVA food processing classification
+    conforms: true
+    detail: >-
+      The NOVA 1-4 food-processing group is carried on the product schema in both v2 and v3, matching the
+      published academic classification used in nutrition policy.
+    evidence: openapi/open-food-facts-api-v3-openapi.yml
+  - id: openstreetmap-ids
+    name: OpenStreetMap node/way identifiers
+    conforms: true
+    detail: >-
+      Open Prices addresses physical stores by their OpenStreetMap type and id
+      (/api/v1/locations/osm/{osm_type}/{osm_id}) rather than by a proprietary location key.
+    evidence: openapi/open-food-facts-open-prices-openapi.yml
+compliance_programs:
+  published: false
+  detail: >-
+    Open Food Facts is a French non-profit association and publishes no SOC 2, ISO 27001, PCI or HIPAA
+    attestation, and no trust center. probe-security-programs.py found no trust center on 2026-09-17. No
+    Compliance pointer is emitted, because there is nothing published to point at.

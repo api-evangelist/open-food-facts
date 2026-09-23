@@ -1,0 +1,72 @@
+generated: '2026-09-17'
+method: searched
+source: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-api-and-product-schema-change-log/
+provider: Open Food Facts
+providerId: open-food-facts
+description: >-
+  Open Food Facts maintains a combined API and product-schema change log. Entries are keyed to a product
+  schema version number (the `schema_version` field on every product) alongside the API version, and each
+  entry states whether it is breaking.
+scheme:
+  api_versions: [v1, v2, v3]
+  current_api_version: '3.6'
+  current_product_schema_version: 1004
+  versioning: >-
+    Two coupled version axes — the URL path API version (/api/v2, /api/v3) and a monotonic product schema
+    version exposed on the product record as `schema_version`.
+url: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-api-and-product-schema-change-log/
+entries:
+  - version: API 3.6 / product schema 1004
+    date: '2026-05-27'
+    breaking: true
+    highlights: >-
+      The *_hierarchy and *_lc fields for writable taxonomy fields were removed and replaced with a new
+      tags_sources structure for tracking data provenance.
+  - version: API 3.5 / product schema 1003
+    date: '2025-12-01'
+    breaking: true
+    highlights: >-
+      Nutrition facts were restructured to better align with current database uses; marked as actively under
+      development.
+  - version: API 3.4 / product schema 1002
+    date: '2025-06-11'
+    breaking: true
+    highlights: Product attributes now accept parameters, such as tag lists for the unwanted-ingredients attribute.
+  - version: API 3.3 / product schema 1002
+    date: '2025-06-11'
+    breaking: true
+    highlights: >-
+      The images structure was refactored to distinguish uploaded from selected images, with new v3.3 image
+      endpoints.
+  - version: API 3.2 / product schema 1001
+    date: '2025-03-12'
+    breaking: true
+    additions: true
+    highlights: >-
+      ingredients_hierarchy removed and brands taxonomized (breaking); schema_version field added
+      (non-breaking addition).
+  - version: API 3.1 / product schema 1000
+    date: '2024-12-12'
+    breaking: true
+    highlights: >-
+      ecoscore_* fields renamed to the generic environmental_score_* for legal reasons.
+  - version: product schema 999
+    date: null
+    breaking: true
+    highlights: Barcode normalization changed how leading zeros are handled.
+  - version: API 3 / product schema 998
+    date: null
+    breaking: true
+    highlights: >-
+      Response structures standardized across v3 endpoints; packaging component properties localized.
+  - version: API 2 / product schema 997
+    date: null
+    breaking: true
+    highlights: The ingredients structure became nested, with sub-ingredients inside their parent ingredient.
+  - version: API 1 / product schema 996
+    date: null
+    breaking: true
+    highlights: Product READ requests return HTTP 404 for a missing product instead of HTTP 200.
+note: >-
+  Dates before product schema 1000 are not published on the change-log page; they are recorded as null
+  rather than estimated.

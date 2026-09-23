@@ -1,0 +1,10 @@
+generated: '2026-09-17'
+method: derived
+source: openapi/open-food-facts-folksonomy-openapi.json
+schemes:
+- name: OAuth2PasswordBearer
+  source: openapi/open-food-facts-folksonomy-openapi.json
+  flows:
+  - flow: password
+    tokenUrl: auth
+scopes: []

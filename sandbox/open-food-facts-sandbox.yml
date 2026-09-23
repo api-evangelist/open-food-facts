@@ -1,0 +1,33 @@
+generated: '2026-09-17'
+method: searched
+source: https://openfoodfacts.github.io/openfoodfacts-server/api/tutorial-off-api/
+provider: Open Food Facts
+providerId: open-food-facts
+description: >-
+  Open Food Facts runs a separate staging deployment on the .net domain that mirrors the production API, and
+  the project's own tutorials use it for every write example so contributors do not edit the live database.
+environments:
+  - name: production
+    host: https://world.openfoodfacts.org
+    writes: live
+  - name: staging
+    host: https://world.openfoodfacts.net
+    writes: safe
+    description: >-
+      Full mirror of the production API on the .net domain. The API tutorial uses
+      https://world.openfoodfacts.net/api/v2/product/{barcode} and
+      https://world.openfoodfacts.net/cgi/product_jqm2.pl for its read and write walkthroughs.
+    access:
+      scheme: http-basic
+      probed: '2026-09-17'
+      http_status: 401
+      note: >-
+        The host answers 401 Authorization Required to an anonymous request. The project's documentation
+        states there is "a basic auth to avoid content indexation in the staging environment" but does not
+        publish the credential pair on the page this probe read, so no credentials are recorded here.
+key_modes:
+  note: >-
+    Open Food Facts issues no API keys. There is no test-vs-live key prefix to record — separation is by
+    hostname (.net staging vs .org production) and by account, not by credential type.
+test_values:
+  note: The project publishes no test cards, test tokens or fixture data — the API is not a payments surface.

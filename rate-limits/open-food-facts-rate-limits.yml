@@ -4,84 +4,67 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Open Food Facts
 providerId: open-food-facts
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+generated: '2026-09-17'
+method: searched
+source: https://openfoodfacts.github.io/openfoodfacts-server/api/
+modified: '2026-09-17'
 tags:
   - Rate Limiting
   - Quotas
   - Throttling
-description: Machine-readable rate limit definitions for the Open Food Facts API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
+description: >-
+  Rate limits Open Food Facts publishes on its own API documentation. Limits are enforced per IP address,
+  not per key — the project issues no API keys. Replaces the 2026-05-04 scaffold, whose tier/quota values
+  were never published by the provider.
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  note: >-
+    Open Food Facts does not document any RateLimit-* or X-RateLimit-* response headers, and none was
+    observed on an unauthenticated read. An agent cannot read remaining quota from a response; it must
+    respect the documented per-minute ceilings.
+  limit: null
+  remaining: null
+  reset: null
+  retryAfter: null
+  policy: null
 responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
+  throttled: 503
+  quotaExceeded: 503
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
+  - name: Product read queries
+    scope: ip
+    metric: requests_per_minute
+    limit: 15
+    timeFrame: minute
+    applies:
+      - Open Food Facts API v2
+      - Open Food Facts API v3
+    evidence: https://openfoodfacts.github.io/openfoodfacts-server/api/
+    quote: 15 req/min/IP address for all read product queries
+  - name: Search queries
+    scope: ip
     metric: requests_per_minute
     limit: 10
-    burst: 20
     timeFrame: minute
     applies:
-      - Open Food Facts
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
+      - Open Food Facts API v2
+      - Search-a-licious API
+    evidence: https://openfoodfacts.github.io/openfoodfacts-server/api/
+    quote: 10 req/min/IP address for all search queries
+  - name: Global ceiling across all clients
+    scope: global
+    metric: requests
+    limit: null
+    timeFrame: null
     applies:
-      - Open Food Facts
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Open Food Facts
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Open Food Facts
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Open Food Facts
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+      - Open Food Facts API v2
+      - Open Food Facts API v3
+    evidence: https://openfoodfacts.github.io/openfoodfacts-server/api/
+    note: >-
+      The documentation states a global rate limit exists across all IPs and that HTTP 503 is returned when
+      it is exceeded, without publishing the numeric ceiling.
+identification:
+  requirement: >-
+    Every request must carry a custom User-Agent in the form "AppName/Version (ContactEmail)". The project
+    states that unidentified clients generating problematic traffic may be blocked. This is the practical
+    rate-limit key on a keyless API.
+    See authentication/open-food-facts-authentication.yml.

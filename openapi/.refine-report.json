@@ -1,11 +1,7 @@
 {
   "provider": "open-food-facts",
   "sources": [
-    "open-food-facts-cgi-api-openapi.yml",
-    "open-food-facts-product-api-openapi.yml",
-    "open-food-facts-search-api-openapi.yml",
-    "open-food-facts-taxonomy-api-openapi.yml",
-    "open-food-facts-taxonomy-suggestions-api-openapi.yml"
+    "_original/open-food-facts-openapi.yml"
   ],
   "outputs": [
     "open-food-facts-cgi-api-openapi.yml",
@@ -17,6 +13,28 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "open-food-facts-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "open-food-facts-openapi.yml: tagged paths GET /api/v2/product/{barcode} -> Product",
+    "open-food-facts-openapi.yml: tagged paths GET /api/v2/product/{barcode}.json -> Product",
+    "open-food-facts-openapi.yml: tagged paths GET /api/v2/search -> Search",
+    "open-food-facts-openapi.yml: tagged paths GET /api/v2/taxonomy -> Taxonomy",
+    "open-food-facts-openapi.yml: tagged paths GET /api/v3/taxonomy_suggestions -> Taxonomy Suggestions",
+    "open-food-facts-openapi.yml: tagged paths GET /api/v3/product/{barcode} -> Product",
+    "open-food-facts-openapi.yml: tagged paths GET /cgi/suggest.pl -> Cgi",
+    "open-food-facts-openapi.yml: declared missing tag: Cgi",
+    "open-food-facts-openapi.yml: declared missing tag: Product",
+    "open-food-facts-openapi.yml: declared missing tag: Search",
+    "open-food-facts-openapi.yml: declared missing tag: Taxonomy",
+    "open-food-facts-openapi.yml: declared missing tag: Taxonomy Suggestions",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "open-food-facts-cgi-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-food-facts-product-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-food-facts-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-food-facts-taxonomy-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-food-facts-taxonomy-suggestions-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

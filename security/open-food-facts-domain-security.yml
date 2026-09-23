@@ -1,12 +1,22 @@
-generated: '2026-07-11'
+generated: '2026-09-17'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
 - host: world.openfoodfacts.org
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep 19 15:07:01 2026 GMT
+  cert_expires: Nov 19 04:36:26 2026 GMT
   hsts: false
+- host: prices.openfoodfacts.org
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 24 06:52:09 2026 GMT
+  hsts: false
+- host: search.openfoodfacts.org
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov 17 06:54:24 2026 GMT
+  hsts: null
 domains:
 - domain: openfoodfacts.org
   dnssec: false
