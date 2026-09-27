@@ -1,0 +1,209 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts folksonomy REST Keys & Values API
+  description: 'Folksonomy Engine API allows you to add free property/value pairs to Open Food Facts products.
+
+
+    The API use the main following variables:
+
+    * **product**: the product number
+
+    * **k**: "key", meaning the property or tag
+
+    * **v**: "value", the value for a related key
+
+
+    ## See also
+
+
+    * Project page
+
+    * Folksonomy Engine github repository
+
+    * Documented properties'
+  version: 0.1.0
+servers:
+- url: https://api.folksonomy.openfoodfacts.org
+  description: Production server
+- url: http://localhost:8000
+  description: Local development server
+tags:
+- name: Keys & Values
+  description: Browse available keys and their possible values
+paths:
+  /keys:
+    get:
+      tags:
+      - Keys & Values
+      summary: Keys List
+      description: 'Get the list of keys with statistics, with an optional search filter.
+
+
+        The keys list can be restricted to private tags from some owner'
+      operationId: keys_list_keys_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: ''
+          title: Q
+      - name: owner
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Owner
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KeyStats'
+                title: Response Keys List Keys Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /values/{k}:
+    get:
+      tags:
+      - Keys & Values
+      summary: Get Unique Values
+      description: 'Get the unique values of a given property and the corresponding number of products
+
+
+        - **k**: The property key to get unique values for
+
+        - **owner**: None or empty for public tags, or your own user_id
+
+        - **q**: Filter values by a query string
+
+        - **limit**: Maximum number of values to return (default: 50; max: 1000)'
+      operationId: get_unique_values_values__k__get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: k
+        in: path
+        required: true
+        schema:
+          type: string
+          title: K
+      - name: owner
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Owner
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Q
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ValueCount'
+                title: Response Get Unique Values Values  K  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValueCount:
+      properties:
+        v:
+          type: string
+          title: V
+        product_count:
+          type: integer
+          title: Product Count
+      type: object
+      required:
+      - v
+      - product_count
+      title: ValueCount
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    KeyStats:
+      properties:
+        k:
+          type: string
+          title: K
+        count:
+          type: integer
+          title: Count
+        values:
+          type: integer
+          title: Values
+      type: object
+      required:
+      - k
+      - count
+      - values
+      title: KeyStats
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: auth

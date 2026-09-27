@@ -1,0 +1,138 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts open-prices REST Auth API
+  version: 0.0.0 (api)
+  description: Open Prices API allows you to add product prices
+  contact:
+    name: The Open Food Facts team
+    url: https://world.openfoodfacts.org
+    email: contact@openfoodfacts.org
+  license:
+    name: ' AGPL-3.0'
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+tags:
+- name: Auth
+paths:
+  /api/v1/auth:
+    post:
+      operationId: auth_create
+      description: 'Authentication: provide username/password or a keycloak access_token
+
+        and get a bearer token in return.
+
+
+        - **username**: Open Food Facts user_id (not email)
+
+        - **password**: user password (clear text, but HTTPS encrypted)
+
+
+        - **access_token**: keycloak access_token (clear text)
+
+
+        A **token** is returned. If the **set_cookie** parameter is set to 1,
+
+        the token is also set as a cookie named "session" in the response.
+
+
+        To authenticate, you can either:
+
+        - use the **Authorization** header with the **Bearer** scheme,
+
+        e.g.: "Authorization: bearer token"
+
+        - use the **session** cookie, e.g.: "Cookie: session=token"'
+      tags:
+      - Auth
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Login'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+          description: ''
+      summary: Auth create
+      x-summary-source: derived
+  /api/v1/session:
+    get:
+      operationId: session_retrieve
+      tags:
+      - Auth
+      security:
+      - CustomAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFull'
+          description: ''
+      summary: Session retrieve
+      x-summary-source: derived
+    delete:
+      operationId: session_destroy
+      tags:
+      - Auth
+      security:
+      - CustomAuthentication: []
+      responses:
+        '204':
+          description: No response body
+      summary: Session destroy
+      x-summary-source: derived
+components:
+  schemas:
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+        access_token:
+          type: string
+          writeOnly: true
+    SessionFull:
+      type: object
+      properties:
+        user_id:
+          type: string
+        token:
+          type: string
+        created:
+          type: string
+        last_used:
+          type: string
+      required:
+      - created
+      - last_used
+      - token
+      - user_id
+    SessionResponse:
+      type: object
+      properties:
+        user_id:
+          type: string
+        is_moderator:
+          type: boolean
+        access_token:
+          type: string
+        token_type:
+          type: string
+      required:
+      - access_token
+      - is_moderator
+      - token_type
+      - user_id
+  securitySchemes:
+    CustomAuthentication:
+      type: http
+      scheme: bearer

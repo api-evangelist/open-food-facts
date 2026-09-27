@@ -1,0 +1,419 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts open-prices REST Challenges API
+  version: 0.0.0 (api)
+  description: Open Prices API allows you to add product prices
+  contact:
+    name: The Open Food Facts team
+    url: https://world.openfoodfacts.org
+    email: contact@openfoodfacts.org
+  license:
+    name: ' AGPL-3.0'
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+tags:
+- name: Challenges
+paths:
+  /api/v1/challenges:
+    get:
+      operationId: challenges_list
+      parameters:
+      - in: query
+        name: end_date__gt
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: end_date__lt
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: end_date__month
+        schema:
+          type: number
+      - in: query
+        name: end_date__year
+        schema:
+          type: number
+      - in: query
+        name: id
+        schema:
+          type: integer
+      - in: query
+        name: is_published
+        schema:
+          type: boolean
+      - name: order_by
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: start_date__gt
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: start_date__lt
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: start_date__month
+        schema:
+          type: number
+      - in: query
+        name: start_date__year
+        schema:
+          type: number
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - COMPLETED
+          - DRAFT
+          - ONGOING
+          - UPCOMING
+        description: '* `DRAFT` - DRAFT
+
+          * `UPCOMING` - UPCOMING
+
+          * `ONGOING` - ONGOING
+
+          * `COMPLETED` - COMPLETED'
+      tags:
+      - Challenges
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedChallengeList'
+          description: ''
+      summary: Challenges list
+      x-summary-source: derived
+  /api/v1/challenges/{id}:
+    get:
+      operationId: challenges_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Challenge.
+        required: true
+      tags:
+      - Challenges
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Challenge'
+          description: ''
+      summary: Challenges retrieve
+      x-summary-source: derived
+components:
+  schemas:
+    NullEnum:
+      enum:
+      - null
+    BlankEnum:
+      enum:
+      - ''
+    ChallengeStatusEnum:
+      enum:
+      - DRAFT
+      - UPCOMING
+      - ONGOING
+      - COMPLETED
+      type: string
+      description: '* `DRAFT` - DRAFT
+
+        * `UPCOMING` - UPCOMING
+
+        * `ONGOING` - ONGOING
+
+        * `COMPLETED` - COMPLETED'
+    LocationTypeEnum:
+      enum:
+      - OSM
+      - ONLINE
+      type: string
+      description: '* `OSM` - OSM
+
+        * `ONLINE` - ONLINE'
+    LocationOsmTypeEnum:
+      enum:
+      - NODE
+      - WAY
+      - RELATION
+      type: string
+      description: '* `NODE` - NODE
+
+        * `WAY` - WAY
+
+        * `RELATION` - RELATION'
+    Challenge:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Location'
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/ChallengeStatusEnum'
+          readOnly: true
+        tag:
+          type: string
+          readOnly: true
+        title:
+          type:
+          - string
+          - 'null'
+          maxLength: 200
+        icon:
+          type:
+          - string
+          - 'null'
+          maxLength: 20
+        subtitle:
+          type:
+          - string
+          - 'null'
+          maxLength: 200
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        categories:
+          type: array
+          items:
+            type: string
+          description: Restrict to one or multiple categories (optional)
+        categories_full:
+          type: array
+          items:
+            type: string
+          description: Full category tags with parents, used for matching & stats (readonly)
+        example_proof_url:
+          type:
+          - string
+          - 'null'
+          maxLength: 200
+        is_published:
+          type: boolean
+        stats: {}
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - locations
+      - status
+      - tag
+      - updated
+    Location:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        osm_brand_logo_url:
+          type: string
+          readOnly: true
+        type:
+          $ref: '#/components/schemas/LocationTypeEnum'
+        osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        osm_name:
+          type:
+          - string
+          - 'null'
+        osm_display_name:
+          type:
+          - string
+          - 'null'
+        osm_tag_key:
+          type:
+          - string
+          - 'null'
+        osm_tag_value:
+          type:
+          - string
+          - 'null'
+        osm_brand:
+          type:
+          - string
+          - 'null'
+        osm_address_postcode:
+          type:
+          - string
+          - 'null'
+        osm_address_city:
+          type:
+          - string
+          - 'null'
+        osm_address_country:
+          type:
+          - string
+          - 'null'
+        osm_address_country_code:
+          type:
+          - string
+          - 'null'
+        osm_lat:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000
+          exclusiveMaximum: 10000
+        osm_lon:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000
+          exclusiveMaximum: 10000
+        osm_version:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        osm_version_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        website_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          maxLength: 200
+        price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        user_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        source:
+          type:
+          - string
+          - 'null'
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - osm_brand_logo_url
+      - type
+      - updated
+    PaginatedChallengeList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Challenge'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+  securitySchemes:
+    CustomAuthentication:
+      type: http
+      scheme: bearer

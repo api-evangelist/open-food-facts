@@ -1,0 +1,369 @@
+openapi: 3.2.0
+info:
+  title: nutripatrol Flags API
+  description: The nutripatrol API is used to report and manage issues with products and images on Open Food Facts, Open Prices, Open Pet Food Facts, Open Beauty Facts.
+  contact:
+    name: The Open Food Facts team
+    url: https://world.openfoodfacts.org/
+    email: contact@openfoodfacts.org
+  license:
+    name: ' AGPL-3.0'
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+  version: 0.1.0
+tags:
+- name: Flags
+paths:
+  /api/v1/flags:
+    get:
+      summary: Get Flags
+      description: 'Get all flags.
+
+
+        This function is used to get all flags.'
+      operationId: get_flags_api_v1_flags_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFlagsResponse'
+      tags:
+      - Flags
+    post:
+      summary: Create Flag
+      description: 'Create a flag for a product.
+
+
+        This function is used to create a flag for a product or an image.
+
+        A flag is a request for a product or an image to be reviewed.
+
+        A flag is associated with a ticket.
+
+        A ticket is created if it does not exist for this product or image.
+
+        A ticket can be associated with multiple flags.'
+      operationId: create_flag_api_v1_flags_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlagCreate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flag'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Flags
+  /api/v1/flags/{flag_id}:
+    get:
+      summary: Get Flag
+      description: 'Get a flag by ID.
+
+
+        This function is used to get a flag by its ID.'
+      operationId: get_flag_api_v1_flags__flag_id__get
+      parameters:
+      - name: flag_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Flag Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flag'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Flags
+  /api/v1/flags/batch:
+    post:
+      summary: Get Flags By Ticket Batch
+      description: 'Get all flags for tickets by IDs.
+
+
+        This function is used to get all flags for tickets by there IDs.'
+      operationId: get_flags_by_ticket_batch_api_v1_flags_batch_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlagsByTicketIdRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Flags
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SourceType:
+      type: string
+      enum:
+      - mobile
+      - web
+      - robotoff
+      title: SourceType
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    FlagsByTicketIdRequest:
+      properties:
+        ticket_ids:
+          items:
+            type: integer
+          type: array
+          title: Ticket Ids
+      type: object
+      required:
+      - ticket_ids
+      title: FlagsByTicketIdRequest
+    IssueType:
+      type: string
+      enum:
+      - product
+      - image
+      - search
+      title: IssueType
+      description: Type of the flag/ticket.
+    GetFlagsResponse:
+      properties:
+        flags:
+          items:
+            $ref: '#/components/schemas/Flag'
+          type: array
+          title: Flags
+      type: object
+      required:
+      - flags
+      title: GetFlagsResponse
+    Flag:
+      properties:
+        barcode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Barcode
+          description: Barcode of the product, if the flag is about a product or a product image. In case of a search issue, this field is null.
+        type:
+          $ref: '#/components/schemas/IssueType'
+          description: Type of the issue
+        url:
+          type: string
+          title: Url
+          description: URL of the product or of the flagged image
+        user_id:
+          type: string
+          title: User Id
+          description: Open Food Facts User ID of the flagger
+        source:
+          $ref: '#/components/schemas/SourceType'
+          description: Source of the flag. It can be a user from the mobile app, the web or a flag generated automatically by robotoff.
+        confidence:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Confidence
+          description: Confidence score of the model that generated the flag, this field should only be provided by Robotoff.
+        image_id:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Image Id
+          description: ID of the flagged image
+          examples:
+          - '1'
+          - front_fr
+        flavor:
+          $ref: '#/components/schemas/Flavor'
+          description: Flavor (project) associated with the ticket
+        reason:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Reason
+          description: Reason for flagging provided by the user. The field is optional.
+        comment:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Comment
+          description: Comment provided by the user during flagging. This is a free text field.
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Creation datetime of the flag
+        id:
+          type: integer
+          title: Id
+          description: ID of the flag
+        ticket_id:
+          type: integer
+          title: Ticket Id
+          description: ID of the ticket associated with the flag
+        device_id:
+          type: string
+          title: Device Id
+          description: Device ID of the flagger
+      type: object
+      required:
+      - type
+      - url
+      - user_id
+      - source
+      - flavor
+      - id
+      - ticket_id
+      - device_id
+      title: Flag
+    Flavor:
+      type: string
+      enum:
+      - 'off'
+      - obf
+      - opff
+      - opf
+      - off-pro
+      title: Flavor
+      description: 'Flavor is used to refer to a specific Open*Facts project:
+
+
+        - Open Food Facts
+
+        - Open Beauty Facts
+
+        - Open Pet Food Facts
+
+        - Open Product Facts
+
+        - Open Food Facts (Pro plateform)'
+    FlagCreate:
+      properties:
+        barcode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Barcode
+          description: Barcode of the product, if the flag is about a product or a product image. In case of a search issue, this field is null.
+        type:
+          $ref: '#/components/schemas/IssueType'
+          description: Type of the issue
+        url:
+          type: string
+          title: Url
+          description: URL of the product or of the flagged image
+        user_id:
+          type: string
+          title: User Id
+          description: Open Food Facts User ID of the flagger
+        source:
+          $ref: '#/components/schemas/SourceType'
+          description: Source of the flag. It can be a user from the mobile app, the web or a flag generated automatically by robotoff.
+        confidence:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Confidence
+          description: Confidence score of the model that generated the flag, this field should only be provided by Robotoff.
+        image_id:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Image Id
+          description: ID of the flagged image
+          examples:
+          - '1'
+          - front_fr
+        flavor:
+          $ref: '#/components/schemas/Flavor'
+          description: Flavor (project) associated with the ticket
+        reason:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Reason
+          description: Reason for flagging provided by the user. The field is optional.
+        comment:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Comment
+          description: Comment provided by the user during flagging. This is a free text field.
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Creation datetime of the flag
+      type: object
+      required:
+      - type
+      - url
+      - user_id
+      - source
+      - flavor
+      title: FlagCreate

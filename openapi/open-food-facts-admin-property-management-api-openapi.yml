@@ -1,0 +1,235 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts folksonomy REST Admin - Property Management…
+  description: 'Folksonomy Engine API allows you to add free property/value pairs to Open Food Facts products.
+
+
+    The API use the main following variables:
+
+    * **product**: the product number
+
+    * **k**: "key", meaning the property or tag
+
+    * **v**: "value", the value for a related key
+
+
+    ## See also
+
+
+    * Project page
+
+    * Folksonomy Engine github repository
+
+    * Documented properties'
+  version: 0.1.0
+servers:
+- url: https://api.folksonomy.openfoodfacts.org
+  description: Production server
+- url: http://localhost:8000
+  description: Local development server
+tags:
+- name: Admin - Property Management
+paths:
+  /admin/property/check-clash:
+    post:
+      tags:
+      - Admin - Property Management
+      summary: Check Property Clash
+      description: 'Check for potential clashes when renaming a property
+
+
+        Returns information about products that would be affected by the rename:
+
+        - **old_property**: The current property name
+
+        - **new_property**: The target property name
+
+
+        Returns counts and list of conflicting products where both properties exist'
+      operationId: check_property_clash_admin_property_check_clash_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PropertyClashCheckRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyClashCheck'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - OAuth2PasswordBearer: []
+  /admin/property/rename:
+    post:
+      tags:
+      - Admin - Property Management
+      summary: Rename Property
+      description: 'Rename a property across all products
+
+
+        When renaming a property that already exists:
+
+        - If both properties have the same value: keep one entry
+
+        - If both properties have different values: keep the original property''s value
+
+
+        - **old_property**: The current property name
+
+        - **new_property**: The target property name'
+      operationId: rename_property_admin_property_rename_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PropertyRenameRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - OAuth2PasswordBearer: []
+  /admin/property:
+    delete:
+      tags:
+      - Admin - Property Management
+      summary: Delete Property
+      description: 'Delete a property from all products
+
+
+        - **property**: The property name to delete'
+      operationId: delete_property_admin_property_delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PropertyDeleteRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - OAuth2PasswordBearer: []
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    PropertyRenameRequest:
+      properties:
+        old_property:
+          type: string
+          title: Old Property
+        new_property:
+          type: string
+          title: New Property
+      type: object
+      required:
+      - old_property
+      - new_property
+      title: PropertyRenameRequest
+    PropertyClashCheckRequest:
+      properties:
+        old_property:
+          type: string
+          title: Old Property
+        new_property:
+          type: string
+          title: New Property
+      type: object
+      required:
+      - old_property
+      - new_property
+      title: PropertyClashCheckRequest
+    PropertyClashCheck:
+      properties:
+        products_with_both:
+          type: integer
+          title: Products With Both
+        products_with_old_only:
+          type: integer
+          title: Products With Old Only
+        products_with_new_only:
+          type: integer
+          title: Products With New Only
+        conflicting_products:
+          items: {}
+          type: array
+          title: Conflicting Products
+      type: object
+      required:
+      - products_with_both
+      - products_with_old_only
+      - products_with_new_only
+      - conflicting_products
+      title: PropertyClashCheck
+    PropertyDeleteRequest:
+      properties:
+        property:
+          type: string
+          title: Property
+      type: object
+      required:
+      - property
+      title: PropertyDeleteRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: auth

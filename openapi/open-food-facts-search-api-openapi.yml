@@ -1,15 +1,8 @@
 openapi: 3.2.0
 info:
   title: Open Food Facts Search API
-  description: Open Food Facts is a collaborative, free, and open database of food products from around the world. The HTTP API provides read access to product data by barcode, full-text and faceted search, and access to Open Food Facts taxonomies.
-  version: '2.0'
-  contact:
-    name: Open Food Facts
-    url: https://world.openfoodfacts.org/
-    email: reuse@openfoodfacts.org
-  license:
-    name: Open Database License (ODbL)
-    url: https://opendatacommons.org/licenses/odbl/1-0/
+  version: '1.0'
+  description: 'Operations tagged Search across 3 of this provider''s published API definitions: open-food-facts-openapi.yml, open-food-facts-api-v2-openapi.yml, open-food-facts-search-a-licious-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://world.openfoodfacts.org
   description: Worldwide instance
@@ -19,6 +12,10 @@ servers:
     country:
       default: world
       description: Country subdomain (e.g., us, fr, de)
+- description: dev
+  url: https://world.openfoodfacts.net
+- description: proxy (for doc purpose)
+  url: http://localhost:8080
 tags:
 - name: Search
 paths:
@@ -75,3 +72,687 @@ paths:
           description: Paginated product results.
       tags:
       - Search
+    parameters: []
+    servers:
+    - url: https://world.openfoodfacts.org
+      description: Worldwide instance
+    - url: https://{country}.openfoodfacts.org
+      description: Country-specific instance
+      variables:
+        country:
+          default: world
+          description: Country subdomain (e.g., us, fr, de)
+  /search:
+    post:
+      summary: Search
+      operationId: search_search_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchParameters'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Search
+    get:
+      summary: Search Get
+      operationId: search_get_search_get
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: 'The search query, it supports Lucene search query
+
+            syntax (https://lucene.apache.org/core/3_6_0/queryparsersyntax.html). Words
+
+            that are not recognized by the lucene query parser are searched as full text
+
+            search.
+
+
+            Example: `categories_tags:"en:beverages" strawberry brands:"casino"` query use a
+
+            filter clause for categories and brands and look for "strawberry" in multiple
+
+            fields.
+
+
+            The query is optional, but `sort_by` value must then be provided.'
+          title: Q
+        description: 'The search query, it supports Lucene search query
+
+          syntax (https://lucene.apache.org/core/3_6_0/queryparsersyntax.html). Words
+
+          that are not recognized by the lucene query parser are searched as full text
+
+          search.
+
+
+          Example: `categories_tags:"en:beverages" strawberry brands:"casino"` query use a
+
+          filter clause for categories and brands and look for "strawberry" in multiple
+
+          fields.
+
+
+          The query is optional, but `sort_by` value must then be provided.'
+      - name: langs
+        in: query
+        required: false
+        schema:
+          type: string
+          description: 'List of languages we want to support during search.
+
+            This list should include the user expected language, and additional languages (such
+
+            as english for example).
+
+
+            This is currently used for language-specific subfields to choose in which
+
+            subfields we''re searching in.
+
+
+            If not provided, `[''en'']` is used.'
+          title: Langs
+        description: 'List of languages we want to support during search.
+
+          This list should include the user expected language, and additional languages (such
+
+          as english for example).
+
+
+          This is currently used for language-specific subfields to choose in which
+
+          subfields we''re searching in.
+
+
+          If not provided, `[''en'']` is used.'
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Number of results to return per page.
+          default: 10
+          title: Page Size
+        description: Number of results to return per page.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page to request, starts at 1.
+          default: 1
+          title: Page
+        description: Page to request, starts at 1.
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: string
+          description: List of fields to include in the response. All other fields will be ignored.
+          title: Fields
+        description: List of fields to include in the response. All other fields will be ignored.
+      - name: sort_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: '
+
+            Field name to use to sort results, the field should exist
+
+            and be sortable. If it is not provided, results are sorted by descending relevance score.
+
+
+            If you put a minus before the name, the results will be sorted by descending order.
+
+
+            If the field name match a known script (defined in your configuration),
+
+            it will be use for sorting.
+
+
+            In this case you also need to provide additional parameters corresponding to your script parameters.
+
+            If a script needs parameters, you can only use the POST method.
+
+
+            Beware that this may have a big [impact on performance][perf_link]
+
+
+            Also bare in mind [privacy considerations][privacy_link] if your script parameters contains sensible data.
+
+
+            [perf_link]: https://openfoodfacts.github.io/search-a-licious/users/how-to-use-scripts/#performance-considerations
+
+            [privacy_link]: https://openfoodfacts.github.io/search-a-licious/users/how-to-use-scripts/#performance-considerations
+
+            '
+          title: Sort By
+        description: '
+
+          Field name to use to sort results, the field should exist
+
+          and be sortable. If it is not provided, results are sorted by descending relevance score.
+
+
+          If you put a minus before the name, the results will be sorted by descending order.
+
+
+          If the field name match a known script (defined in your configuration),
+
+          it will be use for sorting.
+
+
+          In this case you also need to provide additional parameters corresponding to your script parameters.
+
+          If a script needs parameters, you can only use the POST method.
+
+
+          Beware that this may have a big [impact on performance][perf_link]
+
+
+          Also bare in mind [privacy considerations][privacy_link] if your script parameters contains sensible data.
+
+
+          [perf_link]: https://openfoodfacts.github.io/search-a-licious/users/how-to-use-scripts/#performance-considerations
+
+          [privacy_link]: https://openfoodfacts.github.io/search-a-licious/users/how-to-use-scripts/#performance-considerations
+
+          '
+      - name: facets
+        in: query
+        required: false
+        schema:
+          type: string
+          description: "Name of facets to return in the response as a comma-separated value.\n            If None (default) no facets are returned."
+          title: Facets
+        description: "Name of facets to return in the response as a comma-separated value.\n            If None (default) no facets are returned."
+      - name: charts
+        in: query
+        required: false
+        schema:
+          type: string
+          description: "Name of vega representations to return in the response.\n            Can be distribution chart or scatter plot"
+          title: Charts
+        description: "Name of vega representations to return in the response.\n            Can be distribution chart or scatter plot"
+      - name: index_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: "Index ID to use for the search, if not provided, the default index is used.\n        If there is only one index, this parameter is not needed."
+          title: Index Id
+        description: "Index ID to use for the search, if not provided, the default index is used.\n        If there is only one index, this parameter is not needed."
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/ErrorSearchResponse'
+                - $ref: '#/components/schemas/SuccessSearchResponse'
+                title: Response Search Get Search Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Search
+components:
+  parameters:
+    page_size:
+      schema:
+        type: integer
+        example: 24
+      in: query
+      name: page_size
+      description: 'The number of elements should be sent per page
+
+        '
+    sort_by:
+      schema:
+        type: string
+        example: product_name
+        enum:
+        - product_name
+        - last_modified_t
+        - scans_n
+        - unique_scans_n
+        - created_t
+        - completeness
+        - popularity_key
+        - nutriscore_score
+        - nova_score
+        - nothing
+        - ecoscore_score
+      in: query
+      name: sort_by
+      description: 'The allowed values  used to sort/order the search results.
+
+
+        * `product_name` sorts on name
+
+        * `ecoscore_score`, `nova_score`, `nutriscore_score` rank on the [Eco-Score](https://world.openfoodfacts.org/eco-score-the-environmental-impact-of-food-products), [Nova](https://world.openfoodfacts.org/nova), or [Nutri-Score](https://world.openfoodfacts.org/nutriscore)
+
+        * `scans_n`, `unique_scans_n` and `popularity_key` are about product popularity: number of scans on unique scans, rank of product
+
+        * `created_t`, `last_modified_t`, are about creation and modification dates
+
+        * `nothing`, tells not to sort at all (because if you do not provide the sort_by argument we default to sorting on popularity (for food) or last modification date)
+
+        '
+    page:
+      schema:
+        type: integer
+        example: 24
+      in: query
+      name: page
+      description: 'The page number you request to view (eg. in search results spanning multiple pages)
+
+        '
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SearchResponseDebug:
+      properties:
+        query:
+          type: object
+          title: Query
+      type: object
+      required:
+      - query
+      title: SearchResponseDebug
+    FacetInfo:
+      properties:
+        name:
+          type: string
+          title: Name
+        items:
+          items:
+            $ref: '#/components/schemas/FacetItem'
+          type: array
+          title: Items
+        count_error_margin:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Count Error Margin
+      type: object
+      required:
+      - name
+      - items
+      title: FacetInfo
+      description: Search result for a facet
+    SearchResponseError:
+      properties:
+        title:
+          type: string
+          title: Title
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      required:
+      - title
+      title: SearchResponseError
+    ErrorSearchResponse:
+      properties:
+        debug:
+          $ref: '#/components/schemas/SearchResponseDebug'
+        errors:
+          items:
+            $ref: '#/components/schemas/SearchResponseError'
+          type: array
+          title: Errors
+      type: object
+      required:
+      - debug
+      - errors
+      title: ErrorSearchResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SearchParameters:
+      properties:
+        q:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Q
+          description: 'The search query, it supports Lucene search query
+
+            syntax (https://lucene.apache.org/core/3_6_0/queryparsersyntax.html). Words
+
+            that are not recognized by the lucene query parser are searched as full text
+
+            search.
+
+
+            Example: `categories_tags:"en:beverages" strawberry brands:"casino"` query use a
+
+            filter clause for categories and brands and look for "strawberry" in multiple
+
+            fields.
+
+
+            The query is optional, but `sort_by` value must then be provided.'
+        langs:
+          items:
+            type: string
+          type: array
+          title: Langs
+          description: 'List of languages we want to support during search.
+
+            This list should include the user expected language, and additional languages (such
+
+            as english for example).
+
+
+            This is currently used for language-specific subfields to choose in which
+
+            subfields we''re searching in.
+
+
+            If not provided, `[''en'']` is used.'
+          default:
+          - en
+        page_size:
+          type: integer
+          title: Page Size
+          description: Number of results to return per page.
+          default: 10
+        page:
+          type: integer
+          minimum: 1.0
+          title: Page
+          description: Page to request, starts at 1.
+          default: 1
+        fields:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Fields
+          description: List of fields to include in the response. All other fields will be ignored.
+        sort_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sort By
+          description: '
+
+            Field name to use to sort results, the field should exist
+
+            and be sortable. If it is not provided, results are sorted by descending relevance score.
+
+
+            If you put a minus before the name, the results will be sorted by descending order.
+
+
+            If the field name match a known script (defined in your configuration),
+
+            it will be use for sorting.
+
+
+            In this case you also need to provide additional parameters corresponding to your script parameters.
+
+            If a script needs parameters, you can only use the POST method.
+
+
+            Beware that this may have a big [impact on performance][perf_link]
+
+
+            Also bare in mind [privacy considerations][privacy_link] if your script parameters contains sensible data.
+
+
+            [perf_link]: https://openfoodfacts.github.io/search-a-licious/users/how-to-use-scripts/#performance-considerations
+
+            [privacy_link]: https://openfoodfacts.github.io/search-a-licious/users/how-to-use-scripts/#performance-considerations
+
+            '
+        facets:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Facets
+          description: "Name of facets to return in the response as a comma-separated value.\n            If None (default) no facets are returned."
+        charts:
+          anyOf:
+          - items:
+              anyOf:
+              - $ref: '#/components/schemas/DistributionChartType'
+              - $ref: '#/components/schemas/ScatterChartType'
+            type: array
+          - type: 'null'
+          title: Charts
+          description: "Name of vega representations to return in the response.\n            Can be distribution chart or scatter plot"
+        sort_params:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Sort Params
+          description: "Additional parameters when using  a sort script in sort_by.\n            If the sort script needs parameters, you can only be used the POST method."
+        index_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Index Id
+          description: "Index ID to use for the search, if not provided, the default index is used.\n        If there is only one index, this parameter is not needed."
+      type: object
+      title: SearchParameters
+      description: Common parameters for search
+    ScatterChartType:
+      properties:
+        chart_type:
+          type: string
+          enum:
+          - ScatterChartType
+          const: ScatterChartType
+          title: Chart Type
+          default: ScatterChartType
+        x:
+          type: string
+          title: X
+        y:
+          type: string
+          title: Y
+      type: object
+      required:
+      - x
+      - y
+      title: ScatterChartType
+      description: Describes an entry for a scatter plot
+    FacetItem:
+      properties:
+        key:
+          type: string
+          title: Key
+        name:
+          type: string
+          title: Name
+        count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Count
+        selected:
+          type: boolean
+          title: Selected
+      type: object
+      required:
+      - key
+      - name
+      - count
+      - selected
+      title: FacetItem
+      description: Describes an entry of a facet
+    DistributionChartType:
+      properties:
+        chart_type:
+          type: string
+          enum:
+          - DistributionChartType
+          const: DistributionChartType
+          title: Chart Type
+          default: DistributionChartType
+        field:
+          type: string
+          title: Field
+      type: object
+      required:
+      - field
+      title: DistributionChartType
+      description: Describes an entry for a distribution chart
+    SuccessSearchResponse:
+      properties:
+        hits:
+          items:
+            type: object
+          type: array
+          title: Hits
+        aggregations:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Aggregations
+        facets:
+          anyOf:
+          - additionalProperties:
+              $ref: '#/components/schemas/FacetInfo'
+            type: object
+          - type: 'null'
+          title: Facets
+        charts:
+          anyOf:
+          - additionalProperties:
+              type: object
+            type: object
+          - type: 'null'
+          title: Charts
+        page:
+          type: integer
+          title: Page
+        page_size:
+          type: integer
+          title: Page Size
+        page_count:
+          type: integer
+          title: Page Count
+        debug:
+          $ref: '#/components/schemas/SearchResponseDebug'
+        took:
+          type: integer
+          title: Took
+        timed_out:
+          type: boolean
+          title: Timed Out
+        count:
+          type: integer
+          title: Count
+        is_count_exact:
+          type: boolean
+          title: Is Count Exact
+        warnings:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SearchResponseError'
+            type: array
+          - type: 'null'
+          title: Warnings
+      type: object
+      required:
+      - hits
+      - page
+      - page_size
+      - page_count
+      - debug
+      - took
+      - timed_out
+      - count
+      - is_count_exact
+      title: SuccessSearchResponse
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: session
+      description: 'Session cookie containing user ID, username, and session token.
+
+        The value is structured as: user_id&username&user_session&session_token
+
+        e.g. "user_id&exampleuser&user_session&abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKLM".
+
+        The session token is obtained after successful login via the `/cgi/session.pl` endpoint.
+
+        '
+    userAgentAuth:
+      description: Identification using the User-Agent header. This is recommended in all requests so that we can contact you if there are issues. If we cannot identify the source of problematic API queries, we may have to block them. User-Agent header in the format 'app_name/app_version (URL or contact info)'
+      type: apiKey
+      in: header
+      name: User-Agent
+externalDocs:
+  description: '**IMPORTANT**: Please read the API introduction before using this API.
+
+    '
+  url: https://openfoodfacts.github.io/openfoodfacts-server/api/
+x-refined-from:
+- open-food-facts-openapi.yml
+- open-food-facts-api-v2-openapi.yml
+- open-food-facts-search-a-licious-openapi.json

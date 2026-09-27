@@ -1,0 +1,1147 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts Images API
+  contact:
+    name: Open Food Facts
+    url: https://slack.openfoodfacts.org/
+    email: reuse@openfoodfacts.org
+  termsOfService: https://world.openfoodfacts.org/terms-of-use
+  version: '1.0'
+  description: 'Operations tagged Images across 2 of this provider''s published API definitions: open-food-facts-api-v2-openapi.yml, open-food-facts-api-v3-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- description: dev
+  url: https://world.openfoodfacts.net
+- description: prod
+  url: https://world.openfoodfacts.org
+- description: proxy (for doc purpose)
+  url: http://localhost:8080
+security:
+- userAgentAuth: []
+tags:
+- name: Images
+  description: Endpoints for uploading, cropping, rotating, and managing product images.
+paths:
+  /cgi/product_image_upload.pl:
+    post:
+      tags:
+      - Images
+      summary: Upload Product Image
+      operationId: get-cgi-product_image_upload.pl
+      description: 'Photos are source and proof of data.
+
+        The first photo uploaded for a product is
+
+        auto-selected as the product’s “front” photo.'''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: add_photo_to_existing_product_response
+                type: object
+                properties:
+                  files:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          example: /product/3017620422003/nutella-ferrero
+                        filename:
+                          type: string
+                          example: ''
+                        name:
+                          type: string
+                          example: Nutella - Ferrero - 400g
+                        thumbnailUrl:
+                          type: string
+                          example: /images/products/301/762/042/2003/123.100.jpg
+                        code:
+                          type: string
+                          example: '3017620422003'
+                  image:
+                    type: object
+                    properties:
+                      thumb_url:
+                        type: string
+                        example: 123.100.jpg
+                      imgid:
+                        type: integer
+                        example: 123
+                      crop_url:
+                        type: string
+                        example: 123.400.jpg
+                  imgid:
+                    type: integer
+                    example: 123
+                  status:
+                    type: string
+                    example: status ok
+                  imagefield:
+                    type: string
+                    pattern: ^(((front|ingredients|nutrition|packaging)_[a-z]{2})|other)$
+                    example: front_en
+                  code:
+                    type: string
+                    example: '3017620422003'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              allOf:
+              - type: object
+                properties:
+                  code:
+                    type: string
+                    description: 'Barcode of the product
+
+                      '
+                    example: '3017620422003'
+                  imagefield:
+                    type: string
+                    pattern: ^(((front|ingredients|nutrition|packaging)_[a-z]{2})|other)$
+                    description: "Indicates the type of the image and the corresponding language. It should\nbe in the format `{IMAGE_TYPE}_{LANG}` format, where `IMAGE_TYPE` is one\nof `front|ingredients|nutrition|packaging` and `LANG` is the 2\nletter language code. Use `other` with no language code \nif you don't want the image to be selected.\nNote that the first image of a product is always selected as front picture.\n"
+                    example: front_en
+                  imgupload_front_en:
+                    type: string
+                    format: binary
+                    description: "This field must contain image binary content.\nThe format and extension must be one of gif|jpeg|jpg|png|heic.            \nThis field is dynamic and dependent on the value of imagefield in the\nrequest body. It wil be imgupload_the value of the imagefield stated\nearlier. For example, if `imagefield=front_en`, the name of this field\nshould be `imageupload_front_en`.\n"
+                required:
+                - code
+                - imagefield
+                - imgupload_front_en
+              - type: object
+                description: 'Properties that goes in change ref
+
+                  '
+                properties:
+                  comment:
+                    type: string
+                    description: 'A comment on the contribution. It will be shown in product changes history.
+
+                      Adding meaningful comments help moderators and users understand a single product history.
+
+                      '
+                  app_name:
+                    type: string
+                    description: 'Name of the app providing the information
+
+                      '
+                  app_version:
+                    type: string
+                    description: 'Version of the app providing the information
+
+                      '
+                  app_uuid:
+                    type: string
+                    description: 'When an app uses a single user to log its contributions,
+
+                      it might be interesting to know which user of the app is providing the information.
+
+                      You can use this field to provide an identifier (eg: an sha1 of the username) that''s privacy preserving. Make sure that your salt is strong, perfectly random and secret
+
+
+                      In case we have trouble with one of your user, it helps our moderators revert edits.
+
+                      '
+                  User-Agent:
+                    type: string
+                    description: 'It is required that you pass a specific User-Agent header when you do an API request.
+
+                      But some times it''s not possible to modify such a header
+
+                      (eg. request using JavaScript in a browser).
+
+                      In such cases, you can override it with this parameter.
+
+                      '
+        description: ''
+      security:
+      - cookieAuth: []
+        userAgentAuth: []
+    servers:
+    - description: dev
+      url: https://world.openfoodfacts.net
+    - description: prod
+      url: https://world.openfoodfacts.org
+    - description: proxy (for doc purpose)
+      url: http://localhost:8080
+  /cgi/product_image_crop.pl:
+    post:
+      summary: Select and Crop Image
+      operationId: post-cgi-product_image_crop.pl
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                title: product_image_crop
+                properties:
+                  status:
+                    type: string
+                    examples:
+                    - status ok
+                    - status not ok - image not selected - imgid not in uploaded images
+                    - status not ok - image not selected - image cannot be read
+                  imgid:
+                    type: integer
+                    description: identifier of the processed image
+                    example: 2
+                  imagefield:
+                    type: string
+                    description: 'identifier of the selected image field
+
+                      (corresponding to the `id` parameter)
+
+                      '
+      description: 'Cropping is only relevant for editing existing products.
+
+        You cannot crop an image the first time you upload it to the system.'
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              allOf:
+              - type: object
+                description: 'Select a photo and optionally crop/rotate it.
+
+                  The origin of the cropping coordinates is the top-left corner.
+
+                  Note that rotation is applied *before* cropping, so the cropping bounding box
+
+                  is relative to the rotated image.
+
+                  '
+                required:
+                - id
+                - code
+                - imgid
+                properties:
+                  code:
+                    type: string
+                    description: Barcode of the product.
+                    example: 04963406
+                  imgid:
+                    type: integer
+                    description: identifier of the image to select, it should be a number
+                    example: 2
+                  id:
+                    type: string
+                    description: 'identifier of the selected image field, should be in the format
+
+                      `{IMAGE_TYPE}_{LANG}` format, where `IMAGE_TYPE` is one of
+
+                      `front|ingredients|nutrition|packaging` and `LANG` is the 2 letter
+
+                      language code.
+
+                      Note that if you select an image for the main language of the product (ex:
+
+                      `ingredients_it` if `it` is the main language), this image will be
+
+                      displayed on Product Opener for all languages (ex: on
+
+                      `https://fr.openfoodfacts.org`, unless `ingredients_fr` exists).
+
+
+                      Also note that "other" is not a valid image type,
+
+                      as it makes no sens to crop an image which is not selected.
+
+                      '
+                    pattern: ^(front|ingredients|nutrition|packaging)_[a-z]{2}$
+                    example: front_en
+                  x1:
+                    type: integer
+                    example: 0
+                    description: X origin coordinate of the crop, it must be lower than x2
+                  y1:
+                    type: integer
+                    example: 0
+                    description: Y origin coordinate of the crop, it must be lower than y2
+                  x2:
+                    type: integer
+                    example: 145
+                    description: X end coordinate of the crop, it must be higher than x1
+                  y2:
+                    type: integer
+                    example: 145
+                    description: Y end coordinate of the crop, it must be higher than y1
+                  angle:
+                    type: integer
+                    example: 0
+                    description: 'angle of the rotation to apply on the selected image.
+
+                      passing `90` as value rotate the image 90 degrees counter-clockwise.
+
+                      '
+                  normalize:
+                    type: string
+                    example: 'false'
+                    description: whether the selected image should be normalized using ImageMagick
+                    enum:
+                    - 'true'
+                    - 'false'
+                  white_magic:
+                    type: string
+                    default: 'false'
+                    description: 'whether the source image should be white magiced (background removal) using
+
+                      ImageMagick.
+
+                      '
+                    enum:
+                    - 'true'
+                    - 'false'
+              - type: object
+                description: 'Properties that goes in change ref
+
+                  '
+                properties:
+                  comment:
+                    type: string
+                    description: 'A comment on the contribution. It will be shown in product changes history.
+
+                      Adding meaningful comments help moderators and users understand a single product history.
+
+                      '
+                  app_name:
+                    type: string
+                    description: 'Name of the app providing the information
+
+                      '
+                  app_version:
+                    type: string
+                    description: 'Version of the app providing the information
+
+                      '
+                  app_uuid:
+                    type: string
+                    description: 'When an app uses a single user to log its contributions,
+
+                      it might be interesting to know which user of the app is providing the information.
+
+                      You can use this field to provide an identifier (eg: an sha1 of the username) that''s privacy preserving. Make sure that your salt is strong, perfectly random and secret
+
+
+                      In case we have trouble with one of your user, it helps our moderators revert edits.
+
+                      '
+                  User-Agent:
+                    type: string
+                    description: 'It is required that you pass a specific User-Agent header when you do an API request.
+
+                      But some times it''s not possible to modify such a header
+
+                      (eg. request using JavaScript in a browser).
+
+                      In such cases, you can override it with this parameter.
+
+                      '
+        required: true
+      tags:
+      - Images
+    get:
+      summary: Rotate Image
+      operationId: get-cgi-product_image_crop.pl
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                title: rotate_a_photo_response
+                properties:
+                  status:
+                    type: string
+                    example: status ok
+                  imagefield:
+                    type: string
+                    example: nutrition_fr
+                  image:
+                    type: object
+                    properties:
+                      display_url:
+                        type: string
+                        example: nutrition_fr.67.400.jpg
+      description: 'Although we recommend rotating photos manually and uploading a new version of the image,
+
+        the OFF API allows you to make api calls to automate this process.
+
+        You can rotate existing photos by setting the angle to 90º, 180º, or 270º clockwise.'
+      parameters:
+      - name: code
+        in: query
+        description: Barcode of the product
+        required: true
+        schema:
+          type: string
+          example: '4251105501381'
+      - $ref: '#/components/parameters/id'
+      - $ref: '#/components/parameters/imgid'
+      - $ref: '#/components/parameters/angle'
+      tags:
+      - Images
+    servers:
+    - description: dev
+      url: https://world.openfoodfacts.net
+    - description: prod
+      url: https://world.openfoodfacts.org
+    - description: proxy (for doc purpose)
+      url: http://localhost:8080
+  /cgi/product_image_unselect.pl:
+    post:
+      summary: Unselect Image
+      description: 'This endpoint allows the user to unselect a photo for a product.
+
+        The user must provide the product code and the image ID to unselect.'
+      operationId: post-cgi-product_image_unselect.pl
+      tags:
+      - Images
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              title: unselect_a_photo_request
+              properties:
+                code:
+                  type: string
+                  description: code of the product
+                  example: '4251105501381'
+                id:
+                  type: string
+                  description: image field (image id) of the photo to unselect
+                  example: front_fr
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: unselect_a_photo_response
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: status of the unselect operation
+                    example: status ok
+                  status_code:
+                    type: number
+                    description: status code of the operation
+                    example: 0
+                  imagefield:
+                    type: string
+                    example: front_fr
+                    description: image field that was unselected
+    servers:
+    - description: dev
+      url: https://world.openfoodfacts.net
+    - description: prod
+      url: https://world.openfoodfacts.org
+    - description: proxy (for doc purpose)
+      url: http://localhost:8080
+  /api/v3/product/{code}/images:
+    post:
+      tags:
+      - Images
+      summary: Upload Product Image
+      operationId: post-api-v3-product-code-images
+      description: 'This endpoint allows to upload an image for a product. The image is uploaded in the request body as a base64 encoded string.
+
+        Optionally, it is possible to select the uploaded image for specific information (e.g. front, ingredients, nutrition, packaging) for specific languages. Each selected image is a cropped version of the uploaded image.
+
+
+        If the product does not exist, it will be created.'
+      parameters:
+      - name: code
+        in: path
+        description: 'The barcode of the product corresponding to the image.
+
+          '
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: '3017620422003'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - title: Language and country of the user
+                type: object
+                properties:
+                  lc:
+                    type: string
+                    description: 2 letter code of the language of the interface. Used for localizing some fields in returned values (e.g. knowledge panels). If not passed, the language may be inferred by the country of the user (passed through the cc field or inferred by the IP address). Full list at https://static.openfoodfacts.org/data/taxonomies/languages.json
+                  cc:
+                    type: string
+                    description: 2 letter code of the country of the user. Used for localizing some fields in returned values (e.g. knowledge panels). If not passed, the country may be inferred by the IP address of the request. Full list at https://static.openfoodfacts.org/data/taxonomies/countries.json
+                description: ''
+                examples:
+                - lc: fr
+                  cc: fr
+              - type: object
+                properties:
+                  user_id:
+                    type: string
+                    description: 'Username for login
+
+
+                      Note: you must always use the username (and not the email)
+
+                      as it is far less brittle.
+
+                      '
+                  password:
+                    type: string
+                    description: Password for login
+                    format: password
+                  image_data_base64:
+                    type: string
+                    description: 'Base64 encoded image data (supported formats: JPEG, PNG, GIF, HEIC)'
+                  selected:
+                    type: object
+                    title: Selected images
+                    description: 'Optional instructions to select (and possibly crop) the uploaded image for specific information (e.g. front, ingredients, nutrition, packaging) for specific languages.
+
+                      '
+                    properties:
+                      front:
+                        description: 'Front images of the full product in languages shown on the packaging.
+
+                          In most cases we have a front image selected for only one language,
+
+                          unless the product has different packagings for different countries with the same barcode,
+
+                          or if the product has two front sides (e.g. in bilingual countries).
+
+                          '
+                        patternProperties:
+                          (?<language_code>\w\w):
+                            oneOf:
+                            - type: object
+                              description: 'Front image in the language given by the 2 letter ''language_code''.
+
+                                '
+                              $ref: '#/components/schemas/ImageSelected'
+                            - type: 'null'
+                              writeOnly: true
+                              description: 'Write only value to unselect a selected image
+
+                                '
+                      ingredients:
+                        description: 'Cropped images of the ingredients list in languages shown on the packaging.
+
+                          '
+                        patternProperties:
+                          (?<language_code>\w\w):
+                            oneOf:
+                            - type: object
+                              description: 'Ingredient list image in the language given by the 2 letter ''language_code''.
+
+                                '
+                              $ref: '#/components/schemas/ImageSelected'
+                            - type: 'null'
+                              writeOnly: true
+                              description: "Write only value to unselect a selected image              \n"
+                      nutrition:
+                        description: 'Cropped images of the nutrition facts table / list in languages shown on the packaging.
+
+                          '
+                        patternProperties:
+                          (?<language_code>\w\w):
+                            oneOf:
+                            - type: object
+                              description: 'Nutrition facts image in the language given by the 2 letter ''language_code''.
+
+                                '
+                              $ref: '#/components/schemas/ImageSelected'
+                            - type: 'null'
+                              writeOnly: true
+                              description: 'Write only value to unselect a selected image
+
+                                '
+                      packaging:
+                        description: 'Cropped images of the packaging / recycling information in languages shown on the packaging.
+
+                          '
+                        patternProperties:
+                          (?<language_code>\w\w):
+                            oneOf:
+                            - type: object
+                              description: 'Packaging / recycling information image in the language given by the 2 letter ''language_code''.
+
+                                '
+                              $ref: '#/components/schemas/ImageSelected'
+                            - type: 'null'
+                              writeOnly: true
+                              description: 'Write only value to unselect a selected image
+
+                                '
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+        description: 'Image data for the product is passed in the image_data_base64 field as a base64 encoded string.
+
+          '
+      security:
+      - cookieAuth: []
+        userAgentAuth: []
+      responses:
+        '200':
+          description: 'The response will include a "product" structure. The fields returned in this structure will depend on the value of the "fields" input field:
+
+
+            - "updated" (default): all fields updated by the query will be returned, including fields that are directly generated from the updated fields. For instance, sending "packagings" or "packagings_add" will return the "packagings" field.
+
+
+            - "none": no fields are returned.
+
+
+            - "all": returns all fields except generated fields that need to be explicitly requested such as "knowledge_panels".
+
+
+            The "fields" values can also be concatenated: "all,knowledge_panels"'
+          content:
+            application/json:
+              schema:
+                allOf:
+                - title: Response status
+                  type: object
+                  description: A response object to describe if a READ or WRITE request was successful or not, and if there were errors or warnings, and what the impact of those errors or warnings was.
+                  examples:
+                  - status: success_with_errors
+                    result:
+                      id: product_updated
+                      name: Product updated
+                      lc_name: Produit mis à jour
+                    errors:
+                    - message:
+                        id: sugars_higher_than_carbohydrates
+                        name: Sugars higher than carbohydrates
+                        lc_name: Sucres plus élevés que les glucides
+                        description: Sugars (40g) are higher than carbohydrates (35g).
+                        lc_description: Les sucres (40g) sont plus élévés que les glucdes.
+                      field:
+                        id: nutriment.sugars
+                        value: '40'
+                      impact:
+                        id: nutrients_not_updated
+                        name: Nutrients not updated
+                        lc_name: Nutriments non mis à jour
+                        description: The nutrients were not updated.
+                        lc_description: Les nutriments n'ont pas été mis à jour.
+                  properties:
+                    status:
+                      type: string
+                      enum:
+                      - success
+                      - success_with_warnings
+                      - success_with_errors
+                      - failure
+                      description: 'Overall status of the request: whether it failed or succeeded, with or without warnings or errors.'
+                    result:
+                      type: object
+                      description: 'Overall result
+
+                        of the request (e.g. a product has been created)'
+                      properties:
+                        id:
+                          type: string
+                          description: Identifier of a response result entry
+                        name:
+                          type: string
+                          description: Name of the response result entry in English.
+                        lc_name:
+                          type: string
+                          description: Name of the response result entry in the language specified in tags_lc, if supplied.
+                    warnings:
+                      type: array
+                      description: List of warnings. Warnings are used to alert about something that may be wrong, but is not necessarily wrong (e.g. a nutrient value that is unexpectedly high).
+                      items:
+                        title: Warning or error message
+                        x-stoplight:
+                          id: eakkz8p7qfoj0
+                        type: object
+                        description: Describes a warning or error for a READ or WRITE request, which field triggered it, and what the impact was (e.g. the field was ignored).
+                        examples:
+                        - message:
+                            id: sugars_higher_than_carbohydrates
+                            name: Sugars higher than carbohydrates
+                            lc_name: Sucres plus élevés que les glucides
+                            description: Sugars (40g) are higher than carbohydrates (35g).
+                            lc_description: Les sucres (40g) sont plus élévés que les glucdes.
+                          field:
+                            id: nutriment.sugars
+                            value: '40'
+                          impact:
+                            id: nutrients_not_updated
+                            name: Nutrients not updated
+                            lc_name: Nutriments non mis à jour
+                            description: The nutrients were not updated.
+                            lc_description: Les nutriments n'ont pas été mis à jour.
+                        properties:
+                          message:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                description: 'Identifier of a response message.
+
+                                  '
+                              name:
+                                type: string
+                                description: Name of the response message entry in English.
+                              lc_name:
+                                type: string
+                                description: Name of the response message entry in the language specified in tags_lc, if supplied.
+                              description:
+                                type: string
+                                description: Description of the problem specific to the request, in English.
+                              lc_description:
+                                type: string
+                                description: Description of the problem specific to the request, in the language specified in tags_lc, if supplied.
+                          field:
+                            type: object
+                            description: Field that triggered the warning or error.
+                            properties:
+                              id:
+                                type: string
+                                description: Name of the field that triggered the warning or error.
+                              value:
+                                type: string
+                                description: Value of the field that triggered the warning or error.
+                          impact:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              name:
+                                type: string
+                              lc_name:
+                                type: string
+                              description:
+                                type: string
+                              lc_description:
+                                type: string
+                    errors:
+                      type: array
+                      description: List of errors. Errors are used to alert about something that is definitely wrong (e.g. a nutrient value that is impossibly high).
+                      items:
+                        title: Warning or error message
+                        x-stoplight:
+                          id: eakkz8p7qfoj0
+                        type: object
+                        description: Describes a warning or error for a READ or WRITE request, which field triggered it, and what the impact was (e.g. the field was ignored).
+                        examples:
+                        - message:
+                            id: sugars_higher_than_carbohydrates
+                            name: Sugars higher than carbohydrates
+                            lc_name: Sucres plus élevés que les glucides
+                            description: Sugars (40g) are higher than carbohydrates (35g).
+                            lc_description: Les sucres (40g) sont plus élévés que les glucdes.
+                          field:
+                            id: nutriment.sugars
+                            value: '40'
+                          impact:
+                            id: nutrients_not_updated
+                            name: Nutrients not updated
+                            lc_name: Nutriments non mis à jour
+                            description: The nutrients were not updated.
+                            lc_description: Les nutriments n'ont pas été mis à jour.
+                        properties:
+                          message:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                description: 'Identifier of a response message.
+
+                                  '
+                              name:
+                                type: string
+                                description: Name of the response message entry in English.
+                              lc_name:
+                                type: string
+                                description: Name of the response message entry in the language specified in tags_lc, if supplied.
+                              description:
+                                type: string
+                                description: Description of the problem specific to the request, in English.
+                              lc_description:
+                                type: string
+                                description: Description of the problem specific to the request, in the language specified in tags_lc, if supplied.
+                          field:
+                            type: object
+                            description: Field that triggered the warning or error.
+                            properties:
+                              id:
+                                type: string
+                                description: Name of the field that triggered the warning or error.
+                              value:
+                                type: string
+                                description: Value of the field that triggered the warning or error.
+                          impact:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              name:
+                                type: string
+                              lc_name:
+                                type: string
+                              description:
+                                type: string
+                              lc_description:
+                                type: string
+                - type: object
+                  properties:
+                    product:
+                      properties:
+                        images:
+                          type: object
+                          properties:
+                            uploaded:
+                              description: 'List with only the image just uploaded by the user. The key is the image id (imgid) and the value is an object with the image data.
+
+                                '
+                              type: object
+                              title: images_uploaded
+                              patternProperties:
+                                (?<imgid>\d+):
+                                  type: object
+                                  title: Uploaded image
+                                  description: 'Image uploaded by a user or provided by a manufacturer identified by an integer ''imgid''.
+
+                                    '
+                                  properties:
+                                    uploader:
+                                      type: string
+                                      description: 'userid of the user who uploaded the image.
+
+                                        '
+                                      example: stephane
+                                    sizes:
+                                      title: Images Sizes
+                                      type: object
+                                      description: 'Contains the information about the images of a product in different sizes.
+
+                                        The reduced images are the ones with numbers as the key(100, 200 and 400)
+
+                                        while the full images have `full` as the key.
+
+                                        '
+                                      properties:
+                                        '100':
+                                          $ref: '#/components/schemas/ImageSize'
+                                        '200':
+                                          $ref: '#/components/schemas/ImageSize'
+                                        '400':
+                                          $ref: '#/components/schemas/ImageSize'
+                                        full:
+                                          $ref: '#/components/schemas/ImageSize'
+    servers:
+    - url: https://world.openfoodfacts.org
+      description: prod
+    - description: dev
+      url: https://world.openfoodfacts.net
+  /api/v3/product/{code}/images/uploaded/{imgid}:
+    delete:
+      tags:
+      - Images
+      summary: Delete Product Image
+      operationId: delete-api-v3-product-code-images-uploaded-imgid
+      description: 'This endpoint allows to delete an uploaded image for a product.
+
+        Selected images that are cropped from it will also be deleted.
+
+
+        Image deletion is allowed only for moderators and admins, so the request must be authenticated with a session cookie or userid and password.'
+      parameters:
+      - name: code
+        in: path
+        description: 'The barcode of the product corresponding to the image.
+
+          '
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: '3017620422003'
+      - name: imgid
+        in: path
+        description: 'The id of the image to be deleted.
+
+          '
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 2
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                - title: Response status
+                  type: object
+                  description: A response object to describe if a READ or WRITE request was successful or not, and if there were errors or warnings, and what the impact of those errors or warnings was.
+                  examples:
+                  - status: success_with_errors
+                    result:
+                      id: product_updated
+                      name: Product updated
+                      lc_name: Produit mis à jour
+                    errors:
+                    - message:
+                        id: sugars_higher_than_carbohydrates
+                        name: Sugars higher than carbohydrates
+                        lc_name: Sucres plus élevés que les glucides
+                        description: Sugars (40g) are higher than carbohydrates (35g).
+                        lc_description: Les sucres (40g) sont plus élévés que les glucdes.
+                      field:
+                        id: nutriment.sugars
+                        value: '40'
+                      impact:
+                        id: nutrients_not_updated
+                        name: Nutrients not updated
+                        lc_name: Nutriments non mis à jour
+                        description: The nutrients were not updated.
+                        lc_description: Les nutriments n'ont pas été mis à jour.
+                  properties:
+                    status:
+                      type: string
+                      enum:
+                      - success
+                      - success_with_warnings
+                      - success_with_errors
+                      - failure
+                      description: 'Overall status of the request: whether it failed or succeeded, with or without warnings or errors.'
+                    result:
+                      type: object
+                      description: 'Overall result
+
+                        of the request (e.g. a product has been created)'
+                      properties:
+                        id:
+                          type: string
+                          description: Identifier of a response result entry
+                        name:
+                          type: string
+                          description: Name of the response result entry in English.
+                        lc_name:
+                          type: string
+                          description: Name of the response result entry in the language specified in tags_lc, if supplied.
+                    warnings:
+                      type: array
+                      description: List of warnings. Warnings are used to alert about something that may be wrong, but is not necessarily wrong (e.g. a nutrient value that is unexpectedly high).
+                      items:
+                        title: Warning or error message
+                        x-stoplight:
+                          id: eakkz8p7qfoj0
+                        type: object
+                        description: Describes a warning or error for a READ or WRITE request, which field triggered it, and what the impact was (e.g. the field was ignored).
+                        examples:
+                        - message:
+                            id: sugars_higher_than_carbohydrates
+                            name: Sugars higher than carbohydrates
+                            lc_name: Sucres plus élevés que les glucides
+                            description: Sugars (40g) are higher than carbohydrates (35g).
+                            lc_description: Les sucres (40g) sont plus élévés que les glucdes.
+                          field:
+                            id: nutriment.sugars
+                            value: '40'
+                          impact:
+                            id: nutrients_not_updated
+                            name: Nutrients not updated
+                            lc_name: Nutriments non mis à jour
+                            description: The nutrients were not updated.
+                            lc_description: Les nutriments n'ont pas été mis à jour.
+                        properties:
+                          message:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                description: 'Identifier of a response message.
+
+                                  '
+                              name:
+                                type: string
+                                description: Name of the response message entry in English.
+                              lc_name:
+                                type: string
+                                description: Name of the response message entry in the language specified in tags_lc, if supplied.
+                              description:
+                                type: string
+                                description: Description of the problem specific to the request, in English.
+                              lc_description:
+                                type: string
+                                description: Description of the problem specific to the request, in the language specified in tags_lc, if supplied.
+                          field:
+                            type: object
+                            description: Field that triggered the warning or error.
+                            properties:
+                              id:
+                                type: string
+                                description: Name of the field that triggered the warning or error.
+                              value:
+                                type: string
+                                description: Value of the field that triggered the warning or error.
+                          impact:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              name:
+                                type: string
+                              lc_name:
+                                type: string
+                              description:
+                                type: string
+                              lc_description:
+                                type: string
+                    errors:
+                      type: array
+                      description: List of errors. Errors are used to alert about something that is definitely wrong (e.g. a nutrient value that is impossibly high).
+                      items:
+                        title: Warning or error message
+                        x-stoplight:
+                          id: eakkz8p7qfoj0
+                        type: object
+                        description: Describes a warning or error for a READ or WRITE request, which field triggered it, and what the impact was (e.g. the field was ignored).
+                        examples:
+                        - message:
+                            id: sugars_higher_than_carbohydrates
+                            name: Sugars higher than carbohydrates
+                            lc_name: Sucres plus élevés que les glucides
+                            description: Sugars (40g) are higher than carbohydrates (35g).
+                            lc_description: Les sucres (40g) sont plus élévés que les glucdes.
+                          field:
+                            id: nutriment.sugars
+                            value: '40'
+                          impact:
+                            id: nutrients_not_updated
+                            name: Nutrients not updated
+                            lc_name: Nutriments non mis à jour
+                            description: The nutrients were not updated.
+                            lc_description: Les nutriments n'ont pas été mis à jour.
+                        properties:
+                          message:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                description: 'Identifier of a response message.
+
+                                  '
+                              name:
+                                type: string
+                                description: Name of the response message entry in English.
+                              lc_name:
+                                type: string
+                                description: Name of the response message entry in the language specified in tags_lc, if supplied.
+                              description:
+                                type: string
+                                description: Description of the problem specific to the request, in English.
+                              lc_description:
+                                type: string
+                                description: Description of the problem specific to the request, in the language specified in tags_lc, if supplied.
+                          field:
+                            type: object
+                            description: Field that triggered the warning or error.
+                            properties:
+                              id:
+                                type: string
+                                description: Name of the field that triggered the warning or error.
+                              value:
+                                type: string
+                                description: Value of the field that triggered the warning or error.
+                          impact:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              name:
+                                type: string
+                              lc_name:
+                                type: string
+                              description:
+                                type: string
+                              lc_description:
+                                type: string
+        '403':
+          description: User not authenticated or not allowed to delete the image
+        '404':
+          description: Product or image not found
+      security:
+      - cookieAuth: []
+        userAgentAuth: []
+    servers:
+    - url: https://world.openfoodfacts.org
+      description: prod
+    - description: dev
+      url: https://world.openfoodfacts.net
+components:
+  parameters:
+    imgid:
+      schema:
+        type: string
+        example: '1'
+      in: query
+      name: imgid
+      required: true
+    id:
+      schema:
+        type: string
+        example: ingredients_en
+      in: query
+      name: id
+      required: true
+    angle:
+      schema:
+        type: string
+        example: '90'
+      in: query
+      name: angle
+      required: true
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: session
+      description: 'Session cookie containing user ID, username, and session token.
+
+        The value is structured as: user_id&username&user_session&session_token
+
+        e.g. "user_id&exampleuser&user_session&abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKLM".
+
+        The session token is obtained after successful login via the `/cgi/session.pl` endpoint.
+
+        '
+    userAgentAuth:
+      description: Identification using the User-Agent header. This is recommended in all requests so that we can contact you if there are issues. If we cannot identify the source of problematic API queries, we may have to block them. User-Agent header in the format 'app_name/app_version (URL or contact info)'
+      type: apiKey
+      in: header
+      name: User-Agent
+externalDocs:
+  description: '**IMPORTANT**: Please read the API introduction before using this API.
+
+    '
+  url: https://openfoodfacts.github.io/openfoodfacts-server/api/
+x-refined-from:
+- open-food-facts-api-v2-openapi.yml
+- open-food-facts-api-v3-openapi.yml

@@ -1,0 +1,87 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts folksonomy REST System API
+  description: 'Folksonomy Engine API allows you to add free property/value pairs to Open Food Facts products.
+
+
+    The API use the main following variables:
+
+    * **product**: the product number
+
+    * **k**: "key", meaning the property or tag
+
+    * **v**: "value", the value for a related key
+
+
+    ## See also
+
+
+    * Project page
+
+    * Folksonomy Engine github repository
+
+    * Documented properties'
+  version: 0.1.0
+servers:
+- url: https://api.folksonomy.openfoodfacts.org
+  description: Production server
+- url: http://localhost:8000
+  description: Local development server
+tags:
+- name: System
+  description: System health and general API information
+paths:
+  /:
+    get:
+      tags:
+      - System
+      summary: Hello
+      operationId: hello__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloResponse'
+  /ping:
+    get:
+      tags:
+      - System
+      summary: Pong
+      description: Check server health
+      operationId: pong_ping_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PingResponse'
+components:
+  schemas:
+    PingResponse:
+      properties:
+        ping:
+          type: string
+          title: Ping
+      type: object
+      required:
+      - ping
+      title: PingResponse
+    HelloResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: HelloResponse
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: auth

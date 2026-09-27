@@ -1,0 +1,335 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts open-prices REST Receipt Items API
+  version: 0.0.0 (api)
+  description: Open Prices API allows you to add product prices
+  contact:
+    name: The Open Food Facts team
+    url: https://world.openfoodfacts.org
+    email: contact@openfoodfacts.org
+  license:
+    name: ' AGPL-3.0'
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+tags:
+- name: receipt-items
+paths:
+  /api/v1/receipt-items:
+    get:
+      operationId: receipt_items_list
+      parameters:
+      - in: query
+        name: created__gte
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created__lte
+        schema:
+          type: string
+          format: date-time
+      - name: order_by
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: proof__owner
+        schema:
+          type: string
+      - in: query
+        name: proof_id
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: status
+        schema:
+          enum:
+          - 0
+          - 1
+        description: 'The current status of the item
+
+
+          * `0` - deleted
+
+          * `1` - linked_to_price'
+      - in: query
+        name: status__isnull
+        schema:
+          type: boolean
+      tags:
+      - receipt-items
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReceiptItemFullList'
+          description: ''
+      summary: Receipt items list
+      x-summary-source: derived
+    post:
+      operationId: receipt_items_create
+      tags:
+      - receipt-items
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReceiptItemFull'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ReceiptItemFull'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ReceiptItemFull'
+        required: true
+      security:
+      - CustomAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiptItemFull'
+          description: ''
+      summary: Receipt items create
+      x-summary-source: derived
+  /api/v1/receipt-items/{id}:
+    get:
+      operationId: receipt_items_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Receipt Item.
+        required: true
+      tags:
+      - receipt-items
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiptItemFull'
+          description: ''
+      summary: Receipt items retrieve
+      x-summary-source: derived
+    patch:
+      operationId: receipt_items_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Receipt Item.
+        required: true
+      tags:
+      - receipt-items
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedReceiptItemFull'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedReceiptItemFull'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedReceiptItemFull'
+      security:
+      - CustomAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiptItemFull'
+          description: ''
+      summary: Receipt items partial update
+      x-summary-source: derived
+    delete:
+      operationId: receipt_items_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Receipt Item.
+        required: true
+      tags:
+      - receipt-items
+      security:
+      - CustomAuthentication: []
+      responses:
+        '204':
+          description: No response body
+      summary: Receipt items destroy
+      x-summary-source: derived
+components:
+  schemas:
+    PaginatedReceiptItemFullList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceiptItemFull'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    BlankEnum:
+      enum:
+      - ''
+    NullEnum:
+      enum:
+      - null
+    ReceiptItemFull:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        proof_id:
+          type: integer
+        price_id:
+          type: integer
+        order:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: The order of the item in the receipt. Item on top is 1.
+        predicted_data:
+          description: A dict representing the predicted data of the receipt item. For example the product name, the price etc.
+        status:
+          description: 'The current status of the item
+
+
+            * `0` - deleted
+
+            * `1` - linked_to_price'
+          oneOf:
+          - $ref: '#/components/schemas/ReceiptItemFullStatusEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        schema_version:
+          type:
+          - string
+          - 'null'
+          description: The schema version of the predicted data. Used to handle changes in the prediction data structure.
+          maxLength: 20
+        created:
+          type: string
+          format: date-time
+          description: When the item was created in DB
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+          description: When the item was last updated
+        proof_prediction:
+          type:
+          - integer
+          - 'null'
+          description: The proof prediction used to create this receipt item. Null if created by a user.
+      required:
+      - id
+      - order
+      - price_id
+      - proof_id
+      - updated
+    ReceiptItemFullStatusEnum:
+      enum:
+      - 0
+      - 1
+      description: '* `0` - deleted
+
+        * `1` - linked_to_price'
+    PatchedReceiptItemFull:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        proof_id:
+          type: integer
+        price_id:
+          type: integer
+        order:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: The order of the item in the receipt. Item on top is 1.
+        predicted_data:
+          description: A dict representing the predicted data of the receipt item. For example the product name, the price etc.
+        status:
+          description: 'The current status of the item
+
+
+            * `0` - deleted
+
+            * `1` - linked_to_price'
+          oneOf:
+          - $ref: '#/components/schemas/ReceiptItemFullStatusEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        schema_version:
+          type:
+          - string
+          - 'null'
+          description: The schema version of the predicted data. Used to handle changes in the prediction data structure.
+          maxLength: 20
+        created:
+          type: string
+          format: date-time
+          description: When the item was created in DB
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+          description: When the item was last updated
+        proof_prediction:
+          type:
+          - integer
+          - 'null'
+          description: The proof prediction used to create this receipt item. Null if created by a user.
+  securitySchemes:
+    CustomAuthentication:
+      type: http
+      scheme: bearer

@@ -1,0 +1,5386 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts open-prices REST Proofs API
+  version: 0.0.0 (api)
+  description: Open Prices API allows you to add product prices
+  contact:
+    name: The Open Food Facts team
+    url: https://world.openfoodfacts.org
+    email: contact@openfoodfacts.org
+  license:
+    name: ' AGPL-3.0'
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+tags:
+- name: proofs
+paths:
+  /api/v1/proofs:
+    get:
+      operationId: proofs_list
+      parameters:
+      - in: query
+        name: created__gte
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created__lte
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: currency
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ADP
+          - AED
+          - AFA
+          - AFN
+          - ALK
+          - ALL
+          - AMD
+          - ANG
+          - AOA
+          - AOK
+          - AON
+          - AOR
+          - ARA
+          - ARL
+          - ARM
+          - ARP
+          - ARS
+          - ATS
+          - AUD
+          - AWG
+          - AZM
+          - AZN
+          - BAD
+          - BAM
+          - BAN
+          - BBD
+          - BDT
+          - BEC
+          - BEF
+          - BEL
+          - BGL
+          - BGM
+          - BGN
+          - BGO
+          - BHD
+          - BIF
+          - BMD
+          - BND
+          - BOB
+          - BOL
+          - BOP
+          - BOV
+          - BRB
+          - BRC
+          - BRE
+          - BRL
+          - BRN
+          - BRR
+          - BRZ
+          - BSD
+          - BTN
+          - BUK
+          - BWP
+          - BYB
+          - BYN
+          - BYR
+          - BZD
+          - CAD
+          - CDF
+          - CHE
+          - CHF
+          - CHW
+          - CLE
+          - CLF
+          - CLP
+          - CNH
+          - CNX
+          - CNY
+          - COP
+          - COU
+          - CRC
+          - CSD
+          - CSK
+          - CUC
+          - CUP
+          - CVE
+          - CYP
+          - CZK
+          - DDM
+          - DEM
+          - DJF
+          - DKK
+          - DOP
+          - DZD
+          - ECS
+          - ECV
+          - EEK
+          - EGP
+          - ERN
+          - ESA
+          - ESB
+          - ESP
+          - ETB
+          - EUR
+          - FIM
+          - FJD
+          - FKP
+          - FRF
+          - GBP
+          - GEK
+          - GEL
+          - GHC
+          - GHS
+          - GIP
+          - GMD
+          - GNF
+          - GNS
+          - GQE
+          - GRD
+          - GTQ
+          - GWE
+          - GWP
+          - GYD
+          - HKD
+          - HNL
+          - HRD
+          - HRK
+          - HTG
+          - HUF
+          - IDR
+          - IEP
+          - ILP
+          - ILR
+          - ILS
+          - INR
+          - IQD
+          - IRR
+          - ISJ
+          - ISK
+          - ITL
+          - JMD
+          - JOD
+          - JPY
+          - KES
+          - KGS
+          - KHR
+          - KMF
+          - KPW
+          - KRH
+          - KRO
+          - KRW
+          - KWD
+          - KYD
+          - KZT
+          - LAK
+          - LBP
+          - LKR
+          - LRD
+          - LSL
+          - LTL
+          - LTT
+          - LUC
+          - LUF
+          - LUL
+          - LVL
+          - LVR
+          - LYD
+          - MAD
+          - MAF
+          - MCF
+          - MDC
+          - MDL
+          - MGA
+          - MGF
+          - MKD
+          - MKN
+          - MLF
+          - MMK
+          - MNT
+          - MOP
+          - MRO
+          - MRU
+          - MTL
+          - MTP
+          - MUR
+          - MVP
+          - MVR
+          - MWK
+          - MXN
+          - MXP
+          - MXV
+          - MYR
+          - MZE
+          - MZM
+          - MZN
+          - NAD
+          - NGN
+          - NIC
+          - NIO
+          - NLG
+          - NOK
+          - NPR
+          - NZD
+          - OMR
+          - PAB
+          - PEI
+          - PEN
+          - PES
+          - PGK
+          - PHP
+          - PKR
+          - PLN
+          - PLZ
+          - PTE
+          - PYG
+          - QAR
+          - RHD
+          - ROL
+          - RON
+          - RSD
+          - RUB
+          - RUR
+          - RWF
+          - SAR
+          - SBD
+          - SCR
+          - SDD
+          - SDG
+          - SDP
+          - SEK
+          - SGD
+          - SHP
+          - SIT
+          - SKK
+          - SLE
+          - SLL
+          - SOS
+          - SRD
+          - SRG
+          - SSP
+          - STD
+          - STN
+          - SUR
+          - SVC
+          - SYP
+          - SZL
+          - THB
+          - TJR
+          - TJS
+          - TMM
+          - TMT
+          - TND
+          - TOP
+          - TPE
+          - TRL
+          - TRY
+          - TTD
+          - TWD
+          - TZS
+          - UAH
+          - UAK
+          - UGS
+          - UGX
+          - USD
+          - USN
+          - USS
+          - UYI
+          - UYP
+          - UYU
+          - UYW
+          - UZS
+          - VEB
+          - VED
+          - VEF
+          - VES
+          - VND
+          - VNN
+          - VUV
+          - WST
+          - XAF
+          - XAG
+          - XAU
+          - XBA
+          - XBB
+          - XBC
+          - XBD
+          - XCD
+          - XCG
+          - XDR
+          - XEU
+          - XFO
+          - XFU
+          - XOF
+          - XPD
+          - XPF
+          - XPT
+          - XRE
+          - XSU
+          - XTS
+          - XUA
+          - XXX
+          - YDD
+          - YER
+          - YUD
+          - YUM
+          - YUN
+          - YUR
+          - ZAL
+          - ZAR
+          - ZMK
+          - ZMW
+          - ZRN
+          - ZRZ
+          - ZWD
+          - ZWG
+          - ZWL
+          - ZWR
+        description: '* `ADP` - ADP
+
+          * `AED` - AED
+
+          * `AFA` - AFA
+
+          * `AFN` - AFN
+
+          * `ALK` - ALK
+
+          * `ALL` - ALL
+
+          * `AMD` - AMD
+
+          * `ANG` - ANG
+
+          * `AOA` - AOA
+
+          * `AOK` - AOK
+
+          * `AON` - AON
+
+          * `AOR` - AOR
+
+          * `ARA` - ARA
+
+          * `ARL` - ARL
+
+          * `ARM` - ARM
+
+          * `ARP` - ARP
+
+          * `ARS` - ARS
+
+          * `ATS` - ATS
+
+          * `AUD` - AUD
+
+          * `AWG` - AWG
+
+          * `AZM` - AZM
+
+          * `AZN` - AZN
+
+          * `BAD` - BAD
+
+          * `BAM` - BAM
+
+          * `BAN` - BAN
+
+          * `BBD` - BBD
+
+          * `BDT` - BDT
+
+          * `BEC` - BEC
+
+          * `BEF` - BEF
+
+          * `BEL` - BEL
+
+          * `BGL` - BGL
+
+          * `BGM` - BGM
+
+          * `BGN` - BGN
+
+          * `BGO` - BGO
+
+          * `BHD` - BHD
+
+          * `BIF` - BIF
+
+          * `BMD` - BMD
+
+          * `BND` - BND
+
+          * `BOB` - BOB
+
+          * `BOL` - BOL
+
+          * `BOP` - BOP
+
+          * `BOV` - BOV
+
+          * `BRB` - BRB
+
+          * `BRC` - BRC
+
+          * `BRE` - BRE
+
+          * `BRL` - BRL
+
+          * `BRN` - BRN
+
+          * `BRR` - BRR
+
+          * `BRZ` - BRZ
+
+          * `BSD` - BSD
+
+          * `BTN` - BTN
+
+          * `BUK` - BUK
+
+          * `BWP` - BWP
+
+          * `BYB` - BYB
+
+          * `BYN` - BYN
+
+          * `BYR` - BYR
+
+          * `BZD` - BZD
+
+          * `CAD` - CAD
+
+          * `CDF` - CDF
+
+          * `CHE` - CHE
+
+          * `CHF` - CHF
+
+          * `CHW` - CHW
+
+          * `CLE` - CLE
+
+          * `CLF` - CLF
+
+          * `CLP` - CLP
+
+          * `CNH` - CNH
+
+          * `CNX` - CNX
+
+          * `CNY` - CNY
+
+          * `COP` - COP
+
+          * `COU` - COU
+
+          * `CRC` - CRC
+
+          * `CSD` - CSD
+
+          * `CSK` - CSK
+
+          * `CUC` - CUC
+
+          * `CUP` - CUP
+
+          * `CVE` - CVE
+
+          * `CYP` - CYP
+
+          * `CZK` - CZK
+
+          * `DDM` - DDM
+
+          * `DEM` - DEM
+
+          * `DJF` - DJF
+
+          * `DKK` - DKK
+
+          * `DOP` - DOP
+
+          * `DZD` - DZD
+
+          * `ECS` - ECS
+
+          * `ECV` - ECV
+
+          * `EEK` - EEK
+
+          * `EGP` - EGP
+
+          * `ERN` - ERN
+
+          * `ESA` - ESA
+
+          * `ESB` - ESB
+
+          * `ESP` - ESP
+
+          * `ETB` - ETB
+
+          * `EUR` - EUR
+
+          * `FIM` - FIM
+
+          * `FJD` - FJD
+
+          * `FKP` - FKP
+
+          * `FRF` - FRF
+
+          * `GBP` - GBP
+
+          * `GEK` - GEK
+
+          * `GEL` - GEL
+
+          * `GHC` - GHC
+
+          * `GHS` - GHS
+
+          * `GIP` - GIP
+
+          * `GMD` - GMD
+
+          * `GNF` - GNF
+
+          * `GNS` - GNS
+
+          * `GQE` - GQE
+
+          * `GRD` - GRD
+
+          * `GTQ` - GTQ
+
+          * `GWE` - GWE
+
+          * `GWP` - GWP
+
+          * `GYD` - GYD
+
+          * `HKD` - HKD
+
+          * `HNL` - HNL
+
+          * `HRD` - HRD
+
+          * `HRK` - HRK
+
+          * `HTG` - HTG
+
+          * `HUF` - HUF
+
+          * `IDR` - IDR
+
+          * `IEP` - IEP
+
+          * `ILP` - ILP
+
+          * `ILR` - ILR
+
+          * `ILS` - ILS
+
+          * `INR` - INR
+
+          * `IQD` - IQD
+
+          * `IRR` - IRR
+
+          * `ISJ` - ISJ
+
+          * `ISK` - ISK
+
+          * `ITL` - ITL
+
+          * `JMD` - JMD
+
+          * `JOD` - JOD
+
+          * `JPY` - JPY
+
+          * `KES` - KES
+
+          * `KGS` - KGS
+
+          * `KHR` - KHR
+
+          * `KMF` - KMF
+
+          * `KPW` - KPW
+
+          * `KRH` - KRH
+
+          * `KRO` - KRO
+
+          * `KRW` - KRW
+
+          * `KWD` - KWD
+
+          * `KYD` - KYD
+
+          * `KZT` - KZT
+
+          * `LAK` - LAK
+
+          * `LBP` - LBP
+
+          * `LKR` - LKR
+
+          * `LRD` - LRD
+
+          * `LSL` - LSL
+
+          * `LTL` - LTL
+
+          * `LTT` - LTT
+
+          * `LUC` - LUC
+
+          * `LUF` - LUF
+
+          * `LUL` - LUL
+
+          * `LVL` - LVL
+
+          * `LVR` - LVR
+
+          * `LYD` - LYD
+
+          * `MAD` - MAD
+
+          * `MAF` - MAF
+
+          * `MCF` - MCF
+
+          * `MDC` - MDC
+
+          * `MDL` - MDL
+
+          * `MGA` - MGA
+
+          * `MGF` - MGF
+
+          * `MKD` - MKD
+
+          * `MKN` - MKN
+
+          * `MLF` - MLF
+
+          * `MMK` - MMK
+
+          * `MNT` - MNT
+
+          * `MOP` - MOP
+
+          * `MRO` - MRO
+
+          * `MRU` - MRU
+
+          * `MTL` - MTL
+
+          * `MTP` - MTP
+
+          * `MUR` - MUR
+
+          * `MVP` - MVP
+
+          * `MVR` - MVR
+
+          * `MWK` - MWK
+
+          * `MXN` - MXN
+
+          * `MXP` - MXP
+
+          * `MXV` - MXV
+
+          * `MYR` - MYR
+
+          * `MZE` - MZE
+
+          * `MZM` - MZM
+
+          * `MZN` - MZN
+
+          * `NAD` - NAD
+
+          * `NGN` - NGN
+
+          * `NIC` - NIC
+
+          * `NIO` - NIO
+
+          * `NLG` - NLG
+
+          * `NOK` - NOK
+
+          * `NPR` - NPR
+
+          * `NZD` - NZD
+
+          * `OMR` - OMR
+
+          * `PAB` - PAB
+
+          * `PEI` - PEI
+
+          * `PEN` - PEN
+
+          * `PES` - PES
+
+          * `PGK` - PGK
+
+          * `PHP` - PHP
+
+          * `PKR` - PKR
+
+          * `PLN` - PLN
+
+          * `PLZ` - PLZ
+
+          * `PTE` - PTE
+
+          * `PYG` - PYG
+
+          * `QAR` - QAR
+
+          * `RHD` - RHD
+
+          * `ROL` - ROL
+
+          * `RON` - RON
+
+          * `RSD` - RSD
+
+          * `RUB` - RUB
+
+          * `RUR` - RUR
+
+          * `RWF` - RWF
+
+          * `SAR` - SAR
+
+          * `SBD` - SBD
+
+          * `SCR` - SCR
+
+          * `SDD` - SDD
+
+          * `SDG` - SDG
+
+          * `SDP` - SDP
+
+          * `SEK` - SEK
+
+          * `SGD` - SGD
+
+          * `SHP` - SHP
+
+          * `SIT` - SIT
+
+          * `SKK` - SKK
+
+          * `SLE` - SLE
+
+          * `SLL` - SLL
+
+          * `SOS` - SOS
+
+          * `SRD` - SRD
+
+          * `SRG` - SRG
+
+          * `SSP` - SSP
+
+          * `STD` - STD
+
+          * `STN` - STN
+
+          * `SUR` - SUR
+
+          * `SVC` - SVC
+
+          * `SYP` - SYP
+
+          * `SZL` - SZL
+
+          * `THB` - THB
+
+          * `TJR` - TJR
+
+          * `TJS` - TJS
+
+          * `TMM` - TMM
+
+          * `TMT` - TMT
+
+          * `TND` - TND
+
+          * `TOP` - TOP
+
+          * `TPE` - TPE
+
+          * `TRL` - TRL
+
+          * `TRY` - TRY
+
+          * `TTD` - TTD
+
+          * `TWD` - TWD
+
+          * `TZS` - TZS
+
+          * `UAH` - UAH
+
+          * `UAK` - UAK
+
+          * `UGS` - UGS
+
+          * `UGX` - UGX
+
+          * `USD` - USD
+
+          * `USN` - USN
+
+          * `USS` - USS
+
+          * `UYI` - UYI
+
+          * `UYP` - UYP
+
+          * `UYU` - UYU
+
+          * `UYW` - UYW
+
+          * `UZS` - UZS
+
+          * `VEB` - VEB
+
+          * `VED` - VED
+
+          * `VEF` - VEF
+
+          * `VES` - VES
+
+          * `VND` - VND
+
+          * `VNN` - VNN
+
+          * `VUV` - VUV
+
+          * `WST` - WST
+
+          * `XAF` - XAF
+
+          * `XAG` - XAG
+
+          * `XAU` - XAU
+
+          * `XBA` - XBA
+
+          * `XBB` - XBB
+
+          * `XBC` - XBC
+
+          * `XBD` - XBD
+
+          * `XCD` - XCD
+
+          * `XCG` - XCG
+
+          * `XDR` - XDR
+
+          * `XEU` - XEU
+
+          * `XFO` - XFO
+
+          * `XFU` - XFU
+
+          * `XOF` - XOF
+
+          * `XPD` - XPD
+
+          * `XPF` - XPF
+
+          * `XPT` - XPT
+
+          * `XRE` - XRE
+
+          * `XSU` - XSU
+
+          * `XTS` - XTS
+
+          * `XUA` - XUA
+
+          * `XXX` - XXX
+
+          * `YDD` - YDD
+
+          * `YER` - YER
+
+          * `YUD` - YUD
+
+          * `YUM` - YUM
+
+          * `YUN` - YUN
+
+          * `YUR` - YUR
+
+          * `ZAL` - ZAL
+
+          * `ZAR` - ZAR
+
+          * `ZMK` - ZMK
+
+          * `ZMW` - ZMW
+
+          * `ZRN` - ZRN
+
+          * `ZRZ` - ZRZ
+
+          * `ZWD` - ZWD
+
+          * `ZWG` - ZWG
+
+          * `ZWL` - ZWL
+
+          * `ZWR` - ZWR'
+      - in: query
+        name: date
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date__gt
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date__gte
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date__lt
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date__lte
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date__month
+        schema:
+          type: number
+      - in: query
+        name: date__year
+        schema:
+          type: number
+      - in: query
+        name: image_md5_hash
+        schema:
+          type: string
+      - in: query
+        name: kind
+        schema:
+          type: string
+          enum:
+          - COMMUNITY
+          - CONSUMPTION
+        description: '* `COMMUNITY` - COMMUNITY
+
+          * `CONSUMPTION` - CONSUMPTION'
+      - in: query
+        name: location__type
+        schema:
+          type: string
+          enum:
+          - ONLINE
+          - OSM
+        description: '* `OSM` - OSM
+
+          * `ONLINE` - ONLINE'
+      - in: query
+        name: location_id
+        schema:
+          type: integer
+      - in: query
+        name: location_id__in
+        schema:
+          type: array
+          items:
+            type: integer
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: location_id__isnull
+        schema:
+          type: boolean
+      - in: query
+        name: location_osm_id
+        schema:
+          type: integer
+      - in: query
+        name: location_osm_type
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - NODE
+          - RELATION
+          - WAY
+        description: '* `NODE` - NODE
+
+          * `WAY` - WAY
+
+          * `RELATION` - RELATION'
+      - name: order_by
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - in: query
+        name: owner
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: prediction_count
+        schema:
+          type: integer
+      - in: query
+        name: prediction_count__gte
+        schema:
+          type: integer
+      - in: query
+        name: prediction_count__lte
+        schema:
+          type: integer
+      - in: query
+        name: price_count
+        schema:
+          type: integer
+      - in: query
+        name: price_count__gte
+        schema:
+          type: integer
+      - in: query
+        name: price_count__lte
+        schema:
+          type: integer
+      - in: query
+        name: ready_for_price_tag_validation
+        schema:
+          type: boolean
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: tags__contains
+        schema:
+          type: string
+      - in: query
+        name: tags__not_contains
+        schema:
+          type: string
+      - in: query
+        name: type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - GDPR_REQUEST
+            - PRICE_TAG
+            - RECEIPT
+            - SHOP_IMPORT
+        description: '* `PRICE_TAG` - PRICE_TAG
+
+          * `RECEIPT` - RECEIPT
+
+          * `GDPR_REQUEST` - GDPR_REQUEST
+
+          * `SHOP_IMPORT` - SHOP_IMPORT'
+        explode: true
+        style: form
+      tags:
+      - proofs
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProofHalfFullList'
+          description: ''
+      summary: Proofs list
+      x-summary-source: derived
+  /api/v1/proofs/{id}:
+    get:
+      operationId: proofs_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Proof.
+        required: true
+      tags:
+      - proofs
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProofFull'
+          description: ''
+      summary: Proofs retrieve
+      x-summary-source: derived
+    patch:
+      operationId: proofs_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Proof.
+        required: true
+      tags:
+      - proofs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProofUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProofUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProofUpdate'
+      security:
+      - CustomAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProofUpdate'
+          description: ''
+      summary: Proofs partial update
+      x-summary-source: derived
+    delete:
+      operationId: proofs_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Proof.
+        required: true
+      tags:
+      - proofs
+      security:
+      - CustomAuthentication: []
+      responses:
+        '204':
+          description: No response body
+      summary: Proofs destroy
+      x-summary-source: derived
+  /api/v1/proofs/{id}/history:
+    get:
+      operationId: proofs_history_list
+      parameters:
+      - in: query
+        name: created__gte
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created__lte
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: currency
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ADP
+          - AED
+          - AFA
+          - AFN
+          - ALK
+          - ALL
+          - AMD
+          - ANG
+          - AOA
+          - AOK
+          - AON
+          - AOR
+          - ARA
+          - ARL
+          - ARM
+          - ARP
+          - ARS
+          - ATS
+          - AUD
+          - AWG
+          - AZM
+          - AZN
+          - BAD
+          - BAM
+          - BAN
+          - BBD
+          - BDT
+          - BEC
+          - BEF
+          - BEL
+          - BGL
+          - BGM
+          - BGN
+          - BGO
+          - BHD
+          - BIF
+          - BMD
+          - BND
+          - BOB
+          - BOL
+          - BOP
+          - BOV
+          - BRB
+          - BRC
+          - BRE
+          - BRL
+          - BRN
+          - BRR
+          - BRZ
+          - BSD
+          - BTN
+          - BUK
+          - BWP
+          - BYB
+          - BYN
+          - BYR
+          - BZD
+          - CAD
+          - CDF
+          - CHE
+          - CHF
+          - CHW
+          - CLE
+          - CLF
+          - CLP
+          - CNH
+          - CNX
+          - CNY
+          - COP
+          - COU
+          - CRC
+          - CSD
+          - CSK
+          - CUC
+          - CUP
+          - CVE
+          - CYP
+          - CZK
+          - DDM
+          - DEM
+          - DJF
+          - DKK
+          - DOP
+          - DZD
+          - ECS
+          - ECV
+          - EEK
+          - EGP
+          - ERN
+          - ESA
+          - ESB
+          - ESP
+          - ETB
+          - EUR
+          - FIM
+          - FJD
+          - FKP
+          - FRF
+          - GBP
+          - GEK
+          - GEL
+          - GHC
+          - GHS
+          - GIP
+          - GMD
+          - GNF
+          - GNS
+          - GQE
+          - GRD
+          - GTQ
+          - GWE
+          - GWP
+          - GYD
+          - HKD
+          - HNL
+          - HRD
+          - HRK
+          - HTG
+          - HUF
+          - IDR
+          - IEP
+          - ILP
+          - ILR
+          - ILS
+          - INR
+          - IQD
+          - IRR
+          - ISJ
+          - ISK
+          - ITL
+          - JMD
+          - JOD
+          - JPY
+          - KES
+          - KGS
+          - KHR
+          - KMF
+          - KPW
+          - KRH
+          - KRO
+          - KRW
+          - KWD
+          - KYD
+          - KZT
+          - LAK
+          - LBP
+          - LKR
+          - LRD
+          - LSL
+          - LTL
+          - LTT
+          - LUC
+          - LUF
+          - LUL
+          - LVL
+          - LVR
+          - LYD
+          - MAD
+          - MAF
+          - MCF
+          - MDC
+          - MDL
+          - MGA
+          - MGF
+          - MKD
+          - MKN
+          - MLF
+          - MMK
+          - MNT
+          - MOP
+          - MRO
+          - MRU
+          - MTL
+          - MTP
+          - MUR
+          - MVP
+          - MVR
+          - MWK
+          - MXN
+          - MXP
+          - MXV
+          - MYR
+          - MZE
+          - MZM
+          - MZN
+          - NAD
+          - NGN
+          - NIC
+          - NIO
+          - NLG
+          - NOK
+          - NPR
+          - NZD
+          - OMR
+          - PAB
+          - PEI
+          - PEN
+          - PES
+          - PGK
+          - PHP
+          - PKR
+          - PLN
+          - PLZ
+          - PTE
+          - PYG
+          - QAR
+          - RHD
+          - ROL
+          - RON
+          - RSD
+          - RUB
+          - RUR
+          - RWF
+          - SAR
+          - SBD
+          - SCR
+          - SDD
+          - SDG
+          - SDP
+          - SEK
+          - SGD
+          - SHP
+          - SIT
+          - SKK
+          - SLE
+          - SLL
+          - SOS
+          - SRD
+          - SRG
+          - SSP
+          - STD
+          - STN
+          - SUR
+          - SVC
+          - SYP
+          - SZL
+          - THB
+          - TJR
+          - TJS
+          - TMM
+          - TMT
+          - TND
+          - TOP
+          - TPE
+          - TRL
+          - TRY
+          - TTD
+          - TWD
+          - TZS
+          - UAH
+          - UAK
+          - UGS
+          - UGX
+          - USD
+          - USN
+          - USS
+          - UYI
+          - UYP
+          - UYU
+          - UYW
+          - UZS
+          - VEB
+          - VED
+          - VEF
+          - VES
+          - VND
+          - VNN
+          - VUV
+          - WST
+          - XAF
+          - XAG
+          - XAU
+          - XBA
+          - XBB
+          - XBC
+          - XBD
+          - XCD
+          - XCG
+          - XDR
+          - XEU
+          - XFO
+          - XFU
+          - XOF
+          - XPD
+          - XPF
+          - XPT
+          - XRE
+          - XSU
+          - XTS
+          - XUA
+          - XXX
+          - YDD
+          - YER
+          - YUD
+          - YUM
+          - YUN
+          - YUR
+          - ZAL
+          - ZAR
+          - ZMK
+          - ZMW
+          - ZRN
+          - ZRZ
+          - ZWD
+          - ZWG
+          - ZWL
+          - ZWR
+        description: '* `ADP` - ADP
+
+          * `AED` - AED
+
+          * `AFA` - AFA
+
+          * `AFN` - AFN
+
+          * `ALK` - ALK
+
+          * `ALL` - ALL
+
+          * `AMD` - AMD
+
+          * `ANG` - ANG
+
+          * `AOA` - AOA
+
+          * `AOK` - AOK
+
+          * `AON` - AON
+
+          * `AOR` - AOR
+
+          * `ARA` - ARA
+
+          * `ARL` - ARL
+
+          * `ARM` - ARM
+
+          * `ARP` - ARP
+
+          * `ARS` - ARS
+
+          * `ATS` - ATS
+
+          * `AUD` - AUD
+
+          * `AWG` - AWG
+
+          * `AZM` - AZM
+
+          * `AZN` - AZN
+
+          * `BAD` - BAD
+
+          * `BAM` - BAM
+
+          * `BAN` - BAN
+
+          * `BBD` - BBD
+
+          * `BDT` - BDT
+
+          * `BEC` - BEC
+
+          * `BEF` - BEF
+
+          * `BEL` - BEL
+
+          * `BGL` - BGL
+
+          * `BGM` - BGM
+
+          * `BGN` - BGN
+
+          * `BGO` - BGO
+
+          * `BHD` - BHD
+
+          * `BIF` - BIF
+
+          * `BMD` - BMD
+
+          * `BND` - BND
+
+          * `BOB` - BOB
+
+          * `BOL` - BOL
+
+          * `BOP` - BOP
+
+          * `BOV` - BOV
+
+          * `BRB` - BRB
+
+          * `BRC` - BRC
+
+          * `BRE` - BRE
+
+          * `BRL` - BRL
+
+          * `BRN` - BRN
+
+          * `BRR` - BRR
+
+          * `BRZ` - BRZ
+
+          * `BSD` - BSD
+
+          * `BTN` - BTN
+
+          * `BUK` - BUK
+
+          * `BWP` - BWP
+
+          * `BYB` - BYB
+
+          * `BYN` - BYN
+
+          * `BYR` - BYR
+
+          * `BZD` - BZD
+
+          * `CAD` - CAD
+
+          * `CDF` - CDF
+
+          * `CHE` - CHE
+
+          * `CHF` - CHF
+
+          * `CHW` - CHW
+
+          * `CLE` - CLE
+
+          * `CLF` - CLF
+
+          * `CLP` - CLP
+
+          * `CNH` - CNH
+
+          * `CNX` - CNX
+
+          * `CNY` - CNY
+
+          * `COP` - COP
+
+          * `COU` - COU
+
+          * `CRC` - CRC
+
+          * `CSD` - CSD
+
+          * `CSK` - CSK
+
+          * `CUC` - CUC
+
+          * `CUP` - CUP
+
+          * `CVE` - CVE
+
+          * `CYP` - CYP
+
+          * `CZK` - CZK
+
+          * `DDM` - DDM
+
+          * `DEM` - DEM
+
+          * `DJF` - DJF
+
+          * `DKK` - DKK
+
+          * `DOP` - DOP
+
+          * `DZD` - DZD
+
+          * `ECS` - ECS
+
+          * `ECV` - ECV
+
+          * `EEK` - EEK
+
+          * `EGP` - EGP
+
+          * `ERN` - ERN
+
+          * `ESA` - ESA
+
+          * `ESB` - ESB
+
+          * `ESP` - ESP
+
+          * `ETB` - ETB
+
+          * `EUR` - EUR
+
+          * `FIM` - FIM
+
+          * `FJD` - FJD
+
+          * `FKP` - FKP
+
+          * `FRF` - FRF
+
+          * `GBP` - GBP
+
+          * `GEK` - GEK
+
+          * `GEL` - GEL
+
+          * `GHC` - GHC
+
+          * `GHS` - GHS
+
+          * `GIP` - GIP
+
+          * `GMD` - GMD
+
+          * `GNF` - GNF
+
+          * `GNS` - GNS
+
+          * `GQE` - GQE
+
+          * `GRD` - GRD
+
+          * `GTQ` - GTQ
+
+          * `GWE` - GWE
+
+          * `GWP` - GWP
+
+          * `GYD` - GYD
+
+          * `HKD` - HKD
+
+          * `HNL` - HNL
+
+          * `HRD` - HRD
+
+          * `HRK` - HRK
+
+          * `HTG` - HTG
+
+          * `HUF` - HUF
+
+          * `IDR` - IDR
+
+          * `IEP` - IEP
+
+          * `ILP` - ILP
+
+          * `ILR` - ILR
+
+          * `ILS` - ILS
+
+          * `INR` - INR
+
+          * `IQD` - IQD
+
+          * `IRR` - IRR
+
+          * `ISJ` - ISJ
+
+          * `ISK` - ISK
+
+          * `ITL` - ITL
+
+          * `JMD` - JMD
+
+          * `JOD` - JOD
+
+          * `JPY` - JPY
+
+          * `KES` - KES
+
+          * `KGS` - KGS
+
+          * `KHR` - KHR
+
+          * `KMF` - KMF
+
+          * `KPW` - KPW
+
+          * `KRH` - KRH
+
+          * `KRO` - KRO
+
+          * `KRW` - KRW
+
+          * `KWD` - KWD
+
+          * `KYD` - KYD
+
+          * `KZT` - KZT
+
+          * `LAK` - LAK
+
+          * `LBP` - LBP
+
+          * `LKR` - LKR
+
+          * `LRD` - LRD
+
+          * `LSL` - LSL
+
+          * `LTL` - LTL
+
+          * `LTT` - LTT
+
+          * `LUC` - LUC
+
+          * `LUF` - LUF
+
+          * `LUL` - LUL
+
+          * `LVL` - LVL
+
+          * `LVR` - LVR
+
+          * `LYD` - LYD
+
+          * `MAD` - MAD
+
+          * `MAF` - MAF
+
+          * `MCF` - MCF
+
+          * `MDC` - MDC
+
+          * `MDL` - MDL
+
+          * `MGA` - MGA
+
+          * `MGF` - MGF
+
+          * `MKD` - MKD
+
+          * `MKN` - MKN
+
+          * `MLF` - MLF
+
+          * `MMK` - MMK
+
+          * `MNT` - MNT
+
+          * `MOP` - MOP
+
+          * `MRO` - MRO
+
+          * `MRU` - MRU
+
+          * `MTL` - MTL
+
+          * `MTP` - MTP
+
+          * `MUR` - MUR
+
+          * `MVP` - MVP
+
+          * `MVR` - MVR
+
+          * `MWK` - MWK
+
+          * `MXN` - MXN
+
+          * `MXP` - MXP
+
+          * `MXV` - MXV
+
+          * `MYR` - MYR
+
+          * `MZE` - MZE
+
+          * `MZM` - MZM
+
+          * `MZN` - MZN
+
+          * `NAD` - NAD
+
+          * `NGN` - NGN
+
+          * `NIC` - NIC
+
+          * `NIO` - NIO
+
+          * `NLG` - NLG
+
+          * `NOK` - NOK
+
+          * `NPR` - NPR
+
+          * `NZD` - NZD
+
+          * `OMR` - OMR
+
+          * `PAB` - PAB
+
+          * `PEI` - PEI
+
+          * `PEN` - PEN
+
+          * `PES` - PES
+
+          * `PGK` - PGK
+
+          * `PHP` - PHP
+
+          * `PKR` - PKR
+
+          * `PLN` - PLN
+
+          * `PLZ` - PLZ
+
+          * `PTE` - PTE
+
+          * `PYG` - PYG
+
+          * `QAR` - QAR
+
+          * `RHD` - RHD
+
+          * `ROL` - ROL
+
+          * `RON` - RON
+
+          * `RSD` - RSD
+
+          * `RUB` - RUB
+
+          * `RUR` - RUR
+
+          * `RWF` - RWF
+
+          * `SAR` - SAR
+
+          * `SBD` - SBD
+
+          * `SCR` - SCR
+
+          * `SDD` - SDD
+
+          * `SDG` - SDG
+
+          * `SDP` - SDP
+
+          * `SEK` - SEK
+
+          * `SGD` - SGD
+
+          * `SHP` - SHP
+
+          * `SIT` - SIT
+
+          * `SKK` - SKK
+
+          * `SLE` - SLE
+
+          * `SLL` - SLL
+
+          * `SOS` - SOS
+
+          * `SRD` - SRD
+
+          * `SRG` - SRG
+
+          * `SSP` - SSP
+
+          * `STD` - STD
+
+          * `STN` - STN
+
+          * `SUR` - SUR
+
+          * `SVC` - SVC
+
+          * `SYP` - SYP
+
+          * `SZL` - SZL
+
+          * `THB` - THB
+
+          * `TJR` - TJR
+
+          * `TJS` - TJS
+
+          * `TMM` - TMM
+
+          * `TMT` - TMT
+
+          * `TND` - TND
+
+          * `TOP` - TOP
+
+          * `TPE` - TPE
+
+          * `TRL` - TRL
+
+          * `TRY` - TRY
+
+          * `TTD` - TTD
+
+          * `TWD` - TWD
+
+          * `TZS` - TZS
+
+          * `UAH` - UAH
+
+          * `UAK` - UAK
+
+          * `UGS` - UGS
+
+          * `UGX` - UGX
+
+          * `USD` - USD
+
+          * `USN` - USN
+
+          * `USS` - USS
+
+          * `UYI` - UYI
+
+          * `UYP` - UYP
+
+          * `UYU` - UYU
+
+          * `UYW` - UYW
+
+          * `UZS` - UZS
+
+          * `VEB` - VEB
+
+          * `VED` - VED
+
+          * `VEF` - VEF
+
+          * `VES` - VES
+
+          * `VND` - VND
+
+          * `VNN` - VNN
+
+          * `VUV` - VUV
+
+          * `WST` - WST
+
+          * `XAF` - XAF
+
+          * `XAG` - XAG
+
+          * `XAU` - XAU
+
+          * `XBA` - XBA
+
+          * `XBB` - XBB
+
+          * `XBC` - XBC
+
+          * `XBD` - XBD
+
+          * `XCD` - XCD
+
+          * `XCG` - XCG
+
+          * `XDR` - XDR
+
+          * `XEU` - XEU
+
+          * `XFO` - XFO
+
+          * `XFU` - XFU
+
+          * `XOF` - XOF
+
+          * `XPD` - XPD
+
+          * `XPF` - XPF
+
+          * `XPT` - XPT
+
+          * `XRE` - XRE
+
+          * `XSU` - XSU
+
+          * `XTS` - XTS
+
+          * `XUA` - XUA
+
+          * `XXX` - XXX
+
+          * `YDD` - YDD
+
+          * `YER` - YER
+
+          * `YUD` - YUD
+
+          * `YUM` - YUM
+
+          * `YUN` - YUN
+
+          * `YUR` - YUR
+
+          * `ZAL` - ZAL
+
+          * `ZAR` - ZAR
+
+          * `ZMK` - ZMK
+
+          * `ZMW` - ZMW
+
+          * `ZRN` - ZRN
+
+          * `ZRZ` - ZRZ
+
+          * `ZWD` - ZWD
+
+          * `ZWG` - ZWG
+
+          * `ZWL` - ZWL
+
+          * `ZWR` - ZWR'
+      - in: query
+        name: date
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date__gt
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date__gte
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date__lt
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date__lte
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date__month
+        schema:
+          type: number
+      - in: query
+        name: date__year
+        schema:
+          type: number
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Proof.
+        required: true
+      - in: query
+        name: image_md5_hash
+        schema:
+          type: string
+      - in: query
+        name: kind
+        schema:
+          type: string
+          enum:
+          - COMMUNITY
+          - CONSUMPTION
+        description: '* `COMMUNITY` - COMMUNITY
+
+          * `CONSUMPTION` - CONSUMPTION'
+      - in: query
+        name: location__type
+        schema:
+          type: string
+          enum:
+          - ONLINE
+          - OSM
+        description: '* `OSM` - OSM
+
+          * `ONLINE` - ONLINE'
+      - in: query
+        name: location_id
+        schema:
+          type: integer
+      - in: query
+        name: location_id__in
+        schema:
+          type: array
+          items:
+            type: integer
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: location_id__isnull
+        schema:
+          type: boolean
+      - in: query
+        name: location_osm_id
+        schema:
+          type: integer
+      - in: query
+        name: location_osm_type
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - NODE
+          - RELATION
+          - WAY
+        description: '* `NODE` - NODE
+
+          * `WAY` - WAY
+
+          * `RELATION` - RELATION'
+      - name: order_by
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - in: query
+        name: owner
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: prediction_count
+        schema:
+          type: integer
+      - in: query
+        name: prediction_count__gte
+        schema:
+          type: integer
+      - in: query
+        name: prediction_count__lte
+        schema:
+          type: integer
+      - in: query
+        name: price_count
+        schema:
+          type: integer
+      - in: query
+        name: price_count__gte
+        schema:
+          type: integer
+      - in: query
+        name: price_count__lte
+        schema:
+          type: integer
+      - in: query
+        name: ready_for_price_tag_validation
+        schema:
+          type: boolean
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: tags__contains
+        schema:
+          type: string
+      - in: query
+        name: tags__not_contains
+        schema:
+          type: string
+      - in: query
+        name: type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - GDPR_REQUEST
+            - PRICE_TAG
+            - RECEIPT
+            - SHOP_IMPORT
+        description: '* `PRICE_TAG` - PRICE_TAG
+
+          * `RECEIPT` - RECEIPT
+
+          * `GDPR_REQUEST` - GDPR_REQUEST
+
+          * `SHOP_IMPORT` - SHOP_IMPORT'
+        explode: true
+        style: form
+      tags:
+      - proofs
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProofHistoryList'
+          description: ''
+      summary: Proofs history list
+      x-summary-source: derived
+  /api/v1/proofs/drafts:
+    get:
+      operationId: proofs_drafts_list
+      parameters:
+      - in: query
+        name: created__gte
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created__lte
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: currency
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ADP
+          - AED
+          - AFA
+          - AFN
+          - ALK
+          - ALL
+          - AMD
+          - ANG
+          - AOA
+          - AOK
+          - AON
+          - AOR
+          - ARA
+          - ARL
+          - ARM
+          - ARP
+          - ARS
+          - ATS
+          - AUD
+          - AWG
+          - AZM
+          - AZN
+          - BAD
+          - BAM
+          - BAN
+          - BBD
+          - BDT
+          - BEC
+          - BEF
+          - BEL
+          - BGL
+          - BGM
+          - BGN
+          - BGO
+          - BHD
+          - BIF
+          - BMD
+          - BND
+          - BOB
+          - BOL
+          - BOP
+          - BOV
+          - BRB
+          - BRC
+          - BRE
+          - BRL
+          - BRN
+          - BRR
+          - BRZ
+          - BSD
+          - BTN
+          - BUK
+          - BWP
+          - BYB
+          - BYN
+          - BYR
+          - BZD
+          - CAD
+          - CDF
+          - CHE
+          - CHF
+          - CHW
+          - CLE
+          - CLF
+          - CLP
+          - CNH
+          - CNX
+          - CNY
+          - COP
+          - COU
+          - CRC
+          - CSD
+          - CSK
+          - CUC
+          - CUP
+          - CVE
+          - CYP
+          - CZK
+          - DDM
+          - DEM
+          - DJF
+          - DKK
+          - DOP
+          - DZD
+          - ECS
+          - ECV
+          - EEK
+          - EGP
+          - ERN
+          - ESA
+          - ESB
+          - ESP
+          - ETB
+          - EUR
+          - FIM
+          - FJD
+          - FKP
+          - FRF
+          - GBP
+          - GEK
+          - GEL
+          - GHC
+          - GHS
+          - GIP
+          - GMD
+          - GNF
+          - GNS
+          - GQE
+          - GRD
+          - GTQ
+          - GWE
+          - GWP
+          - GYD
+          - HKD
+          - HNL
+          - HRD
+          - HRK
+          - HTG
+          - HUF
+          - IDR
+          - IEP
+          - ILP
+          - ILR
+          - ILS
+          - INR
+          - IQD
+          - IRR
+          - ISJ
+          - ISK
+          - ITL
+          - JMD
+          - JOD
+          - JPY
+          - KES
+          - KGS
+          - KHR
+          - KMF
+          - KPW
+          - KRH
+          - KRO
+          - KRW
+          - KWD
+          - KYD
+          - KZT
+          - LAK
+          - LBP
+          - LKR
+          - LRD
+          - LSL
+          - LTL
+          - LTT
+          - LUC
+          - LUF
+          - LUL
+          - LVL
+          - LVR
+          - LYD
+          - MAD
+          - MAF
+          - MCF
+          - MDC
+          - MDL
+          - MGA
+          - MGF
+          - MKD
+          - MKN
+          - MLF
+          - MMK
+          - MNT
+          - MOP
+          - MRO
+          - MRU
+          - MTL
+          - MTP
+          - MUR
+          - MVP
+          - MVR
+          - MWK
+          - MXN
+          - MXP
+          - MXV
+          - MYR
+          - MZE
+          - MZM
+          - MZN
+          - NAD
+          - NGN
+          - NIC
+          - NIO
+          - NLG
+          - NOK
+          - NPR
+          - NZD
+          - OMR
+          - PAB
+          - PEI
+          - PEN
+          - PES
+          - PGK
+          - PHP
+          - PKR
+          - PLN
+          - PLZ
+          - PTE
+          - PYG
+          - QAR
+          - RHD
+          - ROL
+          - RON
+          - RSD
+          - RUB
+          - RUR
+          - RWF
+          - SAR
+          - SBD
+          - SCR
+          - SDD
+          - SDG
+          - SDP
+          - SEK
+          - SGD
+          - SHP
+          - SIT
+          - SKK
+          - SLE
+          - SLL
+          - SOS
+          - SRD
+          - SRG
+          - SSP
+          - STD
+          - STN
+          - SUR
+          - SVC
+          - SYP
+          - SZL
+          - THB
+          - TJR
+          - TJS
+          - TMM
+          - TMT
+          - TND
+          - TOP
+          - TPE
+          - TRL
+          - TRY
+          - TTD
+          - TWD
+          - TZS
+          - UAH
+          - UAK
+          - UGS
+          - UGX
+          - USD
+          - USN
+          - USS
+          - UYI
+          - UYP
+          - UYU
+          - UYW
+          - UZS
+          - VEB
+          - VED
+          - VEF
+          - VES
+          - VND
+          - VNN
+          - VUV
+          - WST
+          - XAF
+          - XAG
+          - XAU
+          - XBA
+          - XBB
+          - XBC
+          - XBD
+          - XCD
+          - XCG
+          - XDR
+          - XEU
+          - XFO
+          - XFU
+          - XOF
+          - XPD
+          - XPF
+          - XPT
+          - XRE
+          - XSU
+          - XTS
+          - XUA
+          - XXX
+          - YDD
+          - YER
+          - YUD
+          - YUM
+          - YUN
+          - YUR
+          - ZAL
+          - ZAR
+          - ZMK
+          - ZMW
+          - ZRN
+          - ZRZ
+          - ZWD
+          - ZWG
+          - ZWL
+          - ZWR
+        description: '* `ADP` - ADP
+
+          * `AED` - AED
+
+          * `AFA` - AFA
+
+          * `AFN` - AFN
+
+          * `ALK` - ALK
+
+          * `ALL` - ALL
+
+          * `AMD` - AMD
+
+          * `ANG` - ANG
+
+          * `AOA` - AOA
+
+          * `AOK` - AOK
+
+          * `AON` - AON
+
+          * `AOR` - AOR
+
+          * `ARA` - ARA
+
+          * `ARL` - ARL
+
+          * `ARM` - ARM
+
+          * `ARP` - ARP
+
+          * `ARS` - ARS
+
+          * `ATS` - ATS
+
+          * `AUD` - AUD
+
+          * `AWG` - AWG
+
+          * `AZM` - AZM
+
+          * `AZN` - AZN
+
+          * `BAD` - BAD
+
+          * `BAM` - BAM
+
+          * `BAN` - BAN
+
+          * `BBD` - BBD
+
+          * `BDT` - BDT
+
+          * `BEC` - BEC
+
+          * `BEF` - BEF
+
+          * `BEL` - BEL
+
+          * `BGL` - BGL
+
+          * `BGM` - BGM
+
+          * `BGN` - BGN
+
+          * `BGO` - BGO
+
+          * `BHD` - BHD
+
+          * `BIF` - BIF
+
+          * `BMD` - BMD
+
+          * `BND` - BND
+
+          * `BOB` - BOB
+
+          * `BOL` - BOL
+
+          * `BOP` - BOP
+
+          * `BOV` - BOV
+
+          * `BRB` - BRB
+
+          * `BRC` - BRC
+
+          * `BRE` - BRE
+
+          * `BRL` - BRL
+
+          * `BRN` - BRN
+
+          * `BRR` - BRR
+
+          * `BRZ` - BRZ
+
+          * `BSD` - BSD
+
+          * `BTN` - BTN
+
+          * `BUK` - BUK
+
+          * `BWP` - BWP
+
+          * `BYB` - BYB
+
+          * `BYN` - BYN
+
+          * `BYR` - BYR
+
+          * `BZD` - BZD
+
+          * `CAD` - CAD
+
+          * `CDF` - CDF
+
+          * `CHE` - CHE
+
+          * `CHF` - CHF
+
+          * `CHW` - CHW
+
+          * `CLE` - CLE
+
+          * `CLF` - CLF
+
+          * `CLP` - CLP
+
+          * `CNH` - CNH
+
+          * `CNX` - CNX
+
+          * `CNY` - CNY
+
+          * `COP` - COP
+
+          * `COU` - COU
+
+          * `CRC` - CRC
+
+          * `CSD` - CSD
+
+          * `CSK` - CSK
+
+          * `CUC` - CUC
+
+          * `CUP` - CUP
+
+          * `CVE` - CVE
+
+          * `CYP` - CYP
+
+          * `CZK` - CZK
+
+          * `DDM` - DDM
+
+          * `DEM` - DEM
+
+          * `DJF` - DJF
+
+          * `DKK` - DKK
+
+          * `DOP` - DOP
+
+          * `DZD` - DZD
+
+          * `ECS` - ECS
+
+          * `ECV` - ECV
+
+          * `EEK` - EEK
+
+          * `EGP` - EGP
+
+          * `ERN` - ERN
+
+          * `ESA` - ESA
+
+          * `ESB` - ESB
+
+          * `ESP` - ESP
+
+          * `ETB` - ETB
+
+          * `EUR` - EUR
+
+          * `FIM` - FIM
+
+          * `FJD` - FJD
+
+          * `FKP` - FKP
+
+          * `FRF` - FRF
+
+          * `GBP` - GBP
+
+          * `GEK` - GEK
+
+          * `GEL` - GEL
+
+          * `GHC` - GHC
+
+          * `GHS` - GHS
+
+          * `GIP` - GIP
+
+          * `GMD` - GMD
+
+          * `GNF` - GNF
+
+          * `GNS` - GNS
+
+          * `GQE` - GQE
+
+          * `GRD` - GRD
+
+          * `GTQ` - GTQ
+
+          * `GWE` - GWE
+
+          * `GWP` - GWP
+
+          * `GYD` - GYD
+
+          * `HKD` - HKD
+
+          * `HNL` - HNL
+
+          * `HRD` - HRD
+
+          * `HRK` - HRK
+
+          * `HTG` - HTG
+
+          * `HUF` - HUF
+
+          * `IDR` - IDR
+
+          * `IEP` - IEP
+
+          * `ILP` - ILP
+
+          * `ILR` - ILR
+
+          * `ILS` - ILS
+
+          * `INR` - INR
+
+          * `IQD` - IQD
+
+          * `IRR` - IRR
+
+          * `ISJ` - ISJ
+
+          * `ISK` - ISK
+
+          * `ITL` - ITL
+
+          * `JMD` - JMD
+
+          * `JOD` - JOD
+
+          * `JPY` - JPY
+
+          * `KES` - KES
+
+          * `KGS` - KGS
+
+          * `KHR` - KHR
+
+          * `KMF` - KMF
+
+          * `KPW` - KPW
+
+          * `KRH` - KRH
+
+          * `KRO` - KRO
+
+          * `KRW` - KRW
+
+          * `KWD` - KWD
+
+          * `KYD` - KYD
+
+          * `KZT` - KZT
+
+          * `LAK` - LAK
+
+          * `LBP` - LBP
+
+          * `LKR` - LKR
+
+          * `LRD` - LRD
+
+          * `LSL` - LSL
+
+          * `LTL` - LTL
+
+          * `LTT` - LTT
+
+          * `LUC` - LUC
+
+          * `LUF` - LUF
+
+          * `LUL` - LUL
+
+          * `LVL` - LVL
+
+          * `LVR` - LVR
+
+          * `LYD` - LYD
+
+          * `MAD` - MAD
+
+          * `MAF` - MAF
+
+          * `MCF` - MCF
+
+          * `MDC` - MDC
+
+          * `MDL` - MDL
+
+          * `MGA` - MGA
+
+          * `MGF` - MGF
+
+          * `MKD` - MKD
+
+          * `MKN` - MKN
+
+          * `MLF` - MLF
+
+          * `MMK` - MMK
+
+          * `MNT` - MNT
+
+          * `MOP` - MOP
+
+          * `MRO` - MRO
+
+          * `MRU` - MRU
+
+          * `MTL` - MTL
+
+          * `MTP` - MTP
+
+          * `MUR` - MUR
+
+          * `MVP` - MVP
+
+          * `MVR` - MVR
+
+          * `MWK` - MWK
+
+          * `MXN` - MXN
+
+          * `MXP` - MXP
+
+          * `MXV` - MXV
+
+          * `MYR` - MYR
+
+          * `MZE` - MZE
+
+          * `MZM` - MZM
+
+          * `MZN` - MZN
+
+          * `NAD` - NAD
+
+          * `NGN` - NGN
+
+          * `NIC` - NIC
+
+          * `NIO` - NIO
+
+          * `NLG` - NLG
+
+          * `NOK` - NOK
+
+          * `NPR` - NPR
+
+          * `NZD` - NZD
+
+          * `OMR` - OMR
+
+          * `PAB` - PAB
+
+          * `PEI` - PEI
+
+          * `PEN` - PEN
+
+          * `PES` - PES
+
+          * `PGK` - PGK
+
+          * `PHP` - PHP
+
+          * `PKR` - PKR
+
+          * `PLN` - PLN
+
+          * `PLZ` - PLZ
+
+          * `PTE` - PTE
+
+          * `PYG` - PYG
+
+          * `QAR` - QAR
+
+          * `RHD` - RHD
+
+          * `ROL` - ROL
+
+          * `RON` - RON
+
+          * `RSD` - RSD
+
+          * `RUB` - RUB
+
+          * `RUR` - RUR
+
+          * `RWF` - RWF
+
+          * `SAR` - SAR
+
+          * `SBD` - SBD
+
+          * `SCR` - SCR
+
+          * `SDD` - SDD
+
+          * `SDG` - SDG
+
+          * `SDP` - SDP
+
+          * `SEK` - SEK
+
+          * `SGD` - SGD
+
+          * `SHP` - SHP
+
+          * `SIT` - SIT
+
+          * `SKK` - SKK
+
+          * `SLE` - SLE
+
+          * `SLL` - SLL
+
+          * `SOS` - SOS
+
+          * `SRD` - SRD
+
+          * `SRG` - SRG
+
+          * `SSP` - SSP
+
+          * `STD` - STD
+
+          * `STN` - STN
+
+          * `SUR` - SUR
+
+          * `SVC` - SVC
+
+          * `SYP` - SYP
+
+          * `SZL` - SZL
+
+          * `THB` - THB
+
+          * `TJR` - TJR
+
+          * `TJS` - TJS
+
+          * `TMM` - TMM
+
+          * `TMT` - TMT
+
+          * `TND` - TND
+
+          * `TOP` - TOP
+
+          * `TPE` - TPE
+
+          * `TRL` - TRL
+
+          * `TRY` - TRY
+
+          * `TTD` - TTD
+
+          * `TWD` - TWD
+
+          * `TZS` - TZS
+
+          * `UAH` - UAH
+
+          * `UAK` - UAK
+
+          * `UGS` - UGS
+
+          * `UGX` - UGX
+
+          * `USD` - USD
+
+          * `USN` - USN
+
+          * `USS` - USS
+
+          * `UYI` - UYI
+
+          * `UYP` - UYP
+
+          * `UYU` - UYU
+
+          * `UYW` - UYW
+
+          * `UZS` - UZS
+
+          * `VEB` - VEB
+
+          * `VED` - VED
+
+          * `VEF` - VEF
+
+          * `VES` - VES
+
+          * `VND` - VND
+
+          * `VNN` - VNN
+
+          * `VUV` - VUV
+
+          * `WST` - WST
+
+          * `XAF` - XAF
+
+          * `XAG` - XAG
+
+          * `XAU` - XAU
+
+          * `XBA` - XBA
+
+          * `XBB` - XBB
+
+          * `XBC` - XBC
+
+          * `XBD` - XBD
+
+          * `XCD` - XCD
+
+          * `XCG` - XCG
+
+          * `XDR` - XDR
+
+          * `XEU` - XEU
+
+          * `XFO` - XFO
+
+          * `XFU` - XFU
+
+          * `XOF` - XOF
+
+          * `XPD` - XPD
+
+          * `XPF` - XPF
+
+          * `XPT` - XPT
+
+          * `XRE` - XRE
+
+          * `XSU` - XSU
+
+          * `XTS` - XTS
+
+          * `XUA` - XUA
+
+          * `XXX` - XXX
+
+          * `YDD` - YDD
+
+          * `YER` - YER
+
+          * `YUD` - YUD
+
+          * `YUM` - YUM
+
+          * `YUN` - YUN
+
+          * `YUR` - YUR
+
+          * `ZAL` - ZAL
+
+          * `ZAR` - ZAR
+
+          * `ZMK` - ZMK
+
+          * `ZMW` - ZMW
+
+          * `ZRN` - ZRN
+
+          * `ZRZ` - ZRZ
+
+          * `ZWD` - ZWD
+
+          * `ZWG` - ZWG
+
+          * `ZWL` - ZWL
+
+          * `ZWR` - ZWR'
+      - in: query
+        name: date
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date__gt
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date__gte
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date__lt
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date__lte
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date__month
+        schema:
+          type: number
+      - in: query
+        name: date__year
+        schema:
+          type: number
+      - in: query
+        name: image_md5_hash
+        schema:
+          type: string
+      - in: query
+        name: kind
+        schema:
+          type: string
+          enum:
+          - COMMUNITY
+          - CONSUMPTION
+        description: '* `COMMUNITY` - COMMUNITY
+
+          * `CONSUMPTION` - CONSUMPTION'
+      - in: query
+        name: location__type
+        schema:
+          type: string
+          enum:
+          - ONLINE
+          - OSM
+        description: '* `OSM` - OSM
+
+          * `ONLINE` - ONLINE'
+      - in: query
+        name: location_id
+        schema:
+          type: integer
+      - in: query
+        name: location_id__in
+        schema:
+          type: array
+          items:
+            type: integer
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: location_id__isnull
+        schema:
+          type: boolean
+      - in: query
+        name: location_osm_id
+        schema:
+          type: integer
+      - in: query
+        name: location_osm_type
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - NODE
+          - RELATION
+          - WAY
+        description: '* `NODE` - NODE
+
+          * `WAY` - WAY
+
+          * `RELATION` - RELATION'
+      - name: order_by
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - in: query
+        name: owner
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: prediction_count
+        schema:
+          type: integer
+      - in: query
+        name: prediction_count__gte
+        schema:
+          type: integer
+      - in: query
+        name: prediction_count__lte
+        schema:
+          type: integer
+      - in: query
+        name: price_count
+        schema:
+          type: integer
+      - in: query
+        name: price_count__gte
+        schema:
+          type: integer
+      - in: query
+        name: price_count__lte
+        schema:
+          type: integer
+      - in: query
+        name: ready_for_price_tag_validation
+        schema:
+          type: boolean
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: tags__contains
+        schema:
+          type: string
+      - in: query
+        name: tags__not_contains
+        schema:
+          type: string
+      - in: query
+        name: type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - GDPR_REQUEST
+            - PRICE_TAG
+            - RECEIPT
+            - SHOP_IMPORT
+        description: '* `PRICE_TAG` - PRICE_TAG
+
+          * `RECEIPT` - RECEIPT
+
+          * `GDPR_REQUEST` - GDPR_REQUEST
+
+          * `SHOP_IMPORT` - SHOP_IMPORT'
+        explode: true
+        style: form
+      tags:
+      - proofs
+      security:
+      - CustomAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProofFullList'
+          description: ''
+      summary: Proofs drafts list
+      x-summary-source: derived
+  /api/v1/proofs/drafts/{id}:
+    get:
+      operationId: proofs_drafts_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Proof.
+        required: true
+      tags:
+      - proofs
+      security:
+      - CustomAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProofFull'
+          description: ''
+      summary: Proofs drafts retrieve
+      x-summary-source: derived
+    patch:
+      operationId: proofs_drafts_partial_update
+      description: Finalize a draft proof - set draft=False and add full metadata.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Proof.
+        required: true
+      tags:
+      - proofs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProofUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProofUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProofUpdate'
+      security:
+      - CustomAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProofFull'
+          description: ''
+      summary: Proofs drafts partial update
+      x-summary-source: derived
+    delete:
+      operationId: proofs_drafts_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Proof.
+        required: true
+      tags:
+      - proofs
+      security:
+      - CustomAuthentication: []
+      responses:
+        '204':
+          description: No response body
+      summary: Proofs drafts destroy
+      x-summary-source: derived
+  /api/v1/proofs/drafts/{id}/anonymize:
+    post:
+      operationId: proofs_drafts_anonymize_create
+      description: Anonymize a receipt.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Proof.
+        required: true
+      tags:
+      - proofs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DraftProofAnonymizeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DraftProofAnonymizeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DraftProofAnonymizeRequest'
+        required: true
+      security:
+      - CustomAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProofFull'
+          description: ''
+      summary: Proofs drafts anonymize create
+      x-summary-source: derived
+  /api/v1/proofs/drafts/upload:
+    post:
+      operationId: proofs_drafts_upload_create
+      description: 'Upload a draft proof.
+
+
+        Only the file and type fields are expected. ML models runs immediately asynchronously.'
+      tags:
+      - proofs
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProofDraftUpload'
+        required: true
+      security:
+      - CustomAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProofFull'
+          description: ''
+      summary: Proofs drafts upload create
+      x-summary-source: derived
+  /api/v1/proofs/process-with-gemini:
+    post:
+      operationId: proofs_process_with_gemini_create
+      tags:
+      - proofs
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProofProcessWithGemini'
+        required: true
+      security:
+      - CustomAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProofFull'
+          description: ''
+      summary: Proofs process with gemini create
+      x-summary-source: derived
+  /api/v1/proofs/upload:
+    post:
+      operationId: proofs_upload_create
+      tags:
+      - proofs
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProofUpload'
+        required: true
+      security:
+      - CustomAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProofFull'
+          description: ''
+      summary: Proofs upload create
+      x-summary-source: derived
+components:
+  schemas:
+    ProofFull:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        location_id:
+          type: integer
+        location:
+          $ref: '#/components/schemas/Location'
+        predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProofPrediction'
+          readOnly: true
+        file_path:
+          type:
+          - string
+          - 'null'
+        mimetype:
+          type:
+          - string
+          - 'null'
+        type:
+          $ref: '#/components/schemas/ProofTypeEnum'
+        image_md5_hash:
+          type:
+          - string
+          - 'null'
+          maxLength: 32
+        image_thumb_path:
+          type:
+          - string
+          - 'null'
+        location_osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        location_osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        date:
+          type:
+          - string
+          - 'null'
+          format: date
+        currency:
+          oneOf:
+          - $ref: '#/components/schemas/CurrencyEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        receipt_price_count:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+          title: Receipt's number of prices (user input)
+        receipt_price_total:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's total amount (user input)
+          exclusiveMaximum: 10000000
+        receipt_online_delivery_costs:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's online delivery costs (user input)
+          exclusiveMaximum: 10000000
+        ready_for_price_tag_validation:
+          type: boolean
+        owner_consumption:
+          type:
+          - boolean
+          - 'null'
+        owner_comment:
+          type:
+          - string
+          - 'null'
+        draft:
+          type: boolean
+        price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        prediction_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        owner:
+          type:
+          - string
+          - 'null'
+        source:
+          type:
+          - string
+          - 'null'
+        tags:
+          type: array
+          items:
+            type: string
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - location
+      - location_id
+      - predictions
+      - type
+      - updated
+    PaginatedProofHalfFullList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProofHalfFull'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    ProofHistory:
+      type: object
+      properties:
+        history_id:
+          type: integer
+        history_date:
+          type: string
+          format: date-time
+        history_change_reason:
+          type: string
+        history_type:
+          $ref: '#/components/schemas/HistoryTypeEnum'
+        history_user_id:
+          type: string
+        changes:
+          type: array
+          items: {}
+      required:
+      - changes
+      - history_change_reason
+      - history_date
+      - history_id
+      - history_type
+      - history_user_id
+    ProofDraftUpload:
+      type: object
+      description: Serializer for draft proof upload - accepts only the file and type fields.
+      properties:
+        file:
+          type: string
+        type:
+          $ref: '#/components/schemas/ProofTypeEnum'
+      required:
+      - file
+      - type
+    PatchedProofUpdate:
+      type: object
+      properties:
+        location_osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        location_osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        type:
+          $ref: '#/components/schemas/ProofTypeEnum'
+        currency:
+          oneOf:
+          - $ref: '#/components/schemas/CurrencyEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        date:
+          type:
+          - string
+          - 'null'
+          format: date
+        receipt_price_count:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+          title: Receipt's number of prices (user input)
+        receipt_price_total:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's total amount (user input)
+          exclusiveMaximum: 10000000
+        receipt_online_delivery_costs:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's online delivery costs (user input)
+          exclusiveMaximum: 10000000
+        ready_for_price_tag_validation:
+          type: boolean
+        owner_consumption:
+          type:
+          - boolean
+          - 'null'
+        owner_comment:
+          type:
+          - string
+          - 'null'
+    NullEnum:
+      enum:
+      - null
+    LocationTypeEnum:
+      enum:
+      - OSM
+      - ONLINE
+      type: string
+      description: '* `OSM` - OSM
+
+        * `ONLINE` - ONLINE'
+    HistoryTypeEnum:
+      enum:
+      - +
+      - '~'
+      - '-'
+      type: string
+      description: '* `+` - Created
+
+        * `~` - Changed
+
+        * `-` - Deleted'
+    ProofUpload:
+      type: object
+      properties:
+        file:
+          type: string
+        location_osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        location_osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        type:
+          $ref: '#/components/schemas/ProofTypeEnum'
+        currency:
+          oneOf:
+          - $ref: '#/components/schemas/CurrencyEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        date:
+          type:
+          - string
+          - 'null'
+          format: date
+        receipt_price_count:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+          title: Receipt's number of prices (user input)
+        receipt_price_total:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's total amount (user input)
+          exclusiveMaximum: 10000000
+        receipt_online_delivery_costs:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's online delivery costs (user input)
+          exclusiveMaximum: 10000000
+        ready_for_price_tag_validation:
+          type: boolean
+        owner_consumption:
+          type:
+          - boolean
+          - 'null'
+        owner_comment:
+          type:
+          - string
+          - 'null'
+        location_id:
+          type: integer
+      required:
+      - file
+      - type
+    ProofPrediction:
+      type: object
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/ProofPredictionTypeEnum'
+          title: The type of the prediction
+        model_name:
+          type: string
+          title: The name of the model that generated the prediction
+          maxLength: 30
+        model_version:
+          type: string
+          title: The specific version of the model that generated the prediction
+          maxLength: 30
+        data:
+          title: A dict representing the data of the prediction. This field is model-specific.
+        value:
+          type:
+          - string
+          - 'null'
+          title: The predicted value, only for classification models, null otherwise.
+          maxLength: 30
+        max_confidence:
+          type:
+          - number
+          - 'null'
+          format: double
+          title: The maximum confidence of the prediction, may be null for some models.For object detection models, this is the confidence of the most confident object.For classification models, this is the confidence of the predicted class.
+        created:
+          type: string
+          format: date-time
+          title: When the prediction was created in DB
+      required:
+      - model_name
+      - model_version
+      - type
+    ProofHalfFull:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        location_id:
+          type: integer
+        location:
+          $ref: '#/components/schemas/Location'
+        file_path:
+          type:
+          - string
+          - 'null'
+        mimetype:
+          type:
+          - string
+          - 'null'
+        type:
+          $ref: '#/components/schemas/ProofTypeEnum'
+        image_md5_hash:
+          type:
+          - string
+          - 'null'
+          maxLength: 32
+        image_thumb_path:
+          type:
+          - string
+          - 'null'
+        location_osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        location_osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        date:
+          type:
+          - string
+          - 'null'
+          format: date
+        currency:
+          oneOf:
+          - $ref: '#/components/schemas/CurrencyEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        receipt_price_count:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+          title: Receipt's number of prices (user input)
+        receipt_price_total:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's total amount (user input)
+          exclusiveMaximum: 10000000
+        receipt_online_delivery_costs:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's online delivery costs (user input)
+          exclusiveMaximum: 10000000
+        ready_for_price_tag_validation:
+          type: boolean
+        owner_consumption:
+          type:
+          - boolean
+          - 'null'
+        owner_comment:
+          type:
+          - string
+          - 'null'
+        draft:
+          type: boolean
+        price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        prediction_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        owner:
+          type:
+          - string
+          - 'null'
+        source:
+          type:
+          - string
+          - 'null'
+        tags:
+          type: array
+          items:
+            type: string
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - location
+      - location_id
+      - type
+      - updated
+    PaginatedProofHistoryList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProofHistory'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    PaginatedProofFullList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProofFull'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    ProofTypeEnum:
+      enum:
+      - PRICE_TAG
+      - RECEIPT
+      - GDPR_REQUEST
+      - SHOP_IMPORT
+      type: string
+      description: '* `PRICE_TAG` - PRICE_TAG
+
+        * `RECEIPT` - RECEIPT
+
+        * `GDPR_REQUEST` - GDPR_REQUEST
+
+        * `SHOP_IMPORT` - SHOP_IMPORT'
+    ProofPredictionTypeEnum:
+      enum:
+      - OBJECT_DETECTION
+      - CLASSIFICATION
+      - RECEIPT_EXTRACTION
+      - RECEIPT_ANONYMIZATION
+      type: string
+      description: '* `OBJECT_DETECTION` - OBJECT_DETECTION
+
+        * `CLASSIFICATION` - CLASSIFICATION
+
+        * `RECEIPT_EXTRACTION` - RECEIPT_EXTRACTION
+
+        * `RECEIPT_ANONYMIZATION` - RECEIPT_ANONYMIZATION'
+    LocationOsmTypeEnum:
+      enum:
+      - NODE
+      - WAY
+      - RELATION
+      type: string
+      description: '* `NODE` - NODE
+
+        * `WAY` - WAY
+
+        * `RELATION` - RELATION'
+    ProofProcessWithGemini:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+      required:
+      - files
+      - mode
+    ProofUpdate:
+      type: object
+      properties:
+        location_osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        location_osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        type:
+          $ref: '#/components/schemas/ProofTypeEnum'
+        currency:
+          oneOf:
+          - $ref: '#/components/schemas/CurrencyEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        date:
+          type:
+          - string
+          - 'null'
+          format: date
+        receipt_price_count:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+          title: Receipt's number of prices (user input)
+        receipt_price_total:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's total amount (user input)
+          exclusiveMaximum: 10000000
+        receipt_online_delivery_costs:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's online delivery costs (user input)
+          exclusiveMaximum: 10000000
+        ready_for_price_tag_validation:
+          type: boolean
+        owner_consumption:
+          type:
+          - boolean
+          - 'null'
+        owner_comment:
+          type:
+          - string
+          - 'null'
+      required:
+      - type
+    BlankEnum:
+      enum:
+      - ''
+    CurrencyEnum:
+      enum:
+      - ADP
+      - AED
+      - AFA
+      - AFN
+      - ALK
+      - ALL
+      - AMD
+      - ANG
+      - AOA
+      - AOK
+      - AON
+      - AOR
+      - ARA
+      - ARL
+      - ARM
+      - ARP
+      - ARS
+      - ATS
+      - AUD
+      - AWG
+      - AZM
+      - AZN
+      - BAD
+      - BAM
+      - BAN
+      - BBD
+      - BDT
+      - BEC
+      - BEF
+      - BEL
+      - BGL
+      - BGM
+      - BGN
+      - BGO
+      - BHD
+      - BIF
+      - BMD
+      - BND
+      - BOB
+      - BOL
+      - BOP
+      - BOV
+      - BRB
+      - BRC
+      - BRE
+      - BRL
+      - BRN
+      - BRR
+      - BRZ
+      - BSD
+      - BTN
+      - BUK
+      - BWP
+      - BYB
+      - BYN
+      - BYR
+      - BZD
+      - CAD
+      - CDF
+      - CHE
+      - CHF
+      - CHW
+      - CLE
+      - CLF
+      - CLP
+      - CNH
+      - CNX
+      - CNY
+      - COP
+      - COU
+      - CRC
+      - CSD
+      - CSK
+      - CUC
+      - CUP
+      - CVE
+      - CYP
+      - CZK
+      - DDM
+      - DEM
+      - DJF
+      - DKK
+      - DOP
+      - DZD
+      - ECS
+      - ECV
+      - EEK
+      - EGP
+      - ERN
+      - ESA
+      - ESB
+      - ESP
+      - ETB
+      - EUR
+      - FIM
+      - FJD
+      - FKP
+      - FRF
+      - GBP
+      - GEK
+      - GEL
+      - GHC
+      - GHS
+      - GIP
+      - GMD
+      - GNF
+      - GNS
+      - GQE
+      - GRD
+      - GTQ
+      - GWE
+      - GWP
+      - GYD
+      - HKD
+      - HNL
+      - HRD
+      - HRK
+      - HTG
+      - HUF
+      - IDR
+      - IEP
+      - ILP
+      - ILR
+      - ILS
+      - INR
+      - IQD
+      - IRR
+      - ISJ
+      - ISK
+      - ITL
+      - JMD
+      - JOD
+      - JPY
+      - KES
+      - KGS
+      - KHR
+      - KMF
+      - KPW
+      - KRH
+      - KRO
+      - KRW
+      - KWD
+      - KYD
+      - KZT
+      - LAK
+      - LBP
+      - LKR
+      - LRD
+      - LSL
+      - LTL
+      - LTT
+      - LUC
+      - LUF
+      - LUL
+      - LVL
+      - LVR
+      - LYD
+      - MAD
+      - MAF
+      - MCF
+      - MDC
+      - MDL
+      - MGA
+      - MGF
+      - MKD
+      - MKN
+      - MLF
+      - MMK
+      - MNT
+      - MOP
+      - MRO
+      - MRU
+      - MTL
+      - MTP
+      - MUR
+      - MVP
+      - MVR
+      - MWK
+      - MXN
+      - MXP
+      - MXV
+      - MYR
+      - MZE
+      - MZM
+      - MZN
+      - NAD
+      - NGN
+      - NIC
+      - NIO
+      - NLG
+      - NOK
+      - NPR
+      - NZD
+      - OMR
+      - PAB
+      - PEI
+      - PEN
+      - PES
+      - PGK
+      - PHP
+      - PKR
+      - PLN
+      - PLZ
+      - PTE
+      - PYG
+      - QAR
+      - RHD
+      - ROL
+      - RON
+      - RSD
+      - RUB
+      - RUR
+      - RWF
+      - SAR
+      - SBD
+      - SCR
+      - SDD
+      - SDG
+      - SDP
+      - SEK
+      - SGD
+      - SHP
+      - SIT
+      - SKK
+      - SLE
+      - SLL
+      - SOS
+      - SRD
+      - SRG
+      - SSP
+      - STD
+      - STN
+      - SUR
+      - SVC
+      - SYP
+      - SZL
+      - THB
+      - TJR
+      - TJS
+      - TMM
+      - TMT
+      - TND
+      - TOP
+      - TPE
+      - TRL
+      - TRY
+      - TTD
+      - TWD
+      - TZS
+      - UAH
+      - UAK
+      - UGS
+      - UGX
+      - USD
+      - USN
+      - USS
+      - UYI
+      - UYP
+      - UYU
+      - UYW
+      - UZS
+      - VEB
+      - VED
+      - VEF
+      - VES
+      - VND
+      - VNN
+      - VUV
+      - WST
+      - XAF
+      - XAG
+      - XAU
+      - XBA
+      - XBB
+      - XBC
+      - XBD
+      - XCD
+      - XCG
+      - XDR
+      - XEU
+      - XFO
+      - XFU
+      - XOF
+      - XPD
+      - XPF
+      - XPT
+      - XRE
+      - XSU
+      - XTS
+      - XUA
+      - XXX
+      - YDD
+      - YER
+      - YUD
+      - YUM
+      - YUN
+      - YUR
+      - ZAL
+      - ZAR
+      - ZMK
+      - ZMW
+      - ZRN
+      - ZRZ
+      - ZWD
+      - ZWG
+      - ZWL
+      - ZWR
+      type: string
+      description: '* `ADP` - ADP
+
+        * `AED` - AED
+
+        * `AFA` - AFA
+
+        * `AFN` - AFN
+
+        * `ALK` - ALK
+
+        * `ALL` - ALL
+
+        * `AMD` - AMD
+
+        * `ANG` - ANG
+
+        * `AOA` - AOA
+
+        * `AOK` - AOK
+
+        * `AON` - AON
+
+        * `AOR` - AOR
+
+        * `ARA` - ARA
+
+        * `ARL` - ARL
+
+        * `ARM` - ARM
+
+        * `ARP` - ARP
+
+        * `ARS` - ARS
+
+        * `ATS` - ATS
+
+        * `AUD` - AUD
+
+        * `AWG` - AWG
+
+        * `AZM` - AZM
+
+        * `AZN` - AZN
+
+        * `BAD` - BAD
+
+        * `BAM` - BAM
+
+        * `BAN` - BAN
+
+        * `BBD` - BBD
+
+        * `BDT` - BDT
+
+        * `BEC` - BEC
+
+        * `BEF` - BEF
+
+        * `BEL` - BEL
+
+        * `BGL` - BGL
+
+        * `BGM` - BGM
+
+        * `BGN` - BGN
+
+        * `BGO` - BGO
+
+        * `BHD` - BHD
+
+        * `BIF` - BIF
+
+        * `BMD` - BMD
+
+        * `BND` - BND
+
+        * `BOB` - BOB
+
+        * `BOL` - BOL
+
+        * `BOP` - BOP
+
+        * `BOV` - BOV
+
+        * `BRB` - BRB
+
+        * `BRC` - BRC
+
+        * `BRE` - BRE
+
+        * `BRL` - BRL
+
+        * `BRN` - BRN
+
+        * `BRR` - BRR
+
+        * `BRZ` - BRZ
+
+        * `BSD` - BSD
+
+        * `BTN` - BTN
+
+        * `BUK` - BUK
+
+        * `BWP` - BWP
+
+        * `BYB` - BYB
+
+        * `BYN` - BYN
+
+        * `BYR` - BYR
+
+        * `BZD` - BZD
+
+        * `CAD` - CAD
+
+        * `CDF` - CDF
+
+        * `CHE` - CHE
+
+        * `CHF` - CHF
+
+        * `CHW` - CHW
+
+        * `CLE` - CLE
+
+        * `CLF` - CLF
+
+        * `CLP` - CLP
+
+        * `CNH` - CNH
+
+        * `CNX` - CNX
+
+        * `CNY` - CNY
+
+        * `COP` - COP
+
+        * `COU` - COU
+
+        * `CRC` - CRC
+
+        * `CSD` - CSD
+
+        * `CSK` - CSK
+
+        * `CUC` - CUC
+
+        * `CUP` - CUP
+
+        * `CVE` - CVE
+
+        * `CYP` - CYP
+
+        * `CZK` - CZK
+
+        * `DDM` - DDM
+
+        * `DEM` - DEM
+
+        * `DJF` - DJF
+
+        * `DKK` - DKK
+
+        * `DOP` - DOP
+
+        * `DZD` - DZD
+
+        * `ECS` - ECS
+
+        * `ECV` - ECV
+
+        * `EEK` - EEK
+
+        * `EGP` - EGP
+
+        * `ERN` - ERN
+
+        * `ESA` - ESA
+
+        * `ESB` - ESB
+
+        * `ESP` - ESP
+
+        * `ETB` - ETB
+
+        * `EUR` - EUR
+
+        * `FIM` - FIM
+
+        * `FJD` - FJD
+
+        * `FKP` - FKP
+
+        * `FRF` - FRF
+
+        * `GBP` - GBP
+
+        * `GEK` - GEK
+
+        * `GEL` - GEL
+
+        * `GHC` - GHC
+
+        * `GHS` - GHS
+
+        * `GIP` - GIP
+
+        * `GMD` - GMD
+
+        * `GNF` - GNF
+
+        * `GNS` - GNS
+
+        * `GQE` - GQE
+
+        * `GRD` - GRD
+
+        * `GTQ` - GTQ
+
+        * `GWE` - GWE
+
+        * `GWP` - GWP
+
+        * `GYD` - GYD
+
+        * `HKD` - HKD
+
+        * `HNL` - HNL
+
+        * `HRD` - HRD
+
+        * `HRK` - HRK
+
+        * `HTG` - HTG
+
+        * `HUF` - HUF
+
+        * `IDR` - IDR
+
+        * `IEP` - IEP
+
+        * `ILP` - ILP
+
+        * `ILR` - ILR
+
+        * `ILS` - ILS
+
+        * `INR` - INR
+
+        * `IQD` - IQD
+
+        * `IRR` - IRR
+
+        * `ISJ` - ISJ
+
+        * `ISK` - ISK
+
+        * `ITL` - ITL
+
+        * `JMD` - JMD
+
+        * `JOD` - JOD
+
+        * `JPY` - JPY
+
+        * `KES` - KES
+
+        * `KGS` - KGS
+
+        * `KHR` - KHR
+
+        * `KMF` - KMF
+
+        * `KPW` - KPW
+
+        * `KRH` - KRH
+
+        * `KRO` - KRO
+
+        * `KRW` - KRW
+
+        * `KWD` - KWD
+
+        * `KYD` - KYD
+
+        * `KZT` - KZT
+
+        * `LAK` - LAK
+
+        * `LBP` - LBP
+
+        * `LKR` - LKR
+
+        * `LRD` - LRD
+
+        * `LSL` - LSL
+
+        * `LTL` - LTL
+
+        * `LTT` - LTT
+
+        * `LUC` - LUC
+
+        * `LUF` - LUF
+
+        * `LUL` - LUL
+
+        * `LVL` - LVL
+
+        * `LVR` - LVR
+
+        * `LYD` - LYD
+
+        * `MAD` - MAD
+
+        * `MAF` - MAF
+
+        * `MCF` - MCF
+
+        * `MDC` - MDC
+
+        * `MDL` - MDL
+
+        * `MGA` - MGA
+
+        * `MGF` - MGF
+
+        * `MKD` - MKD
+
+        * `MKN` - MKN
+
+        * `MLF` - MLF
+
+        * `MMK` - MMK
+
+        * `MNT` - MNT
+
+        * `MOP` - MOP
+
+        * `MRO` - MRO
+
+        * `MRU` - MRU
+
+        * `MTL` - MTL
+
+        * `MTP` - MTP
+
+        * `MUR` - MUR
+
+        * `MVP` - MVP
+
+        * `MVR` - MVR
+
+        * `MWK` - MWK
+
+        * `MXN` - MXN
+
+        * `MXP` - MXP
+
+        * `MXV` - MXV
+
+        * `MYR` - MYR
+
+        * `MZE` - MZE
+
+        * `MZM` - MZM
+
+        * `MZN` - MZN
+
+        * `NAD` - NAD
+
+        * `NGN` - NGN
+
+        * `NIC` - NIC
+
+        * `NIO` - NIO
+
+        * `NLG` - NLG
+
+        * `NOK` - NOK
+
+        * `NPR` - NPR
+
+        * `NZD` - NZD
+
+        * `OMR` - OMR
+
+        * `PAB` - PAB
+
+        * `PEI` - PEI
+
+        * `PEN` - PEN
+
+        * `PES` - PES
+
+        * `PGK` - PGK
+
+        * `PHP` - PHP
+
+        * `PKR` - PKR
+
+        * `PLN` - PLN
+
+        * `PLZ` - PLZ
+
+        * `PTE` - PTE
+
+        * `PYG` - PYG
+
+        * `QAR` - QAR
+
+        * `RHD` - RHD
+
+        * `ROL` - ROL
+
+        * `RON` - RON
+
+        * `RSD` - RSD
+
+        * `RUB` - RUB
+
+        * `RUR` - RUR
+
+        * `RWF` - RWF
+
+        * `SAR` - SAR
+
+        * `SBD` - SBD
+
+        * `SCR` - SCR
+
+        * `SDD` - SDD
+
+        * `SDG` - SDG
+
+        * `SDP` - SDP
+
+        * `SEK` - SEK
+
+        * `SGD` - SGD
+
+        * `SHP` - SHP
+
+        * `SIT` - SIT
+
+        * `SKK` - SKK
+
+        * `SLE` - SLE
+
+        * `SLL` - SLL
+
+        * `SOS` - SOS
+
+        * `SRD` - SRD
+
+        * `SRG` - SRG
+
+        * `SSP` - SSP
+
+        * `STD` - STD
+
+        * `STN` - STN
+
+        * `SUR` - SUR
+
+        * `SVC` - SVC
+
+        * `SYP` - SYP
+
+        * `SZL` - SZL
+
+        * `THB` - THB
+
+        * `TJR` - TJR
+
+        * `TJS` - TJS
+
+        * `TMM` - TMM
+
+        * `TMT` - TMT
+
+        * `TND` - TND
+
+        * `TOP` - TOP
+
+        * `TPE` - TPE
+
+        * `TRL` - TRL
+
+        * `TRY` - TRY
+
+        * `TTD` - TTD
+
+        * `TWD` - TWD
+
+        * `TZS` - TZS
+
+        * `UAH` - UAH
+
+        * `UAK` - UAK
+
+        * `UGS` - UGS
+
+        * `UGX` - UGX
+
+        * `USD` - USD
+
+        * `USN` - USN
+
+        * `USS` - USS
+
+        * `UYI` - UYI
+
+        * `UYP` - UYP
+
+        * `UYU` - UYU
+
+        * `UYW` - UYW
+
+        * `UZS` - UZS
+
+        * `VEB` - VEB
+
+        * `VED` - VED
+
+        * `VEF` - VEF
+
+        * `VES` - VES
+
+        * `VND` - VND
+
+        * `VNN` - VNN
+
+        * `VUV` - VUV
+
+        * `WST` - WST
+
+        * `XAF` - XAF
+
+        * `XAG` - XAG
+
+        * `XAU` - XAU
+
+        * `XBA` - XBA
+
+        * `XBB` - XBB
+
+        * `XBC` - XBC
+
+        * `XBD` - XBD
+
+        * `XCD` - XCD
+
+        * `XCG` - XCG
+
+        * `XDR` - XDR
+
+        * `XEU` - XEU
+
+        * `XFO` - XFO
+
+        * `XFU` - XFU
+
+        * `XOF` - XOF
+
+        * `XPD` - XPD
+
+        * `XPF` - XPF
+
+        * `XPT` - XPT
+
+        * `XRE` - XRE
+
+        * `XSU` - XSU
+
+        * `XTS` - XTS
+
+        * `XUA` - XUA
+
+        * `XXX` - XXX
+
+        * `YDD` - YDD
+
+        * `YER` - YER
+
+        * `YUD` - YUD
+
+        * `YUM` - YUM
+
+        * `YUN` - YUN
+
+        * `YUR` - YUR
+
+        * `ZAL` - ZAL
+
+        * `ZAR` - ZAR
+
+        * `ZMK` - ZMK
+
+        * `ZMW` - ZMW
+
+        * `ZRN` - ZRN
+
+        * `ZRZ` - ZRZ
+
+        * `ZWD` - ZWD
+
+        * `ZWG` - ZWG
+
+        * `ZWL` - ZWL
+
+        * `ZWR` - ZWR'
+    DraftProofAnonymizeRequest:
+      type: object
+      description: Serializer for payload when anonymizing a receipt.
+      properties:
+        bounding_boxes:
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+              format: double
+            maxItems: 4
+            minItems: 4
+          minItems: 1
+      required:
+      - bounding_boxes
+    Location:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        osm_brand_logo_url:
+          type: string
+          readOnly: true
+        type:
+          $ref: '#/components/schemas/LocationTypeEnum'
+        osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        osm_name:
+          type:
+          - string
+          - 'null'
+        osm_display_name:
+          type:
+          - string
+          - 'null'
+        osm_tag_key:
+          type:
+          - string
+          - 'null'
+        osm_tag_value:
+          type:
+          - string
+          - 'null'
+        osm_brand:
+          type:
+          - string
+          - 'null'
+        osm_address_postcode:
+          type:
+          - string
+          - 'null'
+        osm_address_city:
+          type:
+          - string
+          - 'null'
+        osm_address_country:
+          type:
+          - string
+          - 'null'
+        osm_address_country_code:
+          type:
+          - string
+          - 'null'
+        osm_lat:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000
+          exclusiveMaximum: 10000
+        osm_lon:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000
+          exclusiveMaximum: 10000
+        osm_version:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        osm_version_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        website_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          maxLength: 200
+        price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        user_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        source:
+          type:
+          - string
+          - 'null'
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - osm_brand_logo_url
+      - type
+      - updated
+  securitySchemes:
+    CustomAuthentication:
+      type: http
+      scheme: bearer

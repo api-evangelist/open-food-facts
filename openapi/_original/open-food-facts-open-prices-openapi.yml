@@ -1,3 +1,5 @@
+# x-archived-from: open-food-facts-open-prices-openapi.yml
+# x-archived-on: 2026-09-26
 openapi: 3.0.3
 info:
   title: Open Food Facts open-prices REST API

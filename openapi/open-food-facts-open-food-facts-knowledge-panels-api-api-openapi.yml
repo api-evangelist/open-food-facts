@@ -1,0 +1,29 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts Knowledge Panels API
+  description: 'Providing knowledge panels for a particular Open Food Facts facet (category, brand, etc...)
+
+
+    A standardized way for clients to get semi-structured but generic data that they can present to users on product pages.'
+  contact:
+    name: Slack
+    url: https://openfoodfacts.slack.com/archives/C03LFRKLVBQ
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+  version: 0.0.1
+tags:
+- name: Open Food Facts Knowledge Panels API
+paths:
+  /:
+    get:
+      summary: Hello
+      operationId: hello__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Open Food Facts Knowledge Panels API

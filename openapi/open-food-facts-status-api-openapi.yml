@@ -1,0 +1,51 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts Status API
+  license:
+    name: ' AGPL-3.0'
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+  version: '1.0'
+  description: 'Operations tagged Status across 2 of this provider''s published API definitions: open-food-facts-nutripatrol-openapi.json, open-food-facts-open-prices-openapi.yml. Each path carries the servers of the definition it was published in.'
+tags:
+- name: Status
+paths:
+  /api/v1/status:
+    get:
+      summary: Status
+      description: Health check endpoint.
+      operationId: status_api_v1_status_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+      tags:
+      - Status
+components:
+  schemas:
+    StatusResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: Health status of the API
+      type: object
+      required:
+      - status
+      title: StatusResponse
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+      - status
+  securitySchemes:
+    CustomAuthentication:
+      type: http
+      scheme: bearer
+x-refined-from:
+- open-food-facts-nutripatrol-openapi.json
+- open-food-facts-open-prices-openapi.yml

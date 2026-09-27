@@ -1,0 +1,37 @@
+openapi: 3.2.0
+info:
+  title: search-a-licious Search A Licious API
+  description: 'The Search-a-licious API helps you quickly build applications with search capabilities.
+
+
+    You can find the API documentation here.
+
+
+    See also the available web-components to build your search interface.
+
+
+    See the project for more information.'
+  contact:
+    name: The Open Food Facts team
+    url: https://world.openfoodfacts.org/
+    email: contact@openfoodfacts.org
+  license:
+    name: ' AGPL-3.0'
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+  version: 0.1.0
+tags:
+- name: Search A Licious API
+paths:
+  /:
+    get:
+      summary: Off Demo
+      operationId: off_demo__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            text/html:
+              schema:
+                type: string
+      tags:
+      - Search A Licious API

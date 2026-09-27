@@ -1,0 +1,55 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts folksonomy REST User API
+  description: 'Folksonomy Engine API allows you to add free property/value pairs to Open Food Facts products.
+
+
+    The API use the main following variables:
+
+    * **product**: the product number
+
+    * **k**: "key", meaning the property or tag
+
+    * **v**: "value", the value for a related key
+
+
+    ## See also
+
+
+    * Project page
+
+    * Folksonomy Engine github repository
+
+    * Documented properties'
+  version: 0.1.0
+servers:
+- url: https://api.folksonomy.openfoodfacts.org
+  description: Production server
+- url: http://localhost:8000
+  description: Local development server
+tags:
+- name: User
+paths:
+  /user/me:
+    get:
+      summary: Get User Info
+      description: Get current user roles (admin, moderator, user)
+      operationId: get_user_info_user_me_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - OAuth2PasswordBearer: []
+      tags:
+      - User
+components:
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: auth

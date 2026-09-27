@@ -1,0 +1,150 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts knowledge Panels Render to HTML API
+  description: 'Providing knowledge panels for a particular Open Food Facts facet (category, brand, etc...)
+
+
+    A standardized way for clients to get semi-structured but generic data that they can present to users on product pages.'
+  contact:
+    name: Slack
+    url: https://openfoodfacts.slack.com/archives/C03LFRKLVBQ
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+  version: 0.0.1
+tags:
+- name: Render to HTML
+  description: Render html based on knowledge panels.
+paths:
+  /render-to-html:
+    get:
+      tags:
+      - Render to HTML
+      summary: Render Html
+      description: 'Render item.html using jinja2
+
+        This is helper function to make thing easier while injecting facet_kp in off-server'
+      operationId: render_html_render_to_html_get
+      parameters:
+      - description: Facet tag string for the items to search in the database eg:- `category` etc.
+        required: true
+        schema:
+          type: string
+          title: Facet tag string
+          description: Facet tag string for the items to search in the database eg:- `category` etc.
+        name: facet_tag
+        in: query
+      - description: value tag string for the items to search in the database eg:-`en:beers` etc.
+        required: false
+        schema:
+          type: string
+          title: Value tag string
+          description: value tag string for the items to search in the database eg:-`en:beers` etc.
+        name: value_tag
+        in: query
+      - description: secondary facet tag string for the items to search in the database eg:-`brand` etc.
+        required: false
+        schema:
+          type: string
+          title: secondary facet tag string
+          description: secondary facet tag string for the items to search in the database eg:-`brand` etc.
+        name: sec_facet_tag
+        in: query
+      - description: secondary value tag string for the items to search in the database eg:-`lidl` etc.
+        required: false
+        schema:
+          type: string
+          title: secondary value tag string
+          description: secondary value tag string for the items to search in the database eg:-`lidl` etc.
+        name: sec_value_tag
+        in: query
+      - description: 'To return knowledge panels in native language, default lang: `en`.'
+        required: false
+        schema:
+          type: string
+          title: language code string
+          description: 'To return knowledge panels in native language, default lang: `en`.'
+        name: lang_code
+        in: query
+      - description: 'To return knowledge panels for specific country, ex: `france` or `fr`.'
+        required: false
+        schema:
+          type: string
+          title: Country tag string
+          description: 'To return knowledge panels for specific country, ex: `france` or `fr`.'
+        name: country
+        in: query
+      - description: a list of panel names to include, it is incompatible with `exclude` parameter. If neither `include` or `exclude` is provided, we display `hunger_game` and `wikidata` by default.
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/PanelName'
+          type: array
+          title: Panel name exclude list
+          description: a list of panel names to include, it is incompatible with `exclude` parameter. If neither `include` or `exclude` is provided, we display `hunger_game` and `wikidata` by default.
+        name: include
+        in: query
+      - description: a list of panel names to exclude, it is incompatible with `include` parameter
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/PanelName'
+          type: array
+          title: Panel name exclude list
+          description: a list of panel names to exclude, it is incompatible with `include` parameter
+        name: exclude
+        in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            text/html:
+              schema:
+                type: string
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    PanelName:
+      type: string
+      enum:
+      - last_edits
+      - data_quality
+      - hunger_game
+      - wikidata
+      title: PanelName
+      description: An enumeration.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

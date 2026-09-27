@@ -1,0 +1,132 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts Open Nutrients API
+  description: 'As a developer, the Open Food Facts API allows you to get information
+
+    and contribute to the products database. You can create great apps to
+
+    help people make better food choices and also provide data to enhance the database.
+
+
+    **IMPORTANT**: Please read the API introduction before using this API.'
+  termsOfService: https://world.openfoodfacts.org/terms-of-use
+  contact:
+    name: Open Food Facts
+    url: https://slack.openfoodfacts.org/
+    email: reuse@openfoodfacts.org
+  license:
+    name: 'data: ODbL'
+    url: https://opendatacommons.org/licenses/odbl/summary/index.html
+    x-identifier: ODbL-1.0
+  version: '2'
+servers:
+- description: dev
+  url: https://world.openfoodfacts.net
+- description: prod
+  url: https://world.openfoodfacts.org
+- description: proxy (for doc purpose)
+  url: http://localhost:8080
+security:
+- userAgentAuth: []
+tags:
+- name: Nutrients
+  description: Endpoints for retrieving nutrition-related data and facts.
+paths:
+  /cgi/nutrients.pl:
+    get:
+      summary: Get Nutrients List
+      tags:
+      - Nutrients
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: 'Nutrients and sub-nutrients of a product, with their name and default unit.
+
+                  (e.g. saturated-fat is a sub-nutrient of fat).
+
+                  '
+                items:
+                  $ref: '#/components/schemas/Nutrient'
+      operationId: get-cgi-nutrients.pl
+      parameters:
+      - name: cc
+        in: query
+        description: 2 letter code of the country of the user. Used for localizing some fields in returned values (e.g. knowledge panels). If not passed, the country may be inferred by the IP address of the request.
+        required: false
+        schema:
+          type: string
+          example: us
+      - name: lc
+        in: query
+        description: '2 letter code of the language of the user.
+
+          Used for localizing some fields in returned values (e.g. knowledge panels).
+
+          If not passed, the language may be inferred by the domain name prefix.
+
+          '
+        required: false
+        schema:
+          type: string
+          example: fr
+      description: Used to display the nutrition facts table of a product, or to display a form to input those nutrition facts.
+components:
+  schemas:
+    Nutrient:
+      type: object
+      title: nutrient
+      properties:
+        id:
+          type: string
+          description: id of the nutrient
+        name:
+          type: string
+          description: Name of the nutrient in the requested language
+        important:
+          type: boolean
+          description: Indicates if the nutrient is always shown on the nutrition facts table
+        display_in_edit_form:
+          type: boolean
+          description: Indicates if the nutrient should be shown in the nutrition facts edit form
+        unit:
+          description: Default unit of the nutrient
+          type: string
+          enum:
+          - g
+          - mg
+          - μg
+          - cl
+          - ml
+          - dv
+          - '% vol'
+          - '%'
+        nutrients:
+          $ref: '#/components/schemas/Nutrients'
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: session
+      description: 'Session cookie containing user ID, username, and session token.
+
+        The value is structured as: user_id&username&user_session&session_token
+
+        e.g. "user_id&exampleuser&user_session&abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKLM".
+
+        The session token is obtained after successful login via the `/cgi/session.pl` endpoint.
+
+        '
+    userAgentAuth:
+      description: Identification using the User-Agent header. This is recommended in all requests so that we can contact you if there are issues. If we cannot identify the source of problematic API queries, we may have to block them. User-Agent header in the format 'app_name/app_version (URL or contact info)'
+      type: apiKey
+      in: header
+      name: User-Agent
+externalDocs:
+  description: '**IMPORTANT**: Please read the API introduction before using this API.
+
+    '
+  url: https://openfoodfacts.github.io/openfoodfacts-server/api/

@@ -1,0 +1,212 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts Open Personal Search API
+  description: 'As a developer, the Open Food Facts API allows you to get information
+
+    and contribute to the products database. You can create great apps to
+
+    help people make better food choices and also provide data to enhance the database.
+
+
+    **IMPORTANT**: Please read the API introduction before using this API.'
+  termsOfService: https://world.openfoodfacts.org/terms-of-use
+  contact:
+    name: Open Food Facts
+    url: https://slack.openfoodfacts.org/
+    email: reuse@openfoodfacts.org
+  license:
+    name: 'data: ODbL'
+    url: https://opendatacommons.org/licenses/odbl/summary/index.html
+    x-identifier: ODbL-1.0
+  version: '2'
+servers:
+- description: dev
+  url: https://world.openfoodfacts.net
+- description: prod
+  url: https://world.openfoodfacts.org
+- description: proxy (for doc purpose)
+  url: http://localhost:8080
+security:
+- userAgentAuth: []
+tags:
+- name: Personal Search
+  description: Endpoints for personalized search and recommendations.
+paths:
+  /api/v2/attribute_groups:
+    get:
+      summary: Get Attribute Groups
+      description: 'Attributes are at the heart of personal search.
+
+        They score the products according to different criterias,
+
+        which could then be matched to a user''s preferences.
+
+
+        This API helps you list attributes and display them in your application,
+
+        for the user to choose the importance of each criteria.
+
+
+        note: `/api/v2/attribute_groups_{lc}` is also a valid route, but consider it deprecated'
+      tags:
+      - Personal Search
+      operationId: get-attribute-groups
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: 'List of groups of attributes for personal search in a specific language.
+
+                  '
+                items:
+                  title: attribute_group
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: unique id of the group
+                    name:
+                      type: string
+                      description: Name of the group
+                    attributes:
+                      type: array
+                      description: 'Attributes that are part of this group
+
+                        '
+                      items:
+                        title: attribute
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            description: unique id of the attribute
+                          name:
+                            type: string
+                            description: Name of the attribute
+                          icon_url:
+                            type: string
+                            description: url of icon to display next to the settings for this attribute
+                          setting_name:
+                            type: string
+                            description: a description of the attribute to display to users
+                          setting_note:
+                            type: string
+                            description: a complementary note on the attribute
+                          default:
+                            type: string
+                            enum:
+                            - mandatory
+                            - very_important
+                            - important
+                            - not_important
+                            description: Indicates the default setting for this attribute
+                          panel_id:
+                            type: string
+                            description: Linked knowledge panel (optional)
+                title: get_attribute_groups_response
+      parameters:
+      - name: lc
+        in: query
+        description: '2 letter code of the language of the user.
+
+          Used for localizing some fields in returned values (e.g. knowledge panels).
+
+          If not passed, the language may be inferred by the domain name prefix.
+
+          '
+        required: false
+        schema:
+          type: string
+          example: fr
+  /api/v2/preferences:
+    get:
+      summary: Get Preferences Weights
+      description: 'This endpoint retrieves the weights corresponding to attribute preferences
+
+        for computing personal product recommendations. The weights are used to
+
+        personalize the product recommendations based on user preferences.'
+      tags:
+      - Personal Search
+      operationId: get-preferences
+      parameters:
+      - name: lc
+        in: query
+        description: '2 letter code of the language of the user.
+
+          Used for localizing some fields in returned values (e.g. knowledge panels).
+
+          If not passed, the language may be inferred by the domain name prefix.
+
+          '
+        required: false
+        schema:
+          type: string
+          example: fr
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                title: get_preferences_response
+                description: 'Rules to apply to compute personal ranking of a product,
+
+                  based upon the setting value of each attribute.
+
+                  '
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: id for the setting value
+                      enum:
+                      - not_important
+                      - important
+                      - very_important
+                      - mandatory
+                    name:
+                      type: string
+                      description: name for the setting value, translated according to `lc` parameter
+                    factor:
+                      type: integer
+                      description: 'factor to apply to the property of the product corresponding to attributes
+
+                        having this setting value
+
+                        '
+                    minimum_match:
+                      type: integer
+                      description: 'FIXME
+
+                        '
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: session
+      description: 'Session cookie containing user ID, username, and session token.
+
+        The value is structured as: user_id&username&user_session&session_token
+
+        e.g. "user_id&exampleuser&user_session&abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKLM".
+
+        The session token is obtained after successful login via the `/cgi/session.pl` endpoint.
+
+        '
+    userAgentAuth:
+      description: Identification using the User-Agent header. This is recommended in all requests so that we can contact you if there are issues. If we cannot identify the source of problematic API queries, we may have to block them. User-Agent header in the format 'app_name/app_version (URL or contact info)'
+      type: apiKey
+      in: header
+      name: User-Agent
+externalDocs:
+  description: '**IMPORTANT**: Please read the API introduction before using this API.
+
+    '
+  url: https://openfoodfacts.github.io/openfoodfacts-server/api/

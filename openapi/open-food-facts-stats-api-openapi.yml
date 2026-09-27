@@ -1,0 +1,362 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts Stats API
+  license:
+    name: ' AGPL-3.0'
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+  version: '1.0'
+  description: 'Operations tagged Stats across 2 of this provider''s published API definitions: open-food-facts-nutripatrol-openapi.json, open-food-facts-open-prices-openapi.yml. Each path carries the servers of the definition it was published in.'
+tags:
+- name: Stats
+paths:
+  /api/v1/stats:
+    get:
+      summary: Get Stats
+      description: 'Get number of tickets by status for the last n days.
+
+
+        Args:
+
+        n_days (int): The number of days from which to fetch ticket data.
+
+        Default is 31 days.'
+      operationId: get_stats_api_v1_stats_get
+      parameters:
+      - name: n_days
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 31
+          title: N Days
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Stats
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    StatsResponse:
+      properties:
+        total_tickets:
+          type: integer
+          title: Total Tickets
+          description: Total number of tickets in the database
+        tickets_by_status:
+          additionalProperties: true
+          type: object
+          title: Tickets By Status
+          description: A dictionary with ticket status as keys and the count of tickets as values
+        tickets_by_flavor:
+          additionalProperties: true
+          type: object
+          title: Tickets By Flavor
+          description: A dictionary with ticket flavor as keys and the count of tickets as values
+        tickets_by_type:
+          additionalProperties: true
+          type: object
+          title: Tickets By Type
+          description: A dictionary with ticket type as keys and the count of tickets as values
+        n_days:
+          type: integer
+          title: N Days
+          description: The number of days for which the data is fetched
+        start_date:
+          type: string
+          title: Start Date
+          description: The start date of the data range in ISO format
+        end_date:
+          type: string
+          title: End Date
+          description: The end date of the data range in ISO format
+      type: object
+      required:
+      - total_tickets
+      - tickets_by_status
+      - tickets_by_flavor
+      - tickets_by_type
+      - n_days
+      - start_date
+      - end_date
+      title: StatsResponse
+      description: Response model for get_stats endpoint.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TotalStats:
+      type: object
+      properties:
+        price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_type_product_code_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_type_category_tag_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_with_discount_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_currency_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_year_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_location_country_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_kind_community_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_kind_consumption_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_source_web_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_source_mobile_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_source_api_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_source_other_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_in_challenge_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_source_off_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_source_obf_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_source_opff_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_source_opf_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_with_price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_source_off_with_price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_source_obf_with_price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_source_opff_with_price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_source_opf_with_price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        location_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        location_with_price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        location_type_osm_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        location_type_online_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        location_type_osm_country_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_with_price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_type_price_tag_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_type_receipt_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_type_gdpr_request_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_type_shop_import_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_kind_community_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_kind_consumption_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_source_web_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_source_mobile_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_source_api_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_source_other_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_currency_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_in_challenge_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_tag_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_tag_status_unknown_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_tag_status_linked_to_price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        user_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        user_with_price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        challenge_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        badge_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        badge_with_user_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_created_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_created_source_off_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_created_source_obf_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_created_source_opff_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_created_source_opf_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - updated
+  securitySchemes:
+    CustomAuthentication:
+      type: http
+      scheme: bearer
+x-refined-from:
+- open-food-facts-nutripatrol-openapi.json
+- open-food-facts-open-prices-openapi.yml

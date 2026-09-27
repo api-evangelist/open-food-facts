@@ -1,0 +1,799 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts open-prices REST Locations API
+  version: 0.0.0 (api)
+  description: Open Prices API allows you to add product prices
+  contact:
+    name: The Open Food Facts team
+    url: https://world.openfoodfacts.org
+    email: contact@openfoodfacts.org
+  license:
+    name: ' AGPL-3.0'
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+tags:
+- name: Locations
+paths:
+  /api/v1/locations:
+    get:
+      operationId: locations_list
+      parameters:
+      - name: order_by
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - in: query
+        name: osm_address_city__like
+        schema:
+          type: string
+      - in: query
+        name: osm_address_country__like
+        schema:
+          type: string
+      - in: query
+        name: osm_name__like
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: price_count
+        schema:
+          type: integer
+      - in: query
+        name: price_count__gte
+        schema:
+          type: integer
+      - in: query
+        name: price_count__lte
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum:
+          - ONLINE
+          - OSM
+        description: '* `OSM` - OSM
+
+          * `ONLINE` - ONLINE'
+      tags:
+      - Locations
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLocationList'
+          description: ''
+      summary: Locations list
+      x-summary-source: derived
+    post:
+      operationId: locations_create
+      tags:
+      - Locations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LocationCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LocationCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationCreate'
+          description: ''
+      summary: Locations create
+      x-summary-source: derived
+  /api/v1/locations/{id}:
+    get:
+      operationId: locations_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Location.
+        required: true
+      tags:
+      - Locations
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+          description: ''
+      summary: Locations retrieve
+      x-summary-source: derived
+  /api/v1/locations/compare:
+    get:
+      operationId: locations_compare_retrieve
+      description: 'Compare two locations by their IDs.
+
+        Returns shared product prices with the latest price per location,
+
+        the date of that price, and the total sum.'
+      parameters:
+      - in: query
+        name: date__gte
+        schema:
+          type: string
+          format: date
+        description: Filter prices with date greater than or equal to this date (YYYY-MM-DD)
+      - in: query
+        name: date__lte
+        schema:
+          type: string
+          format: date
+        description: Filter prices with date less than or equal to this date (YYYY-MM-DD)
+      - in: query
+        name: location_id_a
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: location_id_b
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: price_is_discounted
+        schema:
+          type: boolean
+        description: Filter to keep only discounted or non-discounted prices
+      tags:
+      - Locations
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationCompare'
+          description: ''
+      summary: Locations compare retrieve
+      x-summary-source: derived
+  /api/v1/locations/nearby:
+    get:
+      operationId: locations_nearby_list
+      description: 'Return locations within a given radius of a center point.
+
+        Results are ordered by distance (closest first), then by id.
+
+        Each result includes a computed `distance_km` field.'
+      parameters:
+      - in: query
+        name: lat
+        schema:
+          type: number
+          format: float
+        description: Latitude of the center point (decimal degrees, -90 to 90)
+        required: true
+      - in: query
+        name: lon
+        schema:
+          type: number
+          format: float
+        description: Longitude of the center point (decimal degrees, -180 to 180)
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: radius_km
+        schema:
+          type: number
+          format: float
+        description: Search radius in kilometers (must be positive)
+        required: true
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - Locations
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLocationNearbyList'
+          description: ''
+      summary: Locations nearby list
+      x-summary-source: derived
+  /api/v1/locations/osm/{osm_type}/{osm_id}:
+    get:
+      operationId: locations_osm_retrieve
+      parameters:
+      - in: path
+        name: osm_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: osm_type
+        schema:
+          type: string
+          enum:
+          - NODE
+          - RELATION
+          - WAY
+        required: true
+      tags:
+      - Locations
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+          description: ''
+      summary: Locations osm retrieve
+      x-summary-source: derived
+  /api/v1/locations/osm/countries:
+    get:
+      operationId: locations_osm_countries_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - Locations
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCountryList'
+          description: ''
+      summary: Locations osm countries list
+      x-summary-source: derived
+  /api/v1/locations/osm/countries/{country_code}/cities:
+    get:
+      operationId: locations_osm_countries_cities_list
+      parameters:
+      - in: path
+        name: country_code
+        schema:
+          type: string
+          pattern: ^\w{2}$
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - Locations
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCountryCityList'
+          description: ''
+      summary: Locations osm countries cities list
+      x-summary-source: derived
+components:
+  schemas:
+    Country:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        country_code_2:
+          type: string
+        osm_name:
+          type: string
+        location_count:
+          type: integer
+        price_count:
+          type: integer
+      required:
+      - country_code_2
+      - id
+      - location_count
+      - name
+      - osm_name
+      - price_count
+    PaginatedLocationList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Location'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    NullEnum:
+      enum:
+      - null
+    BlankEnum:
+      enum:
+      - ''
+    LocationTypeEnum:
+      enum:
+      - OSM
+      - ONLINE
+      type: string
+      description: '* `OSM` - OSM
+
+        * `ONLINE` - ONLINE'
+    LocationNearby:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        osm_brand_logo_url:
+          type: string
+          readOnly: true
+        distance_km:
+          type: number
+          format: double
+          readOnly: true
+        type:
+          $ref: '#/components/schemas/LocationTypeEnum'
+        osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        osm_name:
+          type:
+          - string
+          - 'null'
+        osm_display_name:
+          type:
+          - string
+          - 'null'
+        osm_tag_key:
+          type:
+          - string
+          - 'null'
+        osm_tag_value:
+          type:
+          - string
+          - 'null'
+        osm_brand:
+          type:
+          - string
+          - 'null'
+        osm_address_postcode:
+          type:
+          - string
+          - 'null'
+        osm_address_city:
+          type:
+          - string
+          - 'null'
+        osm_address_country:
+          type:
+          - string
+          - 'null'
+        osm_address_country_code:
+          type:
+          - string
+          - 'null'
+        osm_lat:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000
+          exclusiveMaximum: 10000
+        osm_lon:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000
+          exclusiveMaximum: 10000
+        osm_version:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        osm_version_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        website_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          maxLength: 200
+        price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        user_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        source:
+          type:
+          - string
+          - 'null'
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - distance_km
+      - id
+      - osm_brand_logo_url
+      - type
+      - updated
+    LocationCompare:
+      type: object
+      properties:
+        location_a:
+          $ref: '#/components/schemas/Location'
+        location_b:
+          $ref: '#/components/schemas/Location'
+        shared_products: {}
+        total_sum_location_a:
+          type: number
+          format: double
+          exclusiveMinimum: -100000000
+          exclusiveMaximum: 100000000
+        total_sum_location_b:
+          type: number
+          format: double
+          exclusiveMinimum: -100000000
+          exclusiveMaximum: 100000000
+      required:
+      - location_a
+      - location_b
+      - shared_products
+      - total_sum_location_a
+      - total_sum_location_b
+    LocationCreate:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/LocationTypeEnum'
+        osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        website_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+      required:
+      - type
+    LocationOsmTypeEnum:
+      enum:
+      - NODE
+      - WAY
+      - RELATION
+      type: string
+      description: '* `NODE` - NODE
+
+        * `WAY` - WAY
+
+        * `RELATION` - RELATION'
+    PaginatedLocationNearbyList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocationNearby'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    Location:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        osm_brand_logo_url:
+          type: string
+          readOnly: true
+        type:
+          $ref: '#/components/schemas/LocationTypeEnum'
+        osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        osm_name:
+          type:
+          - string
+          - 'null'
+        osm_display_name:
+          type:
+          - string
+          - 'null'
+        osm_tag_key:
+          type:
+          - string
+          - 'null'
+        osm_tag_value:
+          type:
+          - string
+          - 'null'
+        osm_brand:
+          type:
+          - string
+          - 'null'
+        osm_address_postcode:
+          type:
+          - string
+          - 'null'
+        osm_address_city:
+          type:
+          - string
+          - 'null'
+        osm_address_country:
+          type:
+          - string
+          - 'null'
+        osm_address_country_code:
+          type:
+          - string
+          - 'null'
+        osm_lat:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000
+          exclusiveMaximum: 10000
+        osm_lon:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000
+          exclusiveMaximum: 10000
+        osm_version:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        osm_version_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        website_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          maxLength: 200
+        price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        user_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        source:
+          type:
+          - string
+          - 'null'
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - osm_brand_logo_url
+      - type
+      - updated
+    CountryCity:
+      type: object
+      properties:
+        osm_name:
+          type: string
+        country_code_2:
+          type: string
+        location_count:
+          type: integer
+        price_count:
+          type: integer
+      required:
+      - country_code_2
+      - location_count
+      - osm_name
+      - price_count
+    PaginatedCountryCityList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CountryCity'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    PaginatedCountryList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Country'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+  securitySchemes:
+    CustomAuthentication:
+      type: http
+      scheme: bearer

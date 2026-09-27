@@ -1,0 +1,367 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts open-prices REST Badges API
+  version: 0.0.0 (api)
+  description: Open Prices API allows you to add product prices
+  contact:
+    name: The Open Food Facts team
+    url: https://world.openfoodfacts.org
+    email: contact@openfoodfacts.org
+  license:
+    name: ' AGPL-3.0'
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+tags:
+- name: Badges
+paths:
+  /api/v1/badges:
+    get:
+      operationId: badges_list
+      parameters:
+      - name: order_by
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - Badges
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBadgeList'
+          description: ''
+      summary: Badges list
+      x-summary-source: derived
+  /api/v1/badges/{id}:
+    get:
+      operationId: badges_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Badge.
+        required: true
+      tags:
+      - Badges
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Badge'
+          description: ''
+      summary: Badges retrieve
+      x-summary-source: derived
+  /api/v1/badges/{id}/users:
+    get:
+      operationId: badges_users_list
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Badge.
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - Badges
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBadgeUserList'
+          description: ''
+      summary: Badges users list
+      x-summary-source: derived
+components:
+  schemas:
+    PaginatedBadgeList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Badge'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    Badge:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type:
+          - string
+          - 'null'
+        image_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          maxLength: 200
+        metric:
+          $ref: '#/components/schemas/MetricEnum'
+        threshold:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        user_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - metric
+      - name
+      - threshold
+      - updated
+    PaginatedBadgeUserList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/BadgeUser'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    MetricEnum:
+      enum:
+      - price_count
+      - price_in_proof_not_owned_count
+      - proof_count
+      - proof_type_price_tag_count
+      - proof_type_receipt_count
+      - proof_type_gdpr_request_count
+      - proof_type_shop_import_count
+      - location_count
+      - location_type_osm_city_count
+      - location_type_osm_country_count
+      - currency_count
+      - year_count
+      - challenge_count
+      type: string
+      description: '* `price_count` - price_count
+
+        * `price_in_proof_not_owned_count` - price_in_proof_not_owned_count
+
+        * `proof_count` - proof_count
+
+        * `proof_type_price_tag_count` - proof_type_price_tag_count
+
+        * `proof_type_receipt_count` - proof_type_receipt_count
+
+        * `proof_type_gdpr_request_count` - proof_type_gdpr_request_count
+
+        * `proof_type_shop_import_count` - proof_type_shop_import_count
+
+        * `location_count` - location_count
+
+        * `location_type_osm_city_count` - location_type_osm_city_count
+
+        * `location_type_osm_country_count` - location_type_osm_country_count
+
+        * `currency_count` - currency_count
+
+        * `year_count` - year_count
+
+        * `challenge_count` - challenge_count'
+    BadgeUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          allOf:
+          - $ref: '#/components/schemas/User'
+          readOnly: true
+        achieved_at:
+          type: string
+          format: date-time
+        badge:
+          type: integer
+      required:
+      - badge
+      - id
+      - user
+    User:
+      type: object
+      properties:
+        user_id:
+          type: string
+        price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_type_product_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_type_category_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_kind_community_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_kind_consumption_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_in_proof_owned_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_in_proof_not_owned_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_not_owned_in_proof_owned_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_type_price_tag_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_type_receipt_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_type_gdpr_request_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_type_shop_import_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_kind_community_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_kind_consumption_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        location_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        location_type_osm_city_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        location_type_osm_country_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        badge_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        currency_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        year_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        challenge_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+      required:
+      - user_id
+  securitySchemes:
+    CustomAuthentication:
+      type: http
+      scheme: bearer

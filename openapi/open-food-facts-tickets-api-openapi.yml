@@ -1,0 +1,290 @@
+openapi: 3.2.0
+info:
+  title: nutripatrol Tickets API
+  description: The nutripatrol API is used to report and manage issues with products and images on Open Food Facts, Open Prices, Open Pet Food Facts, Open Beauty Facts.
+  contact:
+    name: The Open Food Facts team
+    url: https://world.openfoodfacts.org/
+    email: contact@openfoodfacts.org
+  license:
+    name: ' AGPL-3.0'
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+  version: 0.1.0
+tags:
+- name: Tickets
+paths:
+  /api/v1/tickets:
+    get:
+      summary: Get Tickets
+      description: 'Get all tickets.
+
+
+        This function is used to get all tickets with status open.'
+      operationId: get_tickets_api_v1_tickets_get
+      parameters:
+      - name: barcode
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Barcode
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/TicketStatus'
+          - type: 'null'
+          title: Status
+      - name: type_
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/IssueType'
+          - type: 'null'
+          title: 'Type '
+      - name: reason
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/ReasonType'
+          - type: 'null'
+          title: Reason
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Page
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 10
+          title: Page Size
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTicketsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Tickets
+  /api/v1/tickets/{ticket_id}:
+    get:
+      summary: Get Ticket
+      description: 'Get a ticket by ID.
+
+
+        This function is used to get a ticket by its ID.'
+      operationId: get_ticket_api_v1_tickets__ticket_id__get
+      parameters:
+      - name: ticket_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Ticket Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Tickets
+  /api/v1/tickets/{ticket_id}/status:
+    put:
+      summary: Update Ticket Status
+      description: 'Update the status of a ticket by ID.
+
+
+        This function is used to update the status of a ticket by its ID.'
+      operationId: update_ticket_status_api_v1_tickets__ticket_id__status_put
+      parameters:
+      - name: ticket_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Ticket Id
+      - name: status
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/TicketStatus'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Tickets
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    IssueType:
+      type: string
+      enum:
+      - product
+      - image
+      - search
+      title: IssueType
+      description: Type of the flag/ticket.
+    GetTicketsResponse:
+      properties:
+        tickets:
+          items:
+            $ref: '#/components/schemas/Ticket'
+          type: array
+          title: Tickets
+        max_page:
+          type: integer
+          title: Max Page
+      type: object
+      required:
+      - tickets
+      - max_page
+      title: GetTicketsResponse
+      description: Response model for get_tickets endpoint.
+    Flavor:
+      type: string
+      enum:
+      - 'off'
+      - obf
+      - opff
+      - opf
+      - off-pro
+      title: Flavor
+      description: 'Flavor is used to refer to a specific Open*Facts project:
+
+
+        - Open Food Facts
+
+        - Open Beauty Facts
+
+        - Open Pet Food Facts
+
+        - Open Product Facts
+
+        - Open Food Facts (Pro plateform)'
+    ReasonType:
+      type: string
+      enum:
+      - inappropriate
+      - human
+      - beauty
+      - other
+      title: ReasonType
+      description: Type of the reason for flagging.
+    TicketStatus:
+      type: string
+      enum:
+      - open
+      - closed
+      title: TicketStatus
+    Ticket:
+      properties:
+        barcode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Barcode
+          description: Barcode of the product, if the ticket is about a product or a product image. In case of a search issue, this field is null.
+        type:
+          $ref: '#/components/schemas/IssueType'
+          description: Type of the issue
+        url:
+          type: string
+          title: Url
+          description: URL of the product or of the flagged image
+        status:
+          $ref: '#/components/schemas/TicketStatus'
+          description: Status of the ticket
+          default: open
+        image_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Image Id
+          description: ID of the flagged image, if the ticket type is `image`
+          examples:
+          - '1'
+          - front_fr
+        flavor:
+          $ref: '#/components/schemas/Flavor'
+          description: Flavor (project) associated with the ticket
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Creation datetime of the ticket
+        id:
+          type: integer
+          title: Id
+          description: ID of the ticket
+      type: object
+      required:
+      - type
+      - url
+      - flavor
+      - id
+      title: Ticket

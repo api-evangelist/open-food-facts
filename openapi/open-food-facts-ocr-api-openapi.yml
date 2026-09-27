@@ -1,0 +1,112 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts Open OCR API
+  description: 'As a developer, the Open Food Facts API allows you to get information
+
+    and contribute to the products database. You can create great apps to
+
+    help people make better food choices and also provide data to enhance the database.
+
+
+    **IMPORTANT**: Please read the API introduction before using this API.'
+  termsOfService: https://world.openfoodfacts.org/terms-of-use
+  contact:
+    name: Open Food Facts
+    url: https://slack.openfoodfacts.org/
+    email: reuse@openfoodfacts.org
+  license:
+    name: 'data: ODbL'
+    url: https://opendatacommons.org/licenses/odbl/summary/index.html
+    x-identifier: ODbL-1.0
+  version: '2'
+servers:
+- description: dev
+  url: https://world.openfoodfacts.net
+- description: prod
+  url: https://world.openfoodfacts.org
+- description: proxy (for doc purpose)
+  url: http://localhost:8080
+security:
+- userAgentAuth: []
+tags:
+- name: OCR
+  description: Endpoints for optical character recognition on product labels.
+paths:
+  /cgi/ingredients.pl:
+    parameters: []
+    get:
+      summary: OCR on Ingredients
+      operationId: get-cgi-ingredients.pl
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                title: ocr_on_product_response
+                properties:
+                  status:
+                    type: integer
+                    example: 1
+      description: Open Food Facts uses optical character recognition (OCR) to retrieve nutritional data and other information from the product labels.
+      parameters:
+      - $ref: '#/components/parameters/id'
+      - name: code
+        in: query
+        description: Barcode of the product
+        required: true
+        schema:
+          type: string
+          example: '4251105501381'
+      - $ref: '#/components/parameters/process_image'
+      - $ref: '#/components/parameters/ocr_engine'
+      tags:
+      - OCR
+components:
+  parameters:
+    ocr_engine:
+      schema:
+        type: string
+        example: google_cloud_vision
+      in: query
+      name: ocr_engine
+      required: true
+    id:
+      schema:
+        type: string
+        example: ingredients_en
+      in: query
+      name: id
+      required: true
+    process_image:
+      schema:
+        type: string
+        example: '1'
+      in: query
+      name: process_image
+      required: true
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: session
+      description: 'Session cookie containing user ID, username, and session token.
+
+        The value is structured as: user_id&username&user_session&session_token
+
+        e.g. "user_id&exampleuser&user_session&abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKLM".
+
+        The session token is obtained after successful login via the `/cgi/session.pl` endpoint.
+
+        '
+    userAgentAuth:
+      description: Identification using the User-Agent header. This is recommended in all requests so that we can contact you if there are issues. If we cannot identify the source of problematic API queries, we may have to block them. User-Agent header in the format 'app_name/app_version (URL or contact info)'
+      type: apiKey
+      in: header
+      name: User-Agent
+externalDocs:
+  description: '**IMPORTANT**: Please read the API introduction before using this API.
+
+    '
+  url: https://openfoodfacts.github.io/openfoodfacts-server/api/

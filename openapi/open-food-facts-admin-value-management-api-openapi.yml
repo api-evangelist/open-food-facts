@@ -1,0 +1,167 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts folksonomy REST Admin - Value Management API
+  description: 'Folksonomy Engine API allows you to add free property/value pairs to Open Food Facts products.
+
+
+    The API use the main following variables:
+
+    * **product**: the product number
+
+    * **k**: "key", meaning the property or tag
+
+    * **v**: "value", the value for a related key
+
+
+    ## See also
+
+
+    * Project page
+
+    * Folksonomy Engine github repository
+
+    * Documented properties'
+  version: 0.1.0
+servers:
+- url: https://api.folksonomy.openfoodfacts.org
+  description: Production server
+- url: http://localhost:8000
+  description: Local development server
+tags:
+- name: Admin - Value Management
+paths:
+  /admin/value/replace:
+    post:
+      tags:
+      - Admin - Value Management
+      summary: Replace Value
+      description: 'Replace a value for a specific property across all products
+
+
+        - **property**: The property name
+
+        - **old_value**: The value to replace
+
+        - **new_value**: The new value'
+      operationId: replace_value_admin_value_replace_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValueRenameRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - OAuth2PasswordBearer: []
+  /admin/value:
+    delete:
+      tags:
+      - Admin - Value Management
+      summary: Delete Value
+      description: 'Delete a specific value for a property from all products
+
+
+        - **property**: The property name
+
+        - **value**: The value to delete'
+      operationId: delete_value_admin_value_delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValueDeleteRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - OAuth2PasswordBearer: []
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValueDeleteRequest:
+      properties:
+        property:
+          type: string
+          title: Property
+        value:
+          type: string
+          title: Value
+      type: object
+      required:
+      - property
+      - value
+      title: ValueDeleteRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ValueRenameRequest:
+      properties:
+        property:
+          type: string
+          title: Property
+        old_value:
+          type: string
+          title: Old Value
+        new_value:
+          type: string
+          title: New Value
+      type: object
+      required:
+      - property
+      - old_value
+      - new_value
+      title: ValueRenameRequest
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: auth

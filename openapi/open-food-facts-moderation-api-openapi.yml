@@ -1,0 +1,346 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts open-prices REST Moderation API
+  version: 0.0.0 (api)
+  description: Open Prices API allows you to add product prices
+  contact:
+    name: The Open Food Facts team
+    url: https://world.openfoodfacts.org
+    email: contact@openfoodfacts.org
+  license:
+    name: ' AGPL-3.0'
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+tags:
+- name: Moderation
+paths:
+  /api/v1/flags:
+    get:
+      operationId: flags_list
+      parameters:
+      - in: query
+        name: content_type
+        schema:
+          type: array
+          items:
+            type: string
+            title: Python model class name
+            enum:
+            - PRICE
+            - PROOF
+        description: '* `PRICE` - Price
+
+          * `PROOF` - Proof'
+        explode: true
+        style: form
+      - in: query
+        name: object_id
+        schema:
+          type: integer
+      - name: order_by
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: reason
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - OTHER
+            - WRONG_CURRENCY
+            - WRONG_DATE
+            - WRONG_LOCATION
+            - WRONG_PRICE_VALUE
+            - WRONG_PRODUCT
+            - WRONG_TYPE
+        description: '* `WRONG_TYPE` - Wrong type
+
+          * `WRONG_PRICE_VALUE` - Wrong price value
+
+          * `WRONG_CURRENCY` - Wrong currency
+
+          * `WRONG_PRODUCT` - Wrong product
+
+          * `WRONG_LOCATION` - Wrong location
+
+          * `WRONG_DATE` - Wrong date
+
+          * `OTHER` - Other'
+        explode: true
+        style: form
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - CLOSED
+          - OPEN
+        description: '* `OPEN` - Open
+
+          * `CLOSED` - Closed'
+      tags:
+      - Moderation
+      security:
+      - CustomAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFlagList'
+          description: ''
+      summary: Flags list
+      x-summary-source: derived
+  /api/v1/flags/{id}:
+    patch:
+      operationId: flags_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Flag.
+        required: true
+      tags:
+      - Moderation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFlagUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFlagUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFlagUpdate'
+      security:
+      - CustomAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlagUpdate'
+          description: ''
+      summary: Flags partial update
+      x-summary-source: derived
+  /api/v1/prices/{id}/flag:
+    post:
+      operationId: prices_flag_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Price.
+        required: true
+      tags:
+      - Moderation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlagCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FlagCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FlagCreate'
+        required: true
+      security:
+      - CustomAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flag'
+          description: ''
+      summary: Prices flag create
+      x-summary-source: derived
+  /api/v1/proofs/{id}/flag:
+    post:
+      operationId: proofs_flag_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Proof.
+        required: true
+      tags:
+      - Moderation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlagCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FlagCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FlagCreate'
+        required: true
+      security:
+      - CustomAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flag'
+          description: ''
+      summary: Proofs flag create
+      x-summary-source: derived
+components:
+  schemas:
+    FlagStatusEnum:
+      enum:
+      - OPEN
+      - CLOSED
+      type: string
+      description: '* `OPEN` - Open
+
+        * `CLOSED` - Closed'
+    ReasonEnum:
+      enum:
+      - WRONG_TYPE
+      - WRONG_PRICE_VALUE
+      - WRONG_CURRENCY
+      - WRONG_PRODUCT
+      - WRONG_LOCATION
+      - WRONG_DATE
+      - OTHER
+      type: string
+      description: '* `WRONG_TYPE` - Wrong type
+
+        * `WRONG_PRICE_VALUE` - Wrong price value
+
+        * `WRONG_CURRENCY` - Wrong currency
+
+        * `WRONG_PRODUCT` - Wrong product
+
+        * `WRONG_LOCATION` - Wrong location
+
+        * `WRONG_DATE` - Wrong date
+
+        * `OTHER` - Other'
+    FlagUpdate:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/FlagStatusEnum'
+    PaginatedFlagList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Flag'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    Flag:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        content_type:
+          type: string
+          readOnly: true
+        object_id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        reason:
+          $ref: '#/components/schemas/ReasonEnum'
+        comment:
+          type:
+          - string
+          - 'null'
+        status:
+          $ref: '#/components/schemas/FlagStatusEnum'
+        owner:
+          type:
+          - string
+          - 'null'
+        source:
+          type:
+          - string
+          - 'null'
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - content_type
+      - id
+      - object_id
+      - reason
+      - updated
+    PatchedFlagUpdate:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/FlagStatusEnum'
+    FlagCreate:
+      type: object
+      properties:
+        reason:
+          $ref: '#/components/schemas/ReasonEnum'
+        comment:
+          type:
+          - string
+          - 'null'
+        content_object:
+          type: string
+          readOnly: true
+      required:
+      - content_object
+      - reason
+  securitySchemes:
+    CustomAuthentication:
+      type: http
+      scheme: bearer

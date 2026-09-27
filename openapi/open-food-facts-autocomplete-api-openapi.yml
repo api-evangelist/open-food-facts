@@ -1,0 +1,129 @@
+openapi: 3.2.0
+info:
+  title: search-a-licious Autocomplete API
+  description: 'The Search-a-licious API helps you quickly build applications with search capabilities.
+
+
+    You can find the API documentation here.
+
+
+    See also the available web-components to build your search interface.
+
+
+    See the project for more information.'
+  contact:
+    name: The Open Food Facts team
+    url: https://world.openfoodfacts.org/
+    email: contact@openfoodfacts.org
+  license:
+    name: ' AGPL-3.0'
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+  version: 0.1.0
+tags:
+- name: Autocomplete
+paths:
+  /autocomplete:
+    get:
+      summary: Taxonomy Autocomplete
+      operationId: taxonomy_autocomplete_autocomplete_get
+      parameters:
+      - name: q
+        in: query
+        required: true
+        schema:
+          type: string
+          description: User autocomplete query.
+          title: Q
+        description: User autocomplete query.
+      - name: taxonomy_names
+        in: query
+        required: true
+        schema:
+          type: string
+          description: Name(s) of the taxonomy to search in, as a comma-separated value.
+          title: Taxonomy Names
+        description: Name(s) of the taxonomy to search in, as a comma-separated value.
+      - name: lang
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Language to search in, defaults to 'en'.
+          default: en
+          title: Lang
+        description: Language to search in, defaults to 'en'.
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Number of results to return.
+          default: 10
+          title: Size
+        description: Number of results to return.
+      - name: fuzziness
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Fuzziness level to use, default to no fuzziness.
+          title: Fuzziness
+        description: Fuzziness level to use, default to no fuzziness.
+      - name: index_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: "Index ID to use for the search, if not provided, the default index is used.\n        If there is only one index, this parameter is not needed."
+          title: Index Id
+        description: "Index ID to use for the search, if not provided, the default index is used.\n        If there is only one index, this parameter is not needed."
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Autocomplete
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

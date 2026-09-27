@@ -1,0 +1,28 @@
+openapi: 3.2.0
+info:
+  title: Nutripatrol API
+  description: The nutripatrol API is used to report and manage issues with products and images on Open Food Facts, Open Prices, Open Pet Food Facts, Open Beauty Facts.
+  contact:
+    name: The Open Food Facts team
+    url: https://world.openfoodfacts.org/
+    email: contact@openfoodfacts.org
+  license:
+    name: ' AGPL-3.0'
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+  version: 0.1.0
+tags:
+- name: Nutripatrol
+paths:
+  /:
+    get:
+      summary: Main Page
+      operationId: main_page__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            text/html:
+              schema:
+                type: string
+      tags:
+      - Nutripatrol

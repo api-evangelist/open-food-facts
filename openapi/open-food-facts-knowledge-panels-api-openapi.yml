@@ -1,0 +1,1035 @@
+openapi: 3.2.0
+info:
+  title: Open Food Facts Open API V3 - under development Knowledge…
+  description: 'As a developer, the Open Food Facts API allows you to get information
+
+    and contribute to the products database. You can create great apps to
+
+    help people make better food choices and also provide data to enhance the database.
+
+
+    **IMPORTANT**: Please read the API introduction before using this API.
+
+
+    **WARNING** v3 is under development and you should expect changes
+
+
+    The current version of API v3 is v3.4
+
+    See the change log for the API and product schema'
+  termsOfService: https://world.openfoodfacts.org/terms-of-use
+  contact:
+    name: Open Food Facts
+    url: https://slack.openfoodfacts.org/
+    email: reuse@openfoodfacts.org
+  license:
+    name: License (MIT, Apache 2.0, etc)
+    url: https://opendatacommons.org/licenses/odbl/summary/index.html
+  version: '3'
+servers:
+- url: https://world.openfoodfacts.org
+  description: prod
+- description: dev
+  url: https://world.openfoodfacts.net
+security:
+- userAgentAuth: []
+tags:
+- name: Knowledge Panels
+  description: Endpoints for retrieving knowledge panels for tags and categories.
+paths:
+  /api/v3/tag/{tagtype}/{tag_or_tagid}:
+    parameters:
+    - name: cc
+      in: query
+      description: 2 letter code of the country of the user. Used for localizing some fields in returned values (e.g. knowledge panels). If not passed, the country may be inferred by the IP address of the request.
+      required: false
+      schema:
+        type: string
+        example: us
+    - name: lc
+      in: query
+      description: '2 letter code of the language of the user.
+
+        Used for localizing some fields in returned values (e.g. knowledge panels).
+
+        If not passed, the language may be inferred by the domain name prefix.
+
+        '
+      required: false
+      schema:
+        type: string
+        example: fr
+    - schema:
+        type: string
+        example: categories
+      name: tagtype
+      in: path
+      required: true
+      description: Type of the tag
+    - schema:
+        type: string
+      name: tag_or_tagid
+      in: path
+      required: true
+      description: Tag name (e.g. yogurts) or tag id (e.g. en:yogurts)
+    get:
+      summary: Get Tag Knowledge Panels
+      tags:
+      - Knowledge Panels
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                - title: Response status
+                  type: object
+                  description: A response object to describe if a READ or WRITE request was successful or not, and if there were errors or warnings, and what the impact of those errors or warnings was.
+                  examples:
+                  - status: success_with_errors
+                    result:
+                      id: product_updated
+                      name: Product updated
+                      lc_name: Produit mis à jour
+                    errors:
+                    - message:
+                        id: sugars_higher_than_carbohydrates
+                        name: Sugars higher than carbohydrates
+                        lc_name: Sucres plus élevés que les glucides
+                        description: Sugars (40g) are higher than carbohydrates (35g).
+                        lc_description: Les sucres (40g) sont plus élévés que les glucdes.
+                      field:
+                        id: nutriment.sugars
+                        value: '40'
+                      impact:
+                        id: nutrients_not_updated
+                        name: Nutrients not updated
+                        lc_name: Nutriments non mis à jour
+                        description: The nutrients were not updated.
+                        lc_description: Les nutriments n'ont pas été mis à jour.
+                  properties:
+                    status:
+                      type: string
+                      enum:
+                      - success
+                      - success_with_warnings
+                      - success_with_errors
+                      - failure
+                      description: 'Overall status of the request: whether it failed or succeeded, with or without warnings or errors.'
+                    result:
+                      type: object
+                      description: 'Overall result
+
+                        of the request (e.g. a product has been created)'
+                      properties:
+                        id:
+                          type: string
+                          description: Identifier of a response result entry
+                        name:
+                          type: string
+                          description: Name of the response result entry in English.
+                        lc_name:
+                          type: string
+                          description: Name of the response result entry in the language specified in tags_lc, if supplied.
+                    warnings:
+                      type: array
+                      description: List of warnings. Warnings are used to alert about something that may be wrong, but is not necessarily wrong (e.g. a nutrient value that is unexpectedly high).
+                      items:
+                        title: Warning or error message
+                        x-stoplight:
+                          id: eakkz8p7qfoj0
+                        type: object
+                        description: Describes a warning or error for a READ or WRITE request, which field triggered it, and what the impact was (e.g. the field was ignored).
+                        examples:
+                        - message:
+                            id: sugars_higher_than_carbohydrates
+                            name: Sugars higher than carbohydrates
+                            lc_name: Sucres plus élevés que les glucides
+                            description: Sugars (40g) are higher than carbohydrates (35g).
+                            lc_description: Les sucres (40g) sont plus élévés que les glucdes.
+                          field:
+                            id: nutriment.sugars
+                            value: '40'
+                          impact:
+                            id: nutrients_not_updated
+                            name: Nutrients not updated
+                            lc_name: Nutriments non mis à jour
+                            description: The nutrients were not updated.
+                            lc_description: Les nutriments n'ont pas été mis à jour.
+                        properties:
+                          message:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                description: 'Identifier of a response message.
+
+                                  '
+                              name:
+                                type: string
+                                description: Name of the response message entry in English.
+                              lc_name:
+                                type: string
+                                description: Name of the response message entry in the language specified in tags_lc, if supplied.
+                              description:
+                                type: string
+                                description: Description of the problem specific to the request, in English.
+                              lc_description:
+                                type: string
+                                description: Description of the problem specific to the request, in the language specified in tags_lc, if supplied.
+                          field:
+                            type: object
+                            description: Field that triggered the warning or error.
+                            properties:
+                              id:
+                                type: string
+                                description: Name of the field that triggered the warning or error.
+                              value:
+                                type: string
+                                description: Value of the field that triggered the warning or error.
+                          impact:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              name:
+                                type: string
+                              lc_name:
+                                type: string
+                              description:
+                                type: string
+                              lc_description:
+                                type: string
+                    errors:
+                      type: array
+                      description: List of errors. Errors are used to alert about something that is definitely wrong (e.g. a nutrient value that is impossibly high).
+                      items:
+                        title: Warning or error message
+                        x-stoplight:
+                          id: eakkz8p7qfoj0
+                        type: object
+                        description: Describes a warning or error for a READ or WRITE request, which field triggered it, and what the impact was (e.g. the field was ignored).
+                        examples:
+                        - message:
+                            id: sugars_higher_than_carbohydrates
+                            name: Sugars higher than carbohydrates
+                            lc_name: Sucres plus élevés que les glucides
+                            description: Sugars (40g) are higher than carbohydrates (35g).
+                            lc_description: Les sucres (40g) sont plus élévés que les glucdes.
+                          field:
+                            id: nutriment.sugars
+                            value: '40'
+                          impact:
+                            id: nutrients_not_updated
+                            name: Nutrients not updated
+                            lc_name: Nutriments non mis à jour
+                            description: The nutrients were not updated.
+                            lc_description: Les nutriments n'ont pas été mis à jour.
+                        properties:
+                          message:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                description: 'Identifier of a response message.
+
+                                  '
+                              name:
+                                type: string
+                                description: Name of the response message entry in English.
+                              lc_name:
+                                type: string
+                                description: Name of the response message entry in the language specified in tags_lc, if supplied.
+                              description:
+                                type: string
+                                description: Description of the problem specific to the request, in English.
+                              lc_description:
+                                type: string
+                                description: Description of the problem specific to the request, in the language specified in tags_lc, if supplied.
+                          field:
+                            type: object
+                            description: Field that triggered the warning or error.
+                            properties:
+                              id:
+                                type: string
+                                description: Name of the field that triggered the warning or error.
+                              value:
+                                type: string
+                                description: Value of the field that triggered the warning or error.
+                          impact:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              name:
+                                type: string
+                              lc_name:
+                                type: string
+                              description:
+                                type: string
+                              lc_description:
+                                type: string
+                - type: object
+                  properties:
+                    tagtype:
+                      type: string
+                      description: 'Input tagtype
+
+                        '
+                    tagid:
+                      type: string
+                      description: 'Input tagid
+
+                        '
+                    tag:
+                      type: object
+                      properties:
+                        tagid:
+                          type: string
+                          description: Canonicalized tagid corresponding to the input tag_or_tagid
+                        tagtype:
+                          type: string
+                          description: Canonicalized tagtype
+                        knowledge_panels:
+                          type: object
+                          title: panels
+                          description: Knowledge panels for the tag
+                          examples:
+                          - additionalProperties: string
+                          additionalProperties:
+                            title: panel
+                            type: object
+                            description: Each panel contains an optional title and an optional array of elements.
+                            properties:
+                              type:
+                                type: string
+                                description: Type of the panel. If set to "card", the panel and its sub-panels should be displayed in a card. If set to "inline", the panel should have its content always displayed.
+                              expanded:
+                                type: boolean
+                                description: If true, the panel is to be displayed already expanded. If false, only the title should be displayed, and the user should be able to click or tap it to open the panel and display the elements.
+                              expand_for:
+                                type: string
+                                description: If set to "large", the content of the panel should be expanded on large screens, but it should still be possible to unexpand it.
+                              evaluation:
+                                type: string
+                                description: An evaluation status specifically for this title element. This can be used to directly color the icon if 'icon_color_from_evaluation' is true and this field is present, or it might provide context for the title itself. e.g. bad is red. Please be careful in choosing colors, to avoid 50 shades of red.
+                                example: bad
+                                enum:
+                                - good
+                                - average
+                                - neutral
+                                - bad
+                                - unknown
+                              half_width_on_mobile:
+                                type: boolean
+                                description: If true, suggests that this panel could be rendered as half-width on mobile devices, allowing for side-by-side display with another half-width panel if applicable.
+                                example: true
+                              title_element:
+                                title: title_element
+                                x-stoplight:
+                                  id: lox0wvl9bdgy2
+                                type: object
+                                description: The title of a panel.
+                                properties:
+                                  name:
+                                    type: string
+                                    description: A short name of this panel, not including any actual values. e.g. "Fat"
+                                  title:
+                                    type: string
+                                  subtitle:
+                                    type: string
+                                  type:
+                                    type: string
+                                    enum:
+                                    - grade
+                                    - percentage
+                                    - string
+                                    description: Used to indicate how the value of this item is measured, such as "grade" for Nutri-Score and Green-Score or "percentage" for Salt
+                                  grade:
+                                    type: string
+                                    description: The value for this panel where it corresponds to a A to E grade such as the Nutri-Score or the Green-Score.
+                                    enum:
+                                    - a+
+                                    - a
+                                    - b
+                                    - c
+                                    - d
+                                    - e
+                                    - f
+                                    - unknown
+                                  value:
+                                    type: number
+                                    description: The numeric value of the panel, where the type is "percentage"
+                                  value_string:
+                                    type: string
+                                    description: The string value of the panel, for cases where the value is not numeric
+                                  icon_url:
+                                    type: string
+                                  icon_color_from_evaluation:
+                                    type: string
+                                  icon_size:
+                                    type: string
+                                    description: 'If set to "small", the icon should be displayed at a small size.
+
+                                      '
+                              elements:
+                                type: array
+                                description: An ordered list of elements to display in the content of the panel.
+                                items:
+                                  title: element
+                                  x-stoplight:
+                                    id: e2ybdrtmx0tme
+                                  type: object
+                                  description: 'Each element object contains one specific element object such as a text element or an image element.
+
+                                    '
+                                  properties:
+                                    element_type:
+                                      type: string
+                                      enum:
+                                      - text
+                                      - image
+                                      - action
+                                      - panel
+                                      - panel_group
+                                      - table
+                                      description: 'The type of the included element object.
+
+                                        The element_type also indicates which field contains the included element object.
+
+                                        e.g. if the element_type is "text", the included element object will be in the "text_element" field.
+
+
+                                        Note that in the future, new type of element may be added,
+
+                                        so your code should ignore unrecognized types, and unknown properties.
+
+
+                                        TODO: add Map type
+
+                                        '
+                                    text_element:
+                                      title: text_element
+                                      x-stoplight:
+                                        id: vdwxlt73qnqfa
+                                      type: object
+                                      description: 'A text in simple HTML format to display.
+
+
+                                        For some specific texts that correspond to a product field (e.g. a product name, the ingredients list of a product),the edit_field_* fields are used to indicate how to edit the field value.'
+                                      properties:
+                                        type:
+                                          type: string
+                                          description: 'the type of text, might influence the way you display it.
+
+                                            '
+                                          enum:
+                                          - summary
+                                          - warning
+                                          - notes
+                                        html:
+                                          type: string
+                                          description: Text to display in HTML format.
+                                        language:
+                                          type: string
+                                          description: Language of the text. The name of the language is returned in the language requested when making the API call. e.g. if the text is in Polish, and the requested language is French, the language field will contain "Polonais" (French for "Polish"). Only set for specific fields such as the list of ingredients of a product.
+                                        lc:
+                                          type: string
+                                          description: 2 letter language code for the text. Only set for specific fields such as the list of ingredients of a product.
+                                        edit_field_id:
+                                          type: string
+                                          description: id of the field used to edit this text in the product edit API.
+                                        edit_field_type:
+                                          type: string
+                                          description: Type of the product field.
+                                        edit_field_value:
+                                          type: string
+                                          description: Current value of the product field. This may differ from the html field which can contain extra formating.
+                                        source_url:
+                                          type: string
+                                          description: Link to the source
+                                          example: https://en.wikipedia.org/wiki/Sodium acetate
+                                        source_text:
+                                          type: string
+                                          description: name of the source
+                                          example: Wikipedia
+                                        source_lc:
+                                          type: string
+                                          description: Source locale name
+                                          example: en
+                                        source_language:
+                                          type: string
+                                          description: Human readable source locale name
+                                          example: English
+                                    image_element:
+                                      title: image_element
+                                      x-stoplight:
+                                        id: k4v4kwt489q3j
+                                      type: object
+                                      properties:
+                                        url:
+                                          type: string
+                                          description: full URL of the image
+                                        width:
+                                          type: integer
+                                          description: "Width of the image.\n\nThis is just a suggestion coming from the server, \nthe client may choose to use its own dimensions for the image.\n"
+                                        height:
+                                          type: integer
+                                          description: 'Height of the image.
+
+
+                                            This is just a suggestion coming from the server,
+
+                                            the client may choose to use its own dimensions for the image.
+
+                                            '
+                                        alt_text:
+                                          type: string
+                                          description: Alt Text of the image.
+                                    action_element:
+                                      title: action_element
+                                      type: object
+                                      properties:
+                                        title:
+                                          type: string
+                                        actions:
+                                          type: array
+                                          description: The ids of the actions to show.
+                                          items:
+                                            type: string
+                                            description: The id of the action to show.
+                                            examples:
+                                            - edit_product
+                                            - add_categories
+                                      description: The action element is used to display a title and a list of actions like editing a product or adding categories.
+                                    panel_element:
+                                      title: panel_element
+                                      x-stoplight:
+                                        id: ymx41elz4yrnj
+                                      type: object
+                                      description: Panels can include other panels as sub-panels using the panel_element.
+                                      properties:
+                                        panel_id:
+                                          type: string
+                                          description: The id of the panel to include. The id is the key of the panel in the panels object returned in the knowledge_panels field.
+                                    panel_group_element:
+                                      title: panel_group_element
+                                      x-stoplight:
+                                        id: b7emlfrgiuue2
+                                      type: object
+                                      properties:
+                                        title:
+                                          type: string
+                                        panel_ids:
+                                          type: array
+                                          description: The ids of the panels to include. The ids are the keys of the panels in the panels object returned in the knowledge_panels field.
+                                          items:
+                                            type: string
+                                        image:
+                                          type: object
+                                          description: An image related to the panel group (e.g. the ingredients or nutrition facts image for the ingredients and nutrition panel groups).
+                                      description: The panel group element is used to display an optional title followed by a number of sub-panels.
+                                    table_element:
+                                      title: table_element
+                                      type: object
+                                      description: Element to display a table.
+                                      properties:
+                                        id:
+                                          type: string
+                                          description: An id for the table.
+                                        table_type:
+                                          type: string
+                                          description: Type of table (e.g. "percents" for tables with percentage columns)
+                                        title:
+                                          type: string
+                                          description: 'Title of the table.
+
+                                            '
+                                        columns:
+                                          type: array
+                                          items:
+                                            type: object
+                                            title: table_column
+                                            properties:
+                                              text:
+                                                type: string
+                                                description: Column header text
+                                              type:
+                                                type: string
+                                                description: Column type (e.g. "text", "percent")
+                                              text_for_small_screens:
+                                                type: string
+                                                description: Alternative text for small screens
+                                              style:
+                                                type: string
+                                                description: CSS style for the column
+                                              column_group_id:
+                                                type: string
+                                              shown_by_default:
+                                                type: boolean
+                                        rows:
+                                          type: array
+                                          description: Array of table rows
+                                          items:
+                                            type: object
+                                            properties:
+                                              id:
+                                                type: string
+                                                description: Row ID
+                                              style:
+                                                type: string
+                                                description: CSS style for the row
+                                              values:
+                                                type: array
+                                                description: Array of cell values
+                                                items:
+                                                  type: object
+                                                  properties:
+                                                    text:
+                                                      type: string
+                                                      description: Cell text content
+                                                    icon_url:
+                                                      type: string
+                                                      description: URL of an icon to display in the cell
+                                                    percent:
+                                                      type: number
+                                                      description: Percentage value for progress bars (used with percent columns)
+                                                    evaluation:
+                                                      type: string
+                                                      description: Evaluation level (good, bad, neutral, etc.) for styling
+                                                    level:
+                                                      type: integer
+                                                      description: Indentation level
+                                                    style:
+                                                      type: string
+                                                      description: CSS style for the cell
+                                  required:
+                                  - element_type
+                              level:
+                                type: string
+                                description: 'a message level, as levels we use in log.
+
+                                  It might help theming the panel visually. Some possible values: info, recommendation
+
+                                  '
+                                example: info
+                              size:
+                                type: string
+                                enum:
+                                - small
+                                description: "size is either empty (normal display) \nor small to indicate a panel that should have a smaller font size\n"
+                                example: small
+                              topics:
+                                type: array
+                                items:
+                                  type: string
+                                  example: health
+                                description: topics currently include health, environment, problem
+                          readOnly: true
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+      operationId: get-api-v3-tag-tagtype-tag_or_tagid
+      description: 'Return knowledge panels for a tag.
+
+
+        Currently the knowledge panels returned are:
+
+
+        Categories:
+
+        - Packaging stats for a category'
+  /api/v3/external_sources:
+    get:
+      operationId: get-api-v3-external-sources
+      tags:
+      - Knowledge Panels
+      summary: List external knowledge panel sources (JSON)
+      description: 'Returns the ordered list of external knowledge panel sources configured on the server.
+
+
+        Providers can use the `knowledge_panel_url` field to point to their own API.
+
+        The URL may contain **template variables** that the frontend will expand before calling:
+
+
+        - `$code` → product barcode
+
+        - `$lc` → UI language (2 letters)
+
+        - `$cc` → user/device country (2 letters)
+
+
+        Example:
+
+        `https://provider.example.com/off/v1/knowledge-panel/$code?lang=$lc&country=$cc`
+
+
+        The frontend percent-encodes the variable values when substituting them into the URL.'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                - title: Response status
+                  type: object
+                  description: A response object to describe if a READ or WRITE request was successful or not, and if there were errors or warnings, and what the impact of those errors or warnings was.
+                  examples:
+                  - status: success_with_errors
+                    result:
+                      id: product_updated
+                      name: Product updated
+                      lc_name: Produit mis à jour
+                    errors:
+                    - message:
+                        id: sugars_higher_than_carbohydrates
+                        name: Sugars higher than carbohydrates
+                        lc_name: Sucres plus élevés que les glucides
+                        description: Sugars (40g) are higher than carbohydrates (35g).
+                        lc_description: Les sucres (40g) sont plus élévés que les glucdes.
+                      field:
+                        id: nutriment.sugars
+                        value: '40'
+                      impact:
+                        id: nutrients_not_updated
+                        name: Nutrients not updated
+                        lc_name: Nutriments non mis à jour
+                        description: The nutrients were not updated.
+                        lc_description: Les nutriments n'ont pas été mis à jour.
+                  properties:
+                    status:
+                      type: string
+                      enum:
+                      - success
+                      - success_with_warnings
+                      - success_with_errors
+                      - failure
+                      description: 'Overall status of the request: whether it failed or succeeded, with or without warnings or errors.'
+                    result:
+                      type: object
+                      description: 'Overall result
+
+                        of the request (e.g. a product has been created)'
+                      properties:
+                        id:
+                          type: string
+                          description: Identifier of a response result entry
+                        name:
+                          type: string
+                          description: Name of the response result entry in English.
+                        lc_name:
+                          type: string
+                          description: Name of the response result entry in the language specified in tags_lc, if supplied.
+                    warnings:
+                      type: array
+                      description: List of warnings. Warnings are used to alert about something that may be wrong, but is not necessarily wrong (e.g. a nutrient value that is unexpectedly high).
+                      items:
+                        title: Warning or error message
+                        x-stoplight:
+                          id: eakkz8p7qfoj0
+                        type: object
+                        description: Describes a warning or error for a READ or WRITE request, which field triggered it, and what the impact was (e.g. the field was ignored).
+                        examples:
+                        - message:
+                            id: sugars_higher_than_carbohydrates
+                            name: Sugars higher than carbohydrates
+                            lc_name: Sucres plus élevés que les glucides
+                            description: Sugars (40g) are higher than carbohydrates (35g).
+                            lc_description: Les sucres (40g) sont plus élévés que les glucdes.
+                          field:
+                            id: nutriment.sugars
+                            value: '40'
+                          impact:
+                            id: nutrients_not_updated
+                            name: Nutrients not updated
+                            lc_name: Nutriments non mis à jour
+                            description: The nutrients were not updated.
+                            lc_description: Les nutriments n'ont pas été mis à jour.
+                        properties:
+                          message:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                description: 'Identifier of a response message.
+
+                                  '
+                              name:
+                                type: string
+                                description: Name of the response message entry in English.
+                              lc_name:
+                                type: string
+                                description: Name of the response message entry in the language specified in tags_lc, if supplied.
+                              description:
+                                type: string
+                                description: Description of the problem specific to the request, in English.
+                              lc_description:
+                                type: string
+                                description: Description of the problem specific to the request, in the language specified in tags_lc, if supplied.
+                          field:
+                            type: object
+                            description: Field that triggered the warning or error.
+                            properties:
+                              id:
+                                type: string
+                                description: Name of the field that triggered the warning or error.
+                              value:
+                                type: string
+                                description: Value of the field that triggered the warning or error.
+                          impact:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              name:
+                                type: string
+                              lc_name:
+                                type: string
+                              description:
+                                type: string
+                              lc_description:
+                                type: string
+                    errors:
+                      type: array
+                      description: List of errors. Errors are used to alert about something that is definitely wrong (e.g. a nutrient value that is impossibly high).
+                      items:
+                        title: Warning or error message
+                        x-stoplight:
+                          id: eakkz8p7qfoj0
+                        type: object
+                        description: Describes a warning or error for a READ or WRITE request, which field triggered it, and what the impact was (e.g. the field was ignored).
+                        examples:
+                        - message:
+                            id: sugars_higher_than_carbohydrates
+                            name: Sugars higher than carbohydrates
+                            lc_name: Sucres plus élevés que les glucides
+                            description: Sugars (40g) are higher than carbohydrates (35g).
+                            lc_description: Les sucres (40g) sont plus élévés que les glucdes.
+                          field:
+                            id: nutriment.sugars
+                            value: '40'
+                          impact:
+                            id: nutrients_not_updated
+                            name: Nutrients not updated
+                            lc_name: Nutriments non mis à jour
+                            description: The nutrients were not updated.
+                            lc_description: Les nutriments n'ont pas été mis à jour.
+                        properties:
+                          message:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                description: 'Identifier of a response message.
+
+                                  '
+                              name:
+                                type: string
+                                description: Name of the response message entry in English.
+                              lc_name:
+                                type: string
+                                description: Name of the response message entry in the language specified in tags_lc, if supplied.
+                              description:
+                                type: string
+                                description: Description of the problem specific to the request, in English.
+                              lc_description:
+                                type: string
+                                description: Description of the problem specific to the request, in the language specified in tags_lc, if supplied.
+                          field:
+                            type: object
+                            description: Field that triggered the warning or error.
+                            properties:
+                              id:
+                                type: string
+                                description: Name of the field that triggered the warning or error.
+                              value:
+                                type: string
+                                description: Value of the field that triggered the warning or error.
+                          impact:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              name:
+                                type: string
+                              lc_name:
+                                type: string
+                              description:
+                                type: string
+                              lc_description:
+                                type: string
+                - type: object
+                  properties:
+                    external_sources:
+                      $ref: '#/components/schemas/ExternalKnowledgePanelList'
+components:
+  schemas:
+    ExternalKnowledgePanelList:
+      type: array
+      description: Ordered list of external knowledge panel sources.
+      items:
+        type: object
+        required:
+        - id
+        - name
+        - knowledge_panel_url
+        - section
+        properties:
+          id:
+            type: string
+            description: Unique identifier of the external panel within the file.
+            example: empreinte_souffrance
+          name:
+            type: string
+            description: End-user display name of the panel or provider.
+            example: Empreinte Souffrance
+          description:
+            type: string
+            description: Short description shown in preferences and provider header.
+            example: Indicator of the amount of animal suffering calculated per product.
+          icon_url:
+            type: string
+            format: uri
+            description: URL to a square logo (PNG/SVG).
+            example: https://example.org/logo.png
+          knowledge_panel_url:
+            type: string
+            format: uri
+            description: 'Base URL to fetch knowledge panels **from the external provider**.
+
+
+              The URL can contain the following **template variables**, replaced by the frontend:
+
+              - `$code` → product barcode
+
+              - `$lc`   → UI language (2 letters)
+
+              - `$cc`   → user/device country (2 letters)
+
+
+              Example:
+
+              `https://provider.example.com/off/v1/knowledge-panel/$code?lang=$lc&country=$cc`
+
+
+              Notes:
+
+              - The frontend substitutes variables with percent-encoded values.
+
+              - The web component does not auto-append language anymore: include `?lang=$lc` yourself if needed.
+
+              '
+          provider_name:
+            type: string
+            description: Provider organization display name.
+            example: Empreinte Souffrance
+          provider_website:
+            type: string
+            format: uri
+            description: Public website of the provider (linked in UI).
+            example: https://empreinte-souffrance.org/
+          privacy_policy_url:
+            type: string
+            format: uri
+            description: Link to privacy notice for the external service (optional).
+            example: https://provider.example.com/privacy
+          section:
+            type: string
+            description: Machine id of the section this panel belongs to (e.g. `animal_welfare`).
+            example: animal_welfare
+          scope:
+            type: string
+            description: Visibility scope of the panel.
+            enum:
+            - public
+            - users
+            - moderators
+            default: public
+          user_in_scope:
+            type: boolean
+            description: 'True if current user is in the panel scope.
+
+              You must make an authenticated request to have this set to the right values
+
+              (otherwise it will be the value corresponding to public scope)
+
+              '
+          filters:
+            type: object
+            description: Display filters applied on the current product context.
+            properties:
+              categories:
+                type: array
+                items:
+                  type: string
+                description: List of category tags; panel is shown if any matches the product categories.
+                example:
+                - en:chicken-eggs
+              countries:
+                type: array
+                items:
+                  type: string
+                description: Two-letter country codes (or "world"); strict equality with current user/device country.
+                example:
+                - fr
+                - world
+              languages:
+                type: array
+                items:
+                  type: string
+                description: Two-letter language codes; strict equality with current UI language.
+                example:
+                - fr
+                - en
+              product_types:
+                type: array
+                items:
+                  type: string
+                description: Product types (e.g. "food"); strict equality with current product type.
+                example:
+                - food
+        examples:
+        - id: empreinte_souffrance
+          name: Empreinte Souffrance
+          description: Indicator of the amount of animal suffering calculated per product.
+          icon_url: https://example.org/logo.png
+          knowledge_panel_url: https://provider.example.com/off/v1/knowledge-panel/$code?lang=$lc&country=$cc
+          provider_name: Empreinte Souffrance
+          provider_website: https://empreinte-souffrance.org/
+          section: animal_welfare
+          filters:
+            categories:
+            - en:chicken-eggs
+            countries:
+            - fr
+            - world
+            languages:
+            - fr
+            - en
+            product_types:
+            - food
+          privacy_policy_url: https://provider.example.com/privacy
+          scope: moderators
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: session
+      description: 'Session cookie containing user ID, username, and session token.
+
+        The value is structured as: user_id&username&user_session&session_token
+
+        e.g. "user_id&exampleuser&user_session&abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKLM".
+
+        The session token is obtained after successful login via the `/cgi/session.pl` endpoint.
+
+        '
+    userAgentAuth:
+      description: Identification using the User-Agent header. This is recommended in all requests so that we can contact you if there are issues. If we cannot identify the source of problematic API queries, we may have to block them. User-Agent header in the format 'app_name/app_version (URL or contact info)'
+      type: apiKey
+      in: header
+      name: User-Agent
