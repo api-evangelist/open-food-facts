@@ -1097,6 +1097,13 @@ paths:
       url: https://world.openfoodfacts.net
 components:
   parameters:
+    angle:
+      schema:
+        type: string
+        example: '90'
+      in: query
+      name: angle
+      required: true
     imgid:
       schema:
         type: string
@@ -1110,13 +1117,6 @@ components:
         example: ingredients_en
       in: query
       name: id
-      required: true
-    angle:
-      schema:
-        type: string
-        example: '90'
-      in: query
-      name: angle
       required: true
   securitySchemes:
     cookieAuth:

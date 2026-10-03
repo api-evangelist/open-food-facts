@@ -25771,6 +25771,27 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     ProductList:
       properties:
         product:
@@ -25810,33 +25831,166 @@ components:
       - editors
       - last_edit
       title: ProductStats
-    ValidationError:
+    PatchedProductFull:
+      type: object
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+        source:
+          oneOf:
+          - $ref: '#/components/schemas/SourceEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        source_last_synced:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        product_name:
+          type:
+          - string
+          - 'null'
+        image_url:
+          type:
+          - string
+          - 'null'
+        product_quantity:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: -2147483648
+        product_quantity_unit:
+          type:
+          - string
+          - 'null'
+        quantity:
+          type:
+          - string
+          - 'null'
+        categories_tags:
           type: array
-          title: Location
-        msg:
+          items:
+            type: string
+        brands:
+          type:
+          - string
+          - 'null'
+        brands_tags:
+          type: array
+          items:
+            type: string
+        labels_tags:
+          type: array
+          items:
+            type: string
+        nutriscore_grade:
+          type:
+          - string
+          - 'null'
+        ecoscore_grade:
+          type:
+          - string
+          - 'null'
+        nova_group:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        creator:
+          type:
+          - string
+          - 'null'
+        unique_scans_n:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        price_currency_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        location_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        location_type_osm_country_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        user_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        created:
           type: string
-          title: Message
-        type:
+          format: date-time
+        updated:
           type: string
-          title: Error Type
+          format: date-time
+          readOnly: true
+    PaginatedProductFullList:
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    BlankEnum:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductFull'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    SourceEnum:
       enum:
-      - ''
+      - 'off'
+      - obf
+      - opff
+      - opf
+      type: string
+      description: '* `off` - off
+
+        * `obf` - obf
+
+        * `opff` - opff
+
+        * `opf` - opf'
     NullEnum:
       enum:
       - null
+    BlankEnum:
+      enum:
+      - ''
     ProductFull:
       type: object
       properties:
@@ -25952,160 +26106,6 @@ components:
       - code
       - id
       - updated
-    PatchedProductFull:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        code:
-          type: string
-        source:
-          oneOf:
-          - $ref: '#/components/schemas/SourceEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        source_last_synced:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        product_name:
-          type:
-          - string
-          - 'null'
-        image_url:
-          type:
-          - string
-          - 'null'
-        product_quantity:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: -2147483648
-        product_quantity_unit:
-          type:
-          - string
-          - 'null'
-        quantity:
-          type:
-          - string
-          - 'null'
-        categories_tags:
-          type: array
-          items:
-            type: string
-        brands:
-          type:
-          - string
-          - 'null'
-        brands_tags:
-          type: array
-          items:
-            type: string
-        labels_tags:
-          type: array
-          items:
-            type: string
-        nutriscore_grade:
-          type:
-          - string
-          - 'null'
-        ecoscore_grade:
-          type:
-          - string
-          - 'null'
-        nova_group:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        creator:
-          type:
-          - string
-          - 'null'
-        unique_scans_n:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        price_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        price_currency_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        location_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        location_type_osm_country_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        user_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        proof_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        created:
-          type: string
-          format: date-time
-        updated:
-          type: string
-          format: date-time
-          readOnly: true
-    SourceEnum:
-      enum:
-      - 'off'
-      - obf
-      - opff
-      - opf
-      type: string
-      description: '* `off` - off
-
-        * `obf` - obf
-
-        * `opff` - opff
-
-        * `opf` - opf'
-    PaginatedProductFullList:
-      type: object
-      required:
-      - items
-      - page
-      - pages
-      - size
-      - total
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductFull'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
   securitySchemes:
     cookieAuth:
       type: apiKey

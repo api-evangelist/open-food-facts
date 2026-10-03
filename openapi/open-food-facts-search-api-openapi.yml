@@ -2,86 +2,3655 @@ openapi: 3.2.0
 info:
   title: Open Food Facts Search API
   version: '1.0'
-  description: 'Operations tagged Search across 3 of this provider''s published API definitions: open-food-facts-openapi.yml, open-food-facts-api-v2-openapi.yml, open-food-facts-search-a-licious-openapi.json. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged Search across 3 of this provider''s published API definitions: open-food-facts-api-v2-openapi.yml, open-food-facts-openapi.yml, open-food-facts-search-a-licious-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
-- url: https://world.openfoodfacts.org
-  description: Worldwide instance
+- description: dev
+  url: https://world.openfoodfacts.net
+- description: prod
+  url: https://world.openfoodfacts.org
+- description: proxy (for doc purpose)
+  url: http://localhost:8080
 - url: https://{country}.openfoodfacts.org
   description: Country-specific instance
   variables:
     country:
       default: world
       description: Country subdomain (e.g., us, fr, de)
-- description: dev
-  url: https://world.openfoodfacts.net
-- description: proxy (for doc purpose)
-  url: http://localhost:8080
 tags:
 - name: Search
+  description: Endpoints for searching products with various filters and criteria.
 paths:
   /api/v2/search:
+    parameters: []
     get:
-      summary: Search products
-      description: Faceted product search supporting filters by category, brand, label, country, ingredient, additive, allergen, nutrition grade, and bulk barcode lookup.
-      operationId: searchProducts
-      parameters:
-      - name: code
-        in: query
-        schema:
-          type: string
-        description: Comma-separated list of barcodes for bulk lookup.
-      - name: categories_tags_en
-        in: query
-        schema:
-          type: string
-      - name: brands_tags
-        in: query
-        schema:
-          type: string
-      - name: labels_tags
-        in: query
-        schema:
-          type: string
-      - name: countries_tags_en
-        in: query
-        schema:
-          type: string
-      - name: nutrition_grades_tags
-        in: query
-        schema:
-          type: string
-      - name: fields
-        in: query
-        schema:
-          type: string
-      - name: page
-        in: query
-        schema:
-          type: integer
-      - name: page_size
-        in: query
-        schema:
-          type: integer
-          maximum: 1000
-      - name: sort_by
-        in: query
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Paginated product results.
+      summary: Search Products
       tags:
       - Search
-    parameters: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                title: search_for_products_response
+                properties:
+                  count:
+                    type: integer
+                    description: 'Total number of products found
+
+                      '
+                    example: 2701
+                  page:
+                    type: integer
+                    description: 'Page number of returned results.
+
+
+                      You can get a different page, by using the `page` query parameter.
+
+                      '
+                    example: 1
+                  page_count:
+                    type: integer
+                    description: 'Number of products returned in the current page.
+
+
+                      This will differ from page_size only on the last page.
+
+                      '
+                    example: 24
+                  page_size:
+                    type: integer
+                    description: 'Requested number of products per page.
+
+
+                      To get the number of pages, compute:
+
+                      `Math.floor((count - 1) / page_size) + 1`
+
+                      '
+                    example: 24
+                  products:
+                    type: array
+                    description: 'The products matching the query corresponding to current page
+
+                      '
+                    items:
+                      type: object
+                      title: product
+                      description: 'This is all the fields describing a product and how to display it on a page.
+
+
+                        Refer to the different sub schema for more readable entries:
+
+
+                        * [Product Base](#cmp--schemas-product-base): Base fields of a product
+
+                        * [Product Misc](#cmp--schemas-product-misc): Miscellaneous but important fields of a product
+
+                        * [Product Tags](#cmp--schemas-product-tags): Tags fields on a product
+
+                        * [Product Images](#cmp--schemas-product-images): Information about Images of a product
+
+                        * [Product Eco-Score](#cmp--schemas-product-ecoscore): Fields related to Eco-Score for a product
+
+                        * [Product Ingredients](#cmp--schemas-product-ingredients): Fields about ingredients of a product
+
+                        * [Product Nutrition](#cmp--schemas-product-nutrition): Nutrition fields of a product
+
+                        * [Product Data Quality](#cmp--schemas-product-quality): fields related to data quality for a product
+
+                        * [Product Extended](#cmp--schemas-product-extended): TODO
+
+                        * [Product Metadata](#cmp--schemas-product-meta): Metadata of a product (author, editors, etc.)
+
+                        * [Product Knowledge Panels](#cmp--schemas-product-knowledge-panels): Knowledge panels for a product
+
+                        * [Product Attribute Groups](#cmp--schemas-product-attribute-groups): Attribute groups for personal product matching
+
+                        '
+                      allOf:
+                      - type: object
+                        description: 'Base product data
+
+                          '
+                        required:
+                        - code
+                        - schema_version
+                        allOf:
+                        - type: object
+                          description: Product type information
+                          properties:
+                            product_type:
+                              type: string
+                              description: 'The product type is a fundamental separation that tells on which platform the product is made available:
+
+                                Open Food Facts, Open Beauty Facts, Open Pet Food Facts or Open Products Facts.
+
+
+                                Each platform has variations on the way it analyses the product.
+
+
+                                Changing the product type moves the product to the new platform.
+
+                                It must be done thoughtfully.
+
+                                '
+                              enum:
+                              - beauty
+                              - food
+                              - petfood
+                              - product
+                        properties:
+                          product_name:
+                            type: string
+                            description: "The name of the product in the main language of the product (lang field) \n"
+                          abbreviated_product_name:
+                            type: string
+                            description: Abbreviated product name (e.g. abbreviated product name printed on receipts) in the main language of the product (lang field)
+                          code:
+                            type: string
+                            description: 'barcode of the product (can be EAN-13 or internal codes for some food stores),
+
+                              for products without a barcode,
+
+                              Open Food Facts assigns a number starting with the 200 reserved prefix
+
+                              '
+                          codes_tags:
+                            type: array
+                            items:
+                              type: string
+                              description: 'A value which is the type of barcode "code-13" or "code-8"
+
+                                and
+
+                                A series of mask for the barcode
+
+                                It helps retrieve barcodes starting by
+
+                                '
+                              examples:
+                              - code-13
+                              - 3017620422xxx
+                              - 301762042xxxx
+                              - 30176204xxxxx
+                              - 3017620xxxxxx
+                              - 301762xxxxxxx
+                              - 30176xxxxxxxx
+                              - 3017xxxxxxxxx
+                              - 301xxxxxxxxxx
+                              - 30xxxxxxxxxxx
+                              - 3xxxxxxxxxxxx
+                          generic_name:
+                            type: string
+                            description: 'Generic / legal name of the product in the main language of the product (lang field)
+
+                              '
+                          id:
+                            description: 'internal identifier for the product, usually set to the value of `code`,
+
+                              except on the producers platform where it is prefixed by the owner
+
+                              '
+                            type: string
+                          lc:
+                            type: string
+                            description: 'Main language of the product.
+
+                              This is a duplicate of `lang` property (for historical reasons).
+
+                              '
+                          lang:
+                            type: string
+                            description: 'Main language of the product.
+
+
+                              This should be the main language of product packaging (if one is predominant).
+
+
+                              Main language is also used to decide which ingredients list to parse.
+
+                              '
+                          nova_group:
+                            type: integer
+                            description: 'Nova group as an integer from 1 to 4. See https://world.openfoodfacts.org/nova
+
+                              '
+                          nova_groups:
+                            type: string
+                          obsolete:
+                            type: string
+                          obsolete_since_date:
+                            description: 'A date at which the product was declared obsolete.
+
+                              This means it''s not produced any more.
+
+                              '
+                            type: string
+                          product_quantity:
+                            type: string
+                            description: 'The size in g or ml for the whole product.
+
+                              It is a normalized version of the `quantity` field.
+
+                              A `quantity` of "2 x 60 g" leads to `product_quantity`: "120".
+
+                              '
+                            example: '500'
+                          product_quantity_unit:
+                            type: string
+                            description: 'The unit (either g or ml) for the corresponding `product_quantity`.
+
+                              It is computed from the `quantity` field.
+
+                              A `quantity` of "6 x 250 ml" leads to `product_quantity_unit`: "ml".
+
+                              '
+                            example: g
+                          quantity:
+                            type: string
+                            description: 'The quantity of the product, with the corresponding number of portions or unit (g, ml, kg, l, cl, oz, lbs...).
+
+                              It should be the value as displayed on the product. The ℮ sign is allowed.
+
+                              When it refers to the number of portions, it can be filled without any units (e.g. "6 eggs").
+
+                              '
+                            example: 3 x 150 g
+                          schema_version:
+                            type: integer
+                            description: 'Version of the product object schema used in the response.
+
+                              This indicates the structure of the ''product'' field itself.
+
+                              For more details, please read: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-api-and-product-schema-change-log
+
+                              '
+                            example: 999
+                        patternProperties:
+                          product_name_(?<language_code>\w\w):
+                            type: string
+                            description: 'Product name in language designated by `language_code`, e.g. product_name_fr
+
+                              '
+                          abbreviated_product_name_(?<language_code>\w\w):
+                            type: string
+                            description: Abbreviated product name in language `language_code`.
+                          generic_name_(?<language_code>\w\w):
+                            type: string
+                            description: 'Generic/legal name in language designated by `language_code`, e.g. generic_name_en.
+
+                              '
+                      - type: object
+                        title: product_misc
+                        description: 'Miscellaneous but important fields of a product
+
+                          '
+                        properties:
+                          additives_n:
+                            type: integer
+                            description: 'Number of food additives.
+
+                              '
+                          checked:
+                            type: string
+                          complete:
+                            type: integer
+                          completeness:
+                            type: number
+                          ecoscore_grade:
+                            type: string
+                            description: 'See also: `ecoscore_tags`
+
+                              '
+                          ecoscore_score:
+                            type: integer
+                            description: 'See also: `ecoscore_tags`
+
+                              '
+                          food_groups:
+                            type: string
+                          food_groups_tags:
+                            type: array
+                            items:
+                              type: string
+                          nutrient_levels:
+                            description: 'Traffic light indicators on main nutrients levels
+
+                              '
+                            type: object
+                            properties:
+                              fat:
+                                type: string
+                                enum:
+                                - low
+                                - moderate
+                                - high
+                              salt:
+                                type: string
+                                enum:
+                                - low
+                                - moderate
+                                - high
+                              saturated-fat:
+                                type: string
+                                enum:
+                                - low
+                                - moderate
+                                - high
+                              sugars:
+                                type: string
+                                enum:
+                                - low
+                                - moderate
+                                - high
+                          packaging_text:
+                            type: string
+                            description: 'Recycling instructions as raw text, e.g. Plastic
+
+                              bottle to recycle, Plastic cap to recycle.
+
+                              This will get automatically parsed and
+
+                              will be used to compute the Eco-Score.
+
+                              You can either request it (if it exists) or
+
+                              send it in a specific language.
+
+                              '
+                            example: packaging_text_en
+                          packagings:
+                            type: array
+                            title: Packagings (READ)
+                            description: 'The packagings object is an array of individual packaging component objects.
+
+
+                              The Packaging data document explains how packaging data is structured in Open Food Facts: https://openfoodfacts.github.io/openfoodfacts-server/dev/explain-packaging-data/
+
+
+                              The shape, material and recycling properties of each packaging component are linked to entries in the packaging_shapes, packaging_materials and packaging_recycling taxonomies:
+
+
+                              https://world.openfoodfacts.org/data/taxonomies/packaging_shapes.json
+
+                              https://world.openfoodfacts.org/data/taxonomies/packaging_materials.json
+
+                              https://world.openfoodfacts.org/data/taxonomies/packaging_recycling.json
+
+
+                              If the tags_lc field is set, the properties will include a lc_name field with the translation in the requested language.'
+                            examples:
+                            - - number_of_units: 6
+                                shape:
+                                  id: en:bottle
+                                  lc_name: bouteille
+                                material:
+                                  id: en:bottle
+                                  lc_name: bouteille
+                                recycling:
+                                  id: en:bottle
+                                  lc_name: bouteille
+                                quantity_per_unit: 25 cl
+                                quantity_per_unit_value: 25
+                                quantity_per_unit_unit: cl
+                                weight_specified: 30
+                                weight_measured: 32
+                                weight_estimated: 26
+                                weight: 30
+                                weight_source_id: specified
+                            items:
+                              description: 'Each packaging component has different properties to specify how many there are, its shape, material etc.
+
+
+                                The shape, material and recycling properties are mapped to one entry in the packaging_shapes, packaging_materials and packaging_recycling taxonomies, and the value of the property is the canonical name of the taxonomy entry (e.g. en:bottle).
+
+
+                                They may contain values that could not yet get matched to their respective taxonomy, in which case they will contain a free text value prefixed with the language code of this text value (e.g. "fr:Bouteille sphérique" might have been entered by a French user to indicate it is a spherical bottle).'
+                              title: Packaging component (READ)
+                              type: object
+                              examples:
+                              - number_of_units: 6
+                                shape:
+                                  id: en:bottle
+                                  lc_name: bouteille
+                                material:
+                                  id: en:bottle
+                                  lc_name: bouteille
+                                recycling:
+                                  id: en:bottle
+                                  lc_name: bouteille
+                                quantity_per_unit: 25 cl
+                                quantity_per_unit_value: 25
+                                quantity_per_unit_unit: cl
+                                weight_specified: 30
+                                weight_measured: 32
+                                weight_estimated: 26
+                                weight: 30
+                                weight_source_id: specified
+                              properties:
+                                number_of_units:
+                                  type: integer
+                                  description: umber of units of this packaging component contained in the product (e.g. 6 for a pack of 6 bottles)
+                                shape:
+                                  title: Packaging component shape
+                                  x-stoplight:
+                                    id: xrj8agza3dwgf
+                                  type: object
+                                  description: The shape property is canonicalized using the packaging_shapes taxonomy. Taxonomized values are available using the partial taxonomy API, the autosuggest API or the full packaging_shapes taxonomy JSON export.
+                                  examples:
+                                  - id: en:bottle
+                                    lc_name: bouteille
+                                  properties:
+                                    id:
+                                      type: string
+                                      description: Canonical id of the entry in the taxonomy. If the value cannot be mapped to a taxonomy entry, the value will be the name of the entry in its original language prefixed by the language 2 letter code and a colon.
+                                    lc_name:
+                                      type: string
+                                      description: Name of the entry in the language requested in the tags_lc field of the request. This field is returned only of tags_lc is specified. If the translation is not available, or if the entry does not exist in the taxonomy, the value will be the name of the entry in its original language prefixed by the language 2 letter code and a colon.
+                                material:
+                                  title: Packaging component material
+                                  type: object
+                                  description: The material property is canonicalized using the packaging_materials taxonomy. Taxonomized values are available using the partial taxonomy API, the autosuggest API or the full packaging_material taxonomy JSON export.
+                                  examples:
+                                  - id: en:bottle
+                                    lc_name: bouteille
+                                  properties:
+                                    id:
+                                      type: string
+                                      description: Canonical id of the entry in the taxonomy. If the value cannot be mapped to a taxonomy entry, the value will be the name of the entry in its original language prefixed by the language 2 letter code and a colon.
+                                    lc_name:
+                                      type: string
+                                      description: Name of the entry in the language requested in the tags_lc field of the request. This field is returned only of tags_lc is specified. If the translation is not available, or if the entry does not exist in the taxonomy, the value will be the name of the entry in its original language prefixed by the language 2 letter code and a colon.
+                                recycling:
+                                  title: Packaging component recycling instruction
+                                  x-stoplight:
+                                    id: 376tk8e2cmyh2
+                                  type: object
+                                  description: The recycling property is canonicalized using the packaging_recycling taxonomy. Taxonomized values are available using the partial taxonomy API, the autosuggest API or the full packaging_recycling taxonomy JSON export.
+                                  examples:
+                                  - id: en:bottle
+                                    lc_name: bouteille
+                                  properties:
+                                    id:
+                                      type: string
+                                      description: Canonical id of the entry in the taxonomy. If the value cannot be mapped to a taxonomy entry, the value will be the name of the entry in its original language prefixed by the language 2 letter code and a colon.
+                                    lc_name:
+                                      type: string
+                                      description: Name of the entry in the language requested in the tags_lc field of the request. This field is returned only of tags_lc is specified. If the translation is not available, or if the entry does not exist in the taxonomy, the value will be the name of the entry in its original language prefixed by the language 2 letter code and a colon.
+                                quantity_per_unit:
+                                  type: string
+                                  description: Quantity (weight or volume) of food product contained in the packaging component. (e.g. 75cl for a wine bottle)
+                                quantity_per_unit_value:
+                                  type: number
+                                  description: Value parsed from the quantity field.
+                                quantity_per_unit_unit:
+                                  type: string
+                                  description: Unit parsed and normalized from the quantity field.
+                                weight_specified:
+                                  type: number
+                                  description: Weight (as specified by the manufacturer) of one unit of the empty packaging component (in grams). (e.g. for a 6 pack of 1.5l water bottles, it might be 30, the weight in grams of 1 empty water bottle without its cap which is a different packaging component).
+                                weight_measured:
+                                  type: number
+                                  description: Weight (as measured by one or more users) of one unit of the empty packaging component (in grams). (e.g. for a 6 pack of 1.5l water bottles, it might be 30, the weight in grams of 1 empty water bottle without its cap which is a different packaging component).
+                                weight_estimated:
+                                  type: number
+                                  description: Weight (as estimated from similar products) of one unit of the empty packaging component (in grams). (e.g. for a 6 pack of 1.5l water bottles, it might be 30, the weight in grams of 1 empty water bottle without its cap which is a different packaging component).
+                                weight:
+                                  type: number
+                                  description: Weight of one unit of the empty packaging component.
+                                weight_source_id:
+                                  type: string
+                                  description: Indicates which field was used to populate the "weight" field. Either "specified", "measured", or "estimated"
+                            readOnly: true
+                          packagings_complete:
+                            title: packagings_complete
+                            type: integer
+                            minimum: 0
+                            maximum: 1
+                            description: Indicate if the packagings array contains all the packaging parts of the product. This field can be set by users when they enter or verify packaging data. Possible values are 0 or 1.
+                          pnns_groups_1:
+                            description: 'Category of food according to [French Nutrition and Health Program](https://fr.wikipedia.org/wiki/Programme_national_nutrition_sant%C3%A9)
+
+                              '
+                            type: string
+                          pnns_groups_1_tags:
+                            type: array
+                            items:
+                              type: string
+                          pnns_groups_2:
+                            description: 'Sub Category of food according to [French Nutrition and Health Program](https://fr.wikipedia.org/wiki/Programme_national_nutrition_sant%C3%A9)
+
+                              '
+                            type: string
+                          pnns_groups_2_tags:
+                            type: array
+                            items:
+                              type: string
+                          popularity_key:
+                            description: 'An imprecise measurement of popularity based on Scan statistics. A higher value means higher popularity.
+
+                              '
+                            type: integer
+                          popularity_tags:
+                            description: "Indicators for the popularity of a product, like the amount of scans in a specific year.\n`popularity_tags` values from previous years are kept, if there is no popularity_tags at all, then it was never popular.\nThis field must be used with care. In countries where Open Food Facts is not widely used, \na product may obtain the value \"top-90-percent-scans-2021\" with a single scan.\n"
+                            type: array
+                            items:
+                              type: string
+                            example:
+                            - bottom-25-percent-scans-2020
+                            - top-85-percent-scans-2021
+                            - top-90-percent-scans-2022
+                            - top-country-it-scans-2019
+                            - top-100000-mg-scans-2024
+                          scans_n:
+                            type: integer
+                            description: "Number of scans performed with the official Open Food Facts mobile application, the last year \nfor which the product was scanned (current year excluded). This value is computed once a year by scanbot.pl.\nIt is possible that a product has never been scanned at all: `scans_n` is not given in this case.\nSee also `unique_scans_n` field.\n"
+                          unique_scans_n:
+                            type: integer
+                            description: "Number of unique scans performed with the official Open Food Facts mobile application, the last year \nfor which the product was scanned (current year excluded).\nUnique scans means it is based on different IPs.\nThis value is computed once a year by scanbot.pl.\nSee also `scans_n` field.\n"
+                          serving_quantity:
+                            type: string
+                            description: 'Normalized version of serving_size.
+
+                              Note that this is NOT the number of servings by product.
+
+                              <small>(in perl, see `normalize_serving_size`)</small>
+
+                              '
+                          serving_quantity_unit:
+                            type: string
+                            description: 'The unit (either g or ml) for the correponding serving_quantity.
+
+                              '
+                            example: g
+                          serving_size:
+                            type: string
+                            description: 'Serving size text (generally in g or ml).
+
+                              We expect a quantity + unit but the user is free to input any string.
+
+                              '
+                        patternProperties:
+                          food_groups_(?<language_code>\w\w):
+                            type: string
+                            description: see `food_groups`
+                          packaging_text_(?<language_code>\w\w):
+                            type: string
+                            description: 'Packaging text in language designated by `language_code`
+
+                              '
+                      - type: object
+                        description: 'Data about a product which is represented as tags
+
+                          '
+                        allOf:
+                        - type: object
+                          title: Product Base Tags
+                          properties:
+                            brands:
+                              type: string
+                              description: 'Comma separated list of brands (not taxonomized), in the last language used to edit it (recorded in brands_lc)
+
+                                This field is mostly used for debugging and testing purposes. Do not use it for display purposes.
+
+                                '
+                            brands_tags:
+                              type: array
+                              description: "An array of indexed brands tag entries (for search).\n\nThat is the id of brands found in taxonomy + \nbrands not found in taxonomy (with case / accents / spaces normalized).\n\nThis is mostly used for search as the normalization of entries not in the taxonomy is lossy.\n"
+                              items:
+                                title: Indexed taxonomy tag entry (lossy, for search only)
+                                type: string
+                                description: 'This field is used for search only. It is a lossy representation of the taxonomy tag entry, that can be used to index the entry in a search engine.
+
+                                  A tag entry, that has been matched against a taxonomy (e.g. a category, a label)
+
+
+                                  The entry is a string that can contain either:
+
+
+                                  - a taxonomy entry id, in the form [2 letter language code]:[normalized canonical name] (e.g. "en:green-teas") -> for entries that could be matched to a taxonomy entry
+
+                                  - a string in a specific language, prefixed by the 2 letter language code, and normalized (deaccented and lowercased, depending on language)
+
+                                  (e.g. "fr:thes-verts") -> for entries that could not be matched to a taxonomy entry'
+                            categories:
+                              type: string
+                              description: 'Comma separated list of categories (not taxonomized), in the last language used to edit it (recorded in categories_lc)
+
+                                This field is mostly used for debugging and testing purposes. Do not use it for display purposes.
+
+                                '
+                            categories_tags:
+                              type: array
+                              description: "An array of indexed categories tag entries (for search).\n\nThat is the id of categories found in taxonomy + \ncategories not found in taxonomy (with case / accents / spaces normalized).\n\nThis is mostly used for search as the normalization of entries not in the taxonomy is lossy.\n"
+                              items:
+                                title: Indexed taxonomy tag entry (lossy, for search only)
+                                type: string
+                                description: 'This field is used for search only. It is a lossy representation of the taxonomy tag entry, that can be used to index the entry in a search engine.
+
+                                  A tag entry, that has been matched against a taxonomy (e.g. a category, a label)
+
+
+                                  The entry is a string that can contain either:
+
+
+                                  - a taxonomy entry id, in the form [2 letter language code]:[normalized canonical name] (e.g. "en:green-teas") -> for entries that could be matched to a taxonomy entry
+
+                                  - a string in a specific language, prefixed by the 2 letter language code, and normalized (deaccented and lowercased, depending on language)
+
+                                  (e.g. "fr:thes-verts") -> for entries that could not be matched to a taxonomy entry'
+                            checkers_tags:
+                              type: array
+                              items:
+                                type: string
+                                description: List of checkers (users who checked the product) tags
+                            cities:
+                              type: string
+                            cities_tags:
+                              type: array
+                              items:
+                                type: object
+                            correctors_tags:
+                              type: array
+                              items:
+                                type: string
+                            countries:
+                              type: string
+                              description: 'List of countries where the product is sold.
+
+                                '
+                            countries_tags:
+                              type: array
+                              items:
+                                type: string
+                            ecoscore_tags:
+                              description: 'All ecoscore of a product.
+
+                                Most of the time it''s only one value,
+
+                                but it might eventually be more for products composed of sub-products.
+
+                                See also: `ecoscore_score`, `ecoscore_grade`.
+
+                                '
+                              type: array
+                              items:
+                                type: string
+                            emb_codes:
+                              type: string
+                              description: 'Packager code. EMB is the French system of traceability codes for packager.
+
+                                '
+                              example: EMB 2013330
+                            emb_codes_tags:
+                              type: array
+                              items:
+                                type: object
+                            labels:
+                              type: string
+                            labels_tags:
+                              type: array
+                              items:
+                                type: string
+                            entry_dates_tags:
+                              description: 'The data as a series of tag: `yyyy-mm-dd`, `yyyy-mm`, `yyyy`
+
+                                '
+                              type: array
+                              items:
+                                type: string
+                              examples:
+                              - - '2016-03-11'
+                                - 2016-03
+                                - '2016'
+                            manufacturing_places:
+                              type: string
+                              description: 'Places where the product was manufactured or transformed.
+
+                                '
+                            manufacturing_places_tags:
+                              type: array
+                              items:
+                                type: string
+                            nova_groups_tags:
+                              type: array
+                              items:
+                                type: string
+                            nutrient_levels_tags:
+                              type: array
+                              items:
+                                type: string
+                        - type: object
+                          properties:
+                            brands_hierarchy:
+                              type: array
+                              description: "An array of brands tag entries (for display and editing).\n\nThat is the id of brands found in taxonomy + \nbrands not found in taxonomy (as-is, with no normalization).\n\nThis is the field that should be used for display purposes, as it is not lossy.\n"
+                              items:
+                                title: Canonicalized taxonomy tag entry
+                                type: string
+                                description: 'A tag entry, that has been matched against a taxonomy (e.g. a category, a label)
+
+
+                                  The entry is a string that can contain either:
+
+
+                                  - a taxonomy entry id, in the form [2 letter language code]:[normalized canonical name] (e.g. "en:green-teas") -> for entries that could be matched to a taxonomy entry
+
+                                  - a string in a specific language, prefixed by the 2 letter language code (e.g. "fr:Thés verts") -> for entries that could not be matched to a taxonomy entry'
+                            brands_lc:
+                              type: string
+                              description: Language code of the last edit for brands
+                            categories_hierarchy:
+                              type: array
+                              description: "An array of categories tag entries (for display and editing).\n\nThat is the id of categories found in taxonomy + \ncategories not found in taxonomy (as-is, with no normalization).\n\nThis is the field that should be used for display purposes, as it is not lossy.\n"
+                              items:
+                                title: Canonicalized taxonomy tag entry
+                                type: string
+                                description: 'A tag entry, that has been matched against a taxonomy (e.g. a category, a label)
+
+
+                                  The entry is a string that can contain either:
+
+
+                                  - a taxonomy entry id, in the form [2 letter language code]:[normalized canonical name] (e.g. "en:green-teas") -> for entries that could be matched to a taxonomy entry
+
+                                  - a string in a specific language, prefixed by the 2 letter language code (e.g. "fr:Thés verts") -> for entries that could not be matched to a taxonomy entry'
+                            categories_lc:
+                              type: string
+                              description: Language code of the last edit for categories
+                            countries_hierarchy:
+                              type: array
+                              items:
+                                type: string
+                            countries_lc:
+                              type: string
+                              description: Countries language code
+                            emb_codes_orig:
+                              type: string
+                            labels_hierarchy:
+                              type: array
+                              items:
+                                type: string
+                            labels_lc:
+                              type: string
+                      - type: object
+                        title: Product-Images
+                        description: 'Information about Images of a product.
+
+
+                          Images ensure the reliability of Open Food Facts data.
+
+                          It provides a primary source and proof of all the structured data.
+
+                          You may therefore want to display it along the structured information.
+
+
+                          See also tutorials about images:
+
+                          * [Getting images](https://openfoodfacts.github.io/openfoodfacts-server/api/how-to-download-images/)
+
+                          * [Uploading images](https://openfoodfacts.github.io/openfoodfacts-server/api/tutorial-uploading-photo-to-a-product/)
+
+                          '
+                        properties:
+                          images:
+                            description: 'This contains properties for all images contained on the product.
+
+                              '
+                            type: object
+                            title: product_images_properties
+                            properties:
+                              front:
+                                title: image_role
+                                type: object
+                                description: 'property of an image (or part thereof) selected for a particular role and a particular language.
+
+                                  '
+                                properties:
+                                  angle:
+                                    type: integer
+                                    example: 0
+                                    description: The angle of the image rotation (if it was rotated).
+                                  coordinates_image_size:
+                                    type: string
+                                    example: full
+                                  geometry:
+                                    type: string
+                                    example: 0x0--1--1
+                                  imgid:
+                                    type: string
+                                    example: '121'
+                                    description: The id of the original/source image that was selected to edit(rotate, normalize etc) to produce this new image.
+                                  normalize:
+                                    type:
+                                    - string
+                                    - boolean
+                                    - 'null'
+                                    examples:
+                                    - null
+                                    - 'false'
+                                    - 'true'
+                                    description: Normalize colors.
+                                  rev:
+                                    type: string
+                                    example: '420'
+                                  sizes:
+                                    type: object
+                                    description: "The available image sizes for the product (both reduced and full). \nThe reduced images are the ones with numbers as the key( 100, 200 etc)\nwhile the full images have `full` as the key.\n"
+                                    properties:
+                                      '100':
+                                        type: object
+                                        title: image_size
+                                        description: 'Width and height of an image
+
+                                          '
+                                        properties:
+                                          h:
+                                            type: integer
+                                            example: 400
+                                            description: 'The height of the reduced/full image in pixels.
+
+                                              '
+                                          w:
+                                            type: integer
+                                            example: 255
+                                            description: The width of the reduced/full image in pixels.
+                                      '200':
+                                        type: object
+                                        title: image_size
+                                        description: 'Width and height of an image
+
+                                          '
+                                        properties:
+                                          h:
+                                            type: integer
+                                            example: 400
+                                            description: 'The height of the reduced/full image in pixels.
+
+                                              '
+                                          w:
+                                            type: integer
+                                            example: 255
+                                            description: The width of the reduced/full image in pixels.
+                                      '400':
+                                        type: object
+                                        title: image_size
+                                        description: 'Width and height of an image
+
+                                          '
+                                        properties:
+                                          h:
+                                            type: integer
+                                            example: 400
+                                            description: 'The height of the reduced/full image in pixels.
+
+                                              '
+                                          w:
+                                            type: integer
+                                            example: 255
+                                            description: The width of the reduced/full image in pixels.
+                                      full:
+                                        type: object
+                                        title: image_size
+                                        description: 'Width and height of an image
+
+                                          '
+                                        properties:
+                                          h:
+                                            type: integer
+                                            example: 400
+                                            description: 'The height of the reduced/full image in pixels.
+
+                                              '
+                                          w:
+                                            type: integer
+                                            example: 255
+                                            description: The width of the reduced/full image in pixels.
+                                  white_magic:
+                                    type:
+                                    - string
+                                    - boolean
+                                    - 'null'
+                                    examples:
+                                    - null
+                                    - 'false'
+                                    - 'true'
+                                    description: 'Photo on white background : Try to remove the background.
+
+                                      '
+                                  x1:
+                                    type: string
+                                    example: '-1'
+                                  x2:
+                                    type: string
+                                    example: '-1'
+                                  y1:
+                                    type: string
+                                    example: '-1'
+                                  y2:
+                                    type: string
+                                    example: '-1'
+                            additionalProperties:
+                              type: object
+                              title: image
+                              description: 'This object represent an image that was uploaded to a product.
+
+                                "imgid" is an integer which is a sequential number unique to each picture.
+
+                                '
+                              properties:
+                                imgid:
+                                  type: integer
+                                  example: 123456789
+                                  description: "If the image is selected as the front / ingredients / nutrition / packaging image,\nthis is the index to access the original image URL in the `images` field of the product.\nIf the image is not selected as one of these, this field is null.\n\nSo if the product has the following `images` field:\n\n```json\n\"images\": {\n  1: { ... },\n  front_en: { imgid: 1, ... },\n  ...\n}\n```\n\nthen the front image can be accessed by `images[1]`.\n"
+                                sizes:
+                                  $ref: '#/components/schemas/Sizes'
+                                uploaded_t:
+                                  type: string
+                                  example: '1457680652'
+                                  description: 'The time the image was uploaded (as unix timestamp).
+
+                                    '
+                                uploader:
+                                  type: string
+                                  example: openfoodfacts-contributors
+                                  description: 'The contributor that uploaded the image.
+
+                                    '
+                            propertyNames:
+                              type: integer
+                            patternProperties:
+                              (?<imgid>\d+):
+                                description: 'See property `1` to get the real type of those objects
+
+                                  (Put this way because of a [bug in rapidoc](https://github.com/rapi-doc/RapiDoc/issues/880))
+
+                                  '
+                                type: string
+                              (?<image_type>front|nutrition|ingredients|packaging)_(?<language_code>\w\w):
+                                description: 'See property `front` to get the real type of those objects
+
+                                  (Put this way because of a [bug in rapidoc](https://github.com/rapi-doc/RapiDoc/issues/880))
+
+                                  '
+                                type: string
+                          last_image_dates_tags:
+                            type: array
+                            items:
+                              type: string
+                          last_image_t:
+                            description: timestamp of last image upload (or update?)
+                            type: integer
+                          selected_images:
+                            type: object
+                            title: product_selected_images
+                            description: 'URL for selected (important) images of the product.
+
+
+                              This is very handy if you display the product to users.
+
+                              '
+                            properties:
+                              front:
+                                type: object
+                                description: URLs of thumbnails image of image of type `image_type`
+                                properties:
+                                  display:
+                                    description: 'Thumbnail urls of product image (front) adapted to display on product page
+
+                                      '
+                                    $ref: '#/components/schemas/ImageUrls'
+                                  small:
+                                    description: 'Thumbnail urls of product image (front) adapted to display on product list page
+
+                                      '
+                                    $ref: '#/components/schemas/ImageUrls'
+                                  thumb:
+                                    description: 'Thumbnail urls of product image (front) in smallest format
+
+                                      '
+                                    $ref: '#/components/schemas/ImageUrls'
+                            patternProperties:
+                              (?<image_type>front|packaging|ingredients|nutrition):
+                                description: 'See property `front` to get the real type of those objects
+
+                                  (Put this way because of a [bug in rapidoc](https://github.com/rapi-doc/RapiDoc/issues/880))
+
+                                  '
+                                type: string
+                          image_small_url:
+                            type: string
+                          image_thumb_url:
+                            type: string
+                          image_url:
+                            type: string
+                        patternProperties:
+                          image(_(?<image_type>front|packaging|ingredients|nutrition))?(_(?<image_size>small|thumb))?_url:
+                            description: 'the URL of image of type `image_type` in size `image_size` (or full size if not given).
+
+
+                              The `image_type` tells which image the url correspond to. `image_type` is `front` if not provided.
+
+
+                              The image is the one for current language (affected by `lc` parameter) if an image exists for this language, the image in main product language otherwise.
+
+
+                              **IMPORTANT:** you should use `selected_images` field instead of this one.
+
+                              '
+                            type: string
+                      - type: object
+                        description: 'Fields related to Eco-Score for a product.
+
+
+                          See also: `ecoscore_score`, `ecoscore_grade` and `ecoscore_tags`.
+
+                          '
+                        properties:
+                          ecoscore_data:
+                            type: object
+                            title: product_ecoscore_data
+                            description: 'An object about a lot of details about data needed for Eco-Score computation
+
+                              and complementary data of interest.
+
+                              '
+                            properties:
+                              adjustments:
+                                title: product_ecoscore_adjustments
+                                type: object
+                                properties:
+                                  origins_of_ingredients:
+                                    type: object
+                                    properties:
+                                      aggregated_origins:
+                                        type: array
+                                        description: List of aggregated origins of ingredients and their impact.
+                                        items:
+                                          title: adjustments_origin_of_ingredient_aggregated
+                                          type: object
+                                          properties:
+                                            epi_score:
+                                              type: string
+                                            origin:
+                                              type: string
+                                              description: Country or region of origin for the ingredient.
+                                            percent:
+                                              type: integer
+                                              description: Percentage of this ingredient from the specified origin.
+                                            transportation_score:
+                                              type:
+                                              - 'null'
+                                              - integer
+                                              description: Transportation score associated with this ingredient's origin.
+                                      epi_score:
+                                        type: integer
+                                        description: Environmental Performance Index (EPI) score for the ingredient's origin.
+                                      epi_value:
+                                        type: integer
+                                      origins_from_categories:
+                                        type: array
+                                        description: List of origins derived from product categories, eg for PDO.
+                                        items:
+                                          type: string
+                                      origins_from_origins_field:
+                                        type: array
+                                        description: List of origins explicitly stated in the product's origins field.
+                                        items:
+                                          type: string
+                                      transportation_score:
+                                        type: integer
+                                      transportation_scores:
+                                        type: object
+                                        propertyNames:
+                                          $ref: '#/components/schemas/EcoscoreCountryCode'
+                                        additionalProperties:
+                                          type: number
+                                          default: 0
+                                      transportation_value:
+                                        type: integer
+                                      transportation_values:
+                                        type: object
+                                        propertyNames:
+                                          $ref: '#/components/schemas/EcoscoreCountryCode'
+                                        additionalProperties:
+                                          type: number
+                                          default: 0
+                                      value:
+                                        type: integer
+                                      values:
+                                        type: object
+                                        propertyNames:
+                                          $ref: '#/components/schemas/EcoscoreCountryCode'
+                                        additionalProperties:
+                                          type: number
+                                          default: 0
+                                      warning:
+                                        type: string
+                                  packaging:
+                                    type: object
+                                    properties:
+                                      non_recyclable_and_non_biodegradable_materials:
+                                        type: integer
+                                      packagings:
+                                        type: array
+                                        items:
+                                          type: object
+                                          title: adjustments_packaging_item
+                                          properties:
+                                            ecoscore_material_score:
+                                              type: integer
+                                            ecoscore_shape_ratio:
+                                              type: integer
+                                            material:
+                                              type: string
+                                            shape:
+                                              type: string
+                                            number_of_units:
+                                              type: integer
+                                              examples:
+                                              - 1
+                                            quantity_per_unit:
+                                              type: string
+                                              description: The quantity per packaging unit, as a string.
+                                              examples:
+                                              - 33 cL
+                                            quantity_per_unit_unit:
+                                              type: string
+                                              examples:
+                                              - cl
+                                            quantity_per_unit_value:
+                                              type: number
+                                              examples:
+                                              - 33
+                                            recycling:
+                                              type: string
+                                              examples:
+                                              - en:recycle-in-sorting-bin
+                                            weight_measured:
+                                              type: number
+                                              examples:
+                                              - 12.08
+                                      score:
+                                        type: integer
+                                      value:
+                                        type: integer
+                                      warning:
+                                        type: string
+                                  production_system:
+                                    type: object
+                                    properties:
+                                      labels:
+                                        type: array
+                                        examples:
+                                        - vegan
+                                        - fat free
+                                        - Kosher
+                                        items:
+                                          type: string
+                                      value:
+                                        type: integer
+                                      warning:
+                                        type: string
+                                  threatened_species:
+                                    type: object
+                                    properties:
+                                      ingredient:
+                                        type: string
+                                      value:
+                                        type: integer
+                              agribalyse:
+                                type: object
+                                properties:
+                                  agribalyse_proxy_food_code:
+                                    type: string
+                                  agribalyse_food_code:
+                                    type: string
+                                  co2_agriculture:
+                                    type: number
+                                  co2_consumption:
+                                    type: integer
+                                  co2_distribution:
+                                    type: number
+                                  co2_packaging:
+                                    type: number
+                                  co2_processing:
+                                    type: number
+                                  co2_total:
+                                    type: number
+                                  co2_transportation:
+                                    type: number
+                                  code:
+                                    type: string
+                                  dqr:
+                                    type: string
+                                  ef_agriculture:
+                                    type: number
+                                  ef_consumption:
+                                    type: integer
+                                  ef_distribution:
+                                    type: number
+                                  ef_packaging:
+                                    type: number
+                                  ef_processing:
+                                    type: number
+                                  ef_total:
+                                    type: number
+                                  ef_transportation:
+                                    type: number
+                                  is_beverage:
+                                    type: integer
+                                  name_en:
+                                    type: string
+                                    description: 'This can be returned in many other languages
+
+                                      like name_fr (for french).
+
+                                      '
+                                  score:
+                                    type: integer
+                                  version:
+                                    type: string
+                              grade:
+                                type: string
+                              grades:
+                                type: object
+                                patternProperties:
+                                  (?<country_code>\w\w):
+                                    type: string
+                              missing:
+                                type: object
+                                properties:
+                                  labels:
+                                    type: integer
+                                  origins:
+                                    type: integer
+                                  packagings:
+                                    type: integer
+                              missing_data_warning:
+                                type: integer
+                              previous_data:
+                                type: object
+                                properties:
+                                  grade:
+                                    type:
+                                    - string
+                                    - 'null'
+                                  score:
+                                    type:
+                                    - integer
+                                    - 'null'
+                                  agribalyse:
+                                    type: object
+                                    properties:
+                                      agribalyse_proxy_food_code:
+                                        type: string
+                                      agribalyse_food_code:
+                                        type: string
+                                      co2_agriculture:
+                                        type: number
+                                      co2_consumption:
+                                        type: integer
+                                      co2_distribution:
+                                        type: number
+                                      co2_packaging:
+                                        type: number
+                                      co2_processing:
+                                        type: number
+                                      co2_total:
+                                        type: number
+                                      co2_transportation:
+                                        type: number
+                                      code:
+                                        type: string
+                                      dqr:
+                                        type: string
+                                      ef_agriculture:
+                                        type: number
+                                      ef_consumption:
+                                        type: integer
+                                      ef_distribution:
+                                        type: number
+                                      ef_packaging:
+                                        type: number
+                                      ef_processing:
+                                        type: number
+                                      ef_total:
+                                        type: number
+                                      ef_transportation:
+                                        type: number
+                                      is_beverage:
+                                        type: integer
+                                      name_en:
+                                        type: string
+                                        description: 'This can be returned in many other languages
+
+                                          like name_fr (for french).
+
+                                          '
+                                      score:
+                                        type: integer
+                                      version:
+                                        type: string
+                              score:
+                                type: integer
+                              scores:
+                                type: object
+                                patternProperties:
+                                  (?<country_code>\w\w):
+                                    type: integer
+                              status:
+                                type: string
+                          ecoscore_extended_data_version:
+                            type: string
+                          environment_impact_level:
+                            type: string
+                          environment_impact_level_tags:
+                            type: array
+                            items:
+                              type: object
+                      - type: object
+                        title: product_ingredients
+                        description: Fields about ingredients of a product
+                        properties:
+                          additives_tags:
+                            type: array
+                            items:
+                              type: string
+                          allergens:
+                            type: string
+                            description: comma separated list of allergens
+                          allergens_lc:
+                            type: string
+                            description: language in which `allergens` where input
+                          allergens_hierarchy:
+                            type: array
+                            items:
+                              type: string
+                          allergens_tags:
+                            type: array
+                            items:
+                              type: string
+                          ingredients:
+                            type: array
+                            description: 'This structure gives the different ingredients and some information about them,
+
+                              like estimate on their quantity.
+
+                              '
+                            items:
+                              type: object
+                              title: ingredient
+                              properties:
+                                id:
+                                  type: string
+                                ingredients:
+                                  type: array
+                                  description: 'This structure gives the different ingredients and some information about them,
+
+                                    like estimate on their quantity.
+
+                                    '
+                                  items:
+                                    description: 'circular reference omitted during bundling: ./ingredient.yaml'
+                                percent:
+                                  type: integer
+                                  description: The percentage of the ingredient.
+                                percent_estimate:
+                                  type: number
+                                  description: Estimated percentage of the ingredient.
+                                percent_max:
+                                  type:
+                                  - string
+                                  - number
+                                  description: Maximum percentage of the ingredient.
+                                percent_min:
+                                  type: integer
+                                  description: Minimum percentage of the ingredient.
+                                text:
+                                  type: string
+                                  description: Text description of the ingredient.
+                                vegan:
+                                  type: string
+                                  description: Indicates if the ingredient is vegan.
+                                vegetarian:
+                                  type: string
+                                  description: Indicates if the ingredient is vegetarian.
+                          ingredients_analysis:
+                            type: object
+                            properties:
+                              en:palm-oil:
+                                type: array
+                                items:
+                                  type: string
+                              en:vegan-status-unknown:
+                                type: array
+                                items:
+                                  type: string
+                              en:vegetarian-status-unknown:
+                                type: array
+                                items:
+                                  type: string
+                          ingredients_analysis_tags:
+                            type: array
+                            items:
+                              type: string
+                          ingredients_from_or_that_may_be_from_palm_oil_n:
+                            type: integer
+                          ingredients_from_palm_oil_n:
+                            type: integer
+                          ingredients_from_palm_oil_tags:
+                            type: array
+                            items:
+                              type: object
+                          ingredients_hierarchy:
+                            type: array
+                            items:
+                              type: string
+                          ingredients_n:
+                            type: integer
+                          ingredients_n_tags:
+                            type: array
+                            items:
+                              type: string
+                          ingredients_original_tags:
+                            type: array
+                            items:
+                              type: string
+                          ingredients_percent_analysis:
+                            type: integer
+                            description: 'Indicates the result of ingredients analysis processing
+
+
+                              * not present -> we didn''t run ingredient percent analysis (e.g. we have no ingredients)
+
+                              * 1: we estimated the ingredients percent.
+
+                              * -1 : we tried to estimate the ingredients, but the values were impossible. (e.g. if the sum of % is above 100%)
+
+                              '
+                          ingredients_sweeteners_n:
+                            type: integer
+                            description: 'Number of sweeteners additives in the ingredients. Undefined if ingredients are not specified.
+
+                              '
+                          ingredients_non_nutritive_sweeteners_n:
+                            type: integer
+                            description: 'Number of non-nutritive sweeteners additives (as specified in the Nutri-Score formula) in the ingredients. Undefined if ingredients are not specified.
+
+                              '
+                          ingredients_tags:
+                            type: array
+                            items:
+                              type: string
+                          ingredients_lc:
+                            type: string
+                            description: 'Language that was used to parse the ingredient list. If `ingredients_text` is available
+
+                              for the product main language (`lang`), `ingredients_lc=lang`, otherwise we look at
+
+                              `ingredients_text` fields for other languages and set `ingredients_lc` to the first
+
+                              non-empty `ingredient_text`.
+
+                              '
+                          ingredients_text:
+                            type: string
+                            description: 'Raw list of ingredients. This will get automatically
+
+                              parsed and get used to compute the Eco-Score or find allergens, etc..
+
+
+                              It''s a copy of ingredients_text in the main language of the product (see `lang` proprety).
+
+                              '
+                            example: 'Farine de blé* 67,4%, sucre de canne*, huile de tournesol oléique*, graines de chia* 5,2%, son de blé*, oranges déshydratées * 0,9%, farine de riz*, poudres à lever (acide citrique, carbonates de sodium), arôme naturel d''orange.
+
+                              '
+                          ingredients_text_with_allergens:
+                            type: string
+                            description: 'Same text as `ingredients_text` but where allergens have HTML elements around them to identify them
+
+                              '
+                            example: 'Farine de <span class="allergen">blé*</span> 67,4%, sucre de canne*, huile de tournesol oléique*, graines de chia* 5,2%, <span class="allergen">son de blé*</span>, oranges déshydratées * 0,9%, farine de riz*, poudres à lever (acide citrique, carbonates de sodium), arôme naturel d''orange.
+
+                              '
+                          ingredients_that_may_be_from_palm_oil_n:
+                            type: integer
+                          ingredients_that_may_be_from_palm_oil_tags:
+                            type: array
+                            items:
+                              type: object
+                          ingredients_with_specified_percent_n:
+                            type: integer
+                          ingredients_with_specified_percent_sum:
+                            type: integer
+                          ingredients_with_unspecified_percent_n:
+                            type: integer
+                          ingredients_with_unspecified_percent_sum:
+                            type: integer
+                          known_ingredients_n:
+                            type: integer
+                          origins:
+                            type: string
+                            description: 'Origins of ingredients
+
+                              '
+                          origins_hierarchy:
+                            type: array
+                            items:
+                              type: object
+                          origins_lc:
+                            type: string
+                          origins_tags:
+                            type: array
+                            items:
+                              type: object
+                          traces:
+                            type: string
+                            description: 'List of substances that might cause allergies
+
+                              that are present in trace amounts in the product
+
+                              (this does not include the ingredients, as they
+
+                              are not only present in trace amounts).
+
+                              It is taxonomized with the allergens taxonomy. Refer to the [allergens taxonomy](https://static.openfoodfacts.org/data/taxonomies/allergens.json)
+
+                              '
+                          traces_hierarchy:
+                            type: array
+                            items:
+                              oneOf:
+                              - type: object
+                              - type: string
+                          traces_lc:
+                            type: string
+                          traces_tags:
+                            type: array
+                            items:
+                              oneOf:
+                              - type: object
+                              - type: string
+                          unknown_ingredients_n:
+                            type: integer
+                        patternProperties:
+                          ingredients_text_(?<language_code>\w\w):
+                            type: string
+                            description: 'Raw list of ingredients in language given by ''language_code''.
+
+
+                              See `ingredients_text`
+
+                              '
+                          ingredients_text_with_allergens_(?<language_code>\w\w):
+                            description: 'Like `ingredients_text_with_allergens` for a particular language
+
+                              '
+                            type: string
+                      - type: object
+                        title: product_nutrition
+                        description: 'Nutrition fields of a product
+
+
+                          Most of these properties are read-only.
+
+
+                          See [how to add nutrition data](https://openfoodfacts.github.io/openfoodfacts-server/api/ref-cheatsheet/#add-nutrition-facts-values-units-and-base)
+
+                          '
+                        properties:
+                          no_nutrition_data:
+                            type: string
+                            description: 'When a product does not have nutrition data displayed on the
+
+                              packaging, the user can check the field "Nutrition facts are
+
+                              not specified on the product".
+
+                              By doing so, the no_nutrition_data field takes the value "on".
+
+                              This case is frequent (thousands of products).
+
+                              '
+                            example: 'on'
+                          nutrition_data_per:
+                            type: string
+                            enum:
+                            - serving
+                            - 100g
+                            description: 'The nutrition data on the package can be per serving or per 100g.
+
+
+                              This is essential to understand if `<nutrient>_value` and `<nutrient>`
+
+                              values in `nutriments` applies for a serving or for 100g.
+
+
+                              **IMPORTANT:**
+
+                              When writing products,
+
+                              this setting applies to all existing nutrients values for the product,
+
+                              not only the nutrient values sent in the write request.
+
+                              So it should not be changed unless all nutrients values are provided
+
+                              with values that match the nutrition_data_per field.
+
+                              '
+                          nutrition_data_prepared_per:
+                            type: string
+                            enum:
+                            - serving
+                            - 100g
+                            description: 'The nutrition data for prepared product on the package (if any) can be per serving or per 100g.
+
+
+                              This is essential to understand if `<nutrient>_prepared_value` and `<nutrient>_prepared`
+
+                              values in `nutriments` applies for a serving or for 100g.
+
+
+                              See also important note on `nutrition_data_per`.
+
+                              '
+                          nutriments:
+                            type: object
+                            description: 'All known nutrients for the product.
+
+
+                              Note that each nutrients are declined with a variety of suffixes like `_100g`, `_serving`,
+
+                              see patternProperties below.
+
+
+                              A specific `_unit` is the unit of the value that was entered by the contributor (a user or the manufacturer).
+
+                              It is not necessarily the unit that is printed on the product, as some apps may force specific units when writing nutrient values.
+
+
+                              Beware that some properties are to be interpreted based upon `nutrition_data_per` value.
+
+
+                              For most use cases, you should use the `<nutrient>_100g` or `<nutrient>_serving` fields, as they are always in the same standard unit, for a specific quantity (100g or 1 serving).
+
+
+                              For products that have a nutrition table for prepared product
+
+                              (eg. the nutrition facts for a bowl of milk with cocoa powder),
+
+                              a `_prepared` suffix is added (before other suffixes).
+
+
+                              You can get all possible nutrients from the
+
+                              [nutrients taxonomy](https://static.openfoodfacts.org/data/taxonomies/nutrients.json)
+
+
+                              **FIXME** add more nutrients with description.
+
+                              '
+                            properties:
+                              alcohol:
+                                description: 'Quantity of alcohol
+
+
+                                  (per 100g or per serving) in a standard unit (g or ml)
+
+                                  '
+                                type: number
+                              carbohydrates:
+                                description: This is the available carbohydrates (excluding fiber), also known as net carbohydrates
+                                type: number
+                              carbohydrates-total:
+                                description: This follows the US / Canada definition of carbohydrates which includes fiber, also known as gross carbohydrates
+                                type: number
+                              energy:
+                                type: number
+                                description: 'It is the same as `energy-kj` if we have it, or computed from `energy-kcal` otherwise
+
+
+                                  (per 100g or per serving) in kj
+
+                                  '
+                              energy_value:
+                                type: number
+                                description: 'energy_value will be equal to energy-kj_value if we have it or to energy-kcal_value otherwise
+
+                                  '
+                              energy_unit:
+                                type: string
+                                enum:
+                                - kcal
+                                - kJ
+                                description: 'Equal to energy-kj_unit if we have it or to energy-kcal_unit otherwise
+
+                                  '
+                              energy-kcal:
+                                type: number
+                                description: 'energy in kcal, if it is specified
+
+
+                                  (per 100g or per serving) in a standard unit (g or ml)
+
+                                  '
+                              energy-kj:
+                                type: number
+                                description: 'energy in kj, if it is specified
+
+
+                                  (per 100g or per serving) in a standard unit (g or ml)
+
+                                  '
+                              fat:
+                                type: number
+                              fruits-vegetables-legumes-estimate-from-ingredients:
+                                type: number
+                                description: 'An estimate, from the ingredients list of the percentage of fruits, vegetable and legumes.
+
+                                  This is an important information for Nutri-Score (2023 version) computation.
+
+                                  '
+                              fruits-vegetables-nuts-estimate-from-ingredients:
+                                type: number
+                                description: 'An estimate, from the ingredients list of the percentage of fruits, vegetable and nuts.
+
+                                  This is an important information for Nutri-Score (2021 version) computation.
+
+                                  '
+                              nova-group:
+                                type: integer
+                              nutrition-score-fr:
+                                description: 'Experimental nutrition score derived from
+
+                                  the UK FSA score and adapted for the French market
+
+                                  (formula defined by the team of Professor Hercberg).
+
+                                  '
+                              proteins:
+                                type: number
+                              salt:
+                                type: number
+                              saturated-fat:
+                                type: number
+                              sodium:
+                                type: number
+                              sugars:
+                                type: number
+                              carbon-footprint-from-known-ingredients_product:
+                                type: integer
+                              carbon-footprint-from-known-ingredients_serving:
+                                type: number
+                              erythritol:
+                                type: number
+                                description: 'erythritol is a polyol which is not providing any energy.
+
+                                  As such, it needs not be taken into account when computing
+
+                                  the energy of a product. Eryhtritol is now displayed on
+
+                                  nutrition facts sheet of some products, mainly in the USA.
+
+                                  This value is entered either by contributors, either by
+
+                                  imports.
+
+                                  '
+                                example: 12.5
+                            patternProperties:
+                              (?<nutrient>[\w-]+)_unit:
+                                description: "The unit of the value entered by the contributor (a user or the manufacturer), for the product as sold (not prepared).\nIn most cases, this unit is the unit displayed on the product for the nutrient, but it is not guaranteed, as some apps may force specific units when writing nutrient values.          \n\nThe possible values depends on the nutrient.\n\n* `g` for grams\n* `mg` for milligrams\n* `μg` for micrograms\n* `cl` for centiliters\n* `ml` for mililiters\n* `dv` for recommended daily intakes (aka [Dietary Reference Intake](https://en.wikipedia.org/wiki/Dietary_Reference_Intake))\n* `% vol` for alcohol vol per 100 ml\n\n\U0001F913 code: see the [Units module][units-module],\nand [Food:default_unit_for_nid function][default-unit]\n\n[units-module]: https://openfoodfacts.github.io/openfoodfacts-server/dev/ref-perl-pod/ProductOpener/Units.html\n[default-unit]: https://openfoodfacts.github.io/openfoodfacts-server/dev/ref-perl-pod/ProductOpener/Food.html#default_unit_for_nid_(_%24nid)\n\n**Note**: For most use cases, you should not use this unit, as it can change depending on how the value was entered.\nInstead use the `<nutrient>_100g` or `<nutrient>_serving` fields, and convert them to the unit you need.\n"
+                                type: string
+                                enum:
+                                - 公斤
+                                - 公升
+                                - kg
+                                - кг
+                                - l
+                                - л
+                                - 毫克
+                                - mg
+                                - мг
+                                - mcg
+                                - µg
+                                - oz
+                                - fl oz
+                                - dl
+                                - дл
+                                - cl
+                                - кл
+                                - 斤
+                                - g
+                                - ''
+                                - ' '
+                                - kJ
+                                - 克
+                                - 公克
+                                - г
+                                - мл
+                                - ml
+                                - mmol/l
+                                - 毫升
+                                - '% vol'
+                                - ph
+                                - '%'
+                                - '% dv'
+                                - '% vol (alcohol)'
+                                - iu
+                                - mol/l
+                                - mval/l
+                                - ppm
+                                - �rh
+                                - �fh
+                                - �e
+                                - �dh
+                                - gpg
+                              (?<nutrient>[\w-]+)_100g:
+                                description: 'The normalized value of the nutrient for 100g (or 100ml for liquids), in a standard unit, for the product as sold (not prepared):
+
+                                  * g for all nutrients that are measured by weight (e.g. fat, proteins, carbohydrates, sodium, vitamins, minerals etc.)
+
+                                  * % vol for nutrients that are percentages by volume (e.g. alcohol)
+
+                                  * kJ for energy and energy-kj
+
+                                  * kcal for energy-kcal
+
+                                  * no unit for pH
+
+
+                                  This is computed from the `nutrient` property,
+
+                                  the serving size (if `nutrient` is per serving), and the `nutrient`_unit field.
+
+
+                                  **Note**:
+
+                                  For most use cases, this is the only value you should use, as it is always in the same unit, and always per 100g or 100ml.
+
+                                  '
+                                type: number
+                                readOnly: true
+                              (?<nutrient>[\w-]+)_serving:
+                                description: 'The normalized value of the nutrient for one serving, in a standard unit:
+
+                                  - g for most nutrients
+
+                                  - % for nutrients that are percentages (e.g. alcohol)
+
+                                  - kJ for energy and energy-kj
+
+                                  - kcal for energy-kcal
+
+
+                                  This is computed from the `nutrient` property,
+
+                                  the serving size (if `nutrient` is per 100g), and the `nutrient`_unit field.
+
+                                  '
+                                type: number
+                                readOnly: true
+                              (?<nutrient>[\w-]+)_value:
+                                description: "The value entered by the contributor (a user or the manufacturer).\nIn most cases, the unit of the value is the unit displayed on the product for the nutrient, but it is not guaranteed, as some apps may force specific units when writing nutrient values.          \n\n* per 100g or serving, depending on `nutrition_data_per` field.\n* in the unit of the corresponding <nutrient>_unit field.\n\n**Note**: For most use cases, you should not use this value, as it can be in different units, and can be per 100g or per serving.\n"
+                                type: number
+                                readOnly: true
+                              (?<nutrient>[\w-]+)_prepared:
+                                description: 'Same as ''(?<nutrient>[\w-]+)'', for the prepared product (not as sold).
+
+                                  '
+                                type: number
+                              (?<nutrient>[\w-]+)_prepared_unit:
+                                description: 'Same as ''(?<nutrient>[\w-]+)_unit'', for the prepared product (not as sold).
+
+                                  '
+                                type: string
+                              (?<nutrient>[\w-]+)_prepared_100g:
+                                description: 'Same as ''(?<nutrient>[\w-]+)_100g'', for the prepared product (not as sold).
+
+                                  '
+                                type: number
+                                readOnly: true
+                              (?<nutrient>[\w-]+)_prepared_serving:
+                                description: 'Same as ''(?<nutrient>[\w-]+)_serving'', for the prepared product (not as sold).
+
+                                  '
+                                type: number
+                                readOnly: true
+                              (?<nutrient>[\w-]+)_prepared_value:
+                                description: 'Same as ''(?<nutrient>[\w-]+)_value'', for the prepared product (not as sold).
+
+                                  '
+                                type: number
+                                readOnly: true
+                          nutriscore_data:
+                            description: 'Detail of data the Nutri-Score was computed upon.
+
+
+                              **Note**: this might not be stable, don''t rely too much on this, or, at least, tell us !
+
+
+                              **TODO** document each property
+
+                              '
+                            type: object
+                            properties:
+                              saturated_fat_ratio:
+                                type: number
+                              saturated_fat_ratio_points:
+                                type: integer
+                              saturated_fat_ratio_value:
+                                type: number
+                          nutrition_grade_fr:
+                            type: string
+                            description: 'Nutrition grade (‘a’ to ‘e’),
+
+                              https://world.openfoodfacts.org/nutriscore.
+
+                              '
+                          nutrition_grades:
+                            description: 'Nutrition grades as a comma separated list.
+
+
+                              Some products with multiple components might have multiple Nutri-Score
+
+                              '
+                            type: string
+                          nutrition_grades_tags:
+                            type: array
+                            items:
+                              type: string
+                          nutrition_score_beverage:
+                            type: integer
+                          nutrition_score_warning_fruits_vegetables_nuts_estimate_from_ingredients:
+                            type: integer
+                          nutrition_score_warning_fruits_vegetables_nuts_estimate_from_ingredients_value:
+                            type: integer
+                          nutrition_score_warning_no_fiber:
+                            type: integer
+                          other_nutritional_substances_tags:
+                            type: array
+                            items:
+                              type: object
+                          unknown_nutrients_tags:
+                            type: array
+                            items:
+                              type: object
+                          vitamins_tags:
+                            type: array
+                            items:
+                              type: object
+                      - title: ProductNutriscore
+                        type: object
+                        properties:
+                          nutriscore:
+                            $ref: '#/components/schemas/Nutriscores'
+                          nutriscore_2021_tags:
+                            $ref: '#/components/schemas/NutriscoreGradeTags'
+                          nutriscore_2023_tags:
+                            $ref: '#/components/schemas/NutriscoreGradeTags'
+                          nutriscore_data:
+                            $ref: '#/components/schemas/Nutriscore2021Data'
+                          nutriscore_grade:
+                            $ref: '#/components/schemas/NutriscoreGrade'
+                            examples:
+                            - d
+                          nutriscore_score:
+                            description: 'Nutri-Score for the product as an integer (see also `nutriscore_grade`).
+
+                              '
+                            type: integer
+                            examples:
+                            - 13
+                          nutriscore_score_opposite:
+                            type: integer
+                            examples:
+                            - -13
+                          nutriscore_tags:
+                            $ref: '#/components/schemas/NutriscoreGradeTags'
+                          nutriscore_version:
+                            type: string
+                      - type: object
+                        description: 'This is data that is linked to products data quality
+
+                          '
+                        properties:
+                          data_quality_bugs_tags:
+                            type: array
+                            items:
+                              type: string
+                              description: 'Each data quality bug describes a data quality bug on the product.
+
+
+                                Refer to the [data quality taxonomy](https://static.openfoodfacts.org/data/taxonomies/data_quality.json)
+
+                                '
+                          data_quality_errors_tags:
+                            type: array
+                            items:
+                              type: string
+                              description: 'Each Data Quality Error describes a data quality error on the product.
+
+
+                                Refer to the [data quality taxonomy](https://static.openfoodfacts.org/data/taxonomies/data_quality.json)
+
+                                '
+                          data_quality_info_tags:
+                            type: array
+                            items:
+                              type: string
+                              description: 'Each Data Quality Info describes a data quality info on the product.
+
+
+                                Refer to the [data quality taxonomy](https://static.openfoodfacts.org/data/taxonomies/data_quality.json)
+
+                                '
+                          data_quality_tags:
+                            type: array
+                            items:
+                              type: string
+                              description: 'Each Data Quality tag describes a data quality issue on the product.
+
+
+                                Refer to the [data quality taxonomy](https://static.openfoodfacts.org/data/taxonomies/data_quality.json)
+
+                                '
+                          data_quality_warnings_tags:
+                            type: array
+                            items:
+                              type: string
+                              description: 'Each Data Quality warning tag describes a data quality warning on the product.
+
+
+                                Refer to the [data quality taxonomy](https://static.openfoodfacts.org/data/taxonomies/data_quality.json)
+
+                                '
+                          data_sources:
+                            type: string
+                            description: 'Source of data imported from producers.
+
+                              '
+                          data_sources_tags:
+                            type: array
+                            items:
+                              type: string
+                          last_check_dates_tags:
+                            type: array
+                            items:
+                              type: string
+                          last_checked_t:
+                            type: integer
+                          last_checker:
+                            type: string
+                          states:
+                            description: 'comma separated list of values indicating some states of the product,
+
+                              like things to be done, or to be completed.
+
+                              See [states taxonomy](https://static.openfoodfacts.net/data/taxonomies/states.json)
+
+                              '
+                            type: string
+                          states_hierarchy:
+                            type: array
+                            items:
+                              type: string
+                          states_tags:
+                            type: array
+                            items:
+                              description: 'Each state describe something that is completed or is to be done or improved on the product.
+
+
+                                Refer to [states taxonomy](https://static.openfoodfacts.net/data/taxonomies/states.json)
+
+                                '
+                              type: string
+                          misc_tags:
+                            description: "Information about different aspect of the product\n  Refer to [misc taxonomy](https://static.openfoodfacts.org/data/taxonomies/misc.json)\n"
+                            type: array
+                            items:
+                              type: string
+                      - title: product_extended
+                        type: object
+                        properties:
+                          additives_original_tags:
+                            type: array
+                            items:
+                              type: string
+                          additives_prev_original_tags:
+                            type: array
+                            items:
+                              type: string
+                          added_countries_tags:
+                            type: array
+                            items:
+                              type: object
+                          allergens_from_ingredients:
+                            type: string
+                          allergens_from_user:
+                            type: string
+                          amino_acids_prev_tags:
+                            type: array
+                            items:
+                              type: object
+                          amino_acids_tags:
+                            type: array
+                            items:
+                              type: object
+                          carbon_footprint_percent_of_known_ingredients:
+                            type: integer
+                          categories_properties:
+                            type: object
+                            properties:
+                              agribalyse_food_code:en:
+                                type: string
+                              agribalyse_proxy_food_code:en:
+                                type: string
+                              ciqual_food_code:en:
+                                type: string
+                          categories_properties_tags:
+                            type: array
+                            items:
+                              type: string
+                          category_properties:
+                            type: object
+                            additionalProperties:
+                              description: those are properties taken from the category taxonomy
+                              type: string
+                          ciqual_food_name_tags:
+                            type: array
+                            items:
+                              type: string
+                          compared_to_category:
+                            type: string
+                            description: 'the category to use for comparison.
+
+
+                              **TODO** explain how it is chosen.
+
+                              '
+                          forest_footprint_2026:
+                            type: object
+                            title: ForestFootprint2026
+                            description: 'Forest footprint (2026 algorithm) of a product — the risk of deforestation
+
+                              associated with its ingredients. This is a computed field.
+
+
+                              See also `forest_footprint_2026.grade`, `forest_footprint_2026.summary`,
+
+                              `forest_footprint_2026.total_footprint_per_kg`, and
+
+                              `forest_footprint_2026.primary_ingredients`.
+
+                              '
+                            properties:
+                              grade:
+                                type: string
+                                enum:
+                                - a
+                                - b
+                                - c
+                                - d
+                                - unknown
+                                - not_computed
+                                description: "Overall forest footprint grade of the product.\n\n- `a`: No deforestation risk (absence of risky ingredients or zero impact)\n- `b`: Low risk of deforestation\n- `c`: Medium risk of deforestation\n- `d`: High risk of deforestation\n- `unknown`: The product has ingredients that are not yet assessed\n  (e.g. corn, rice, cassava, soya, meat, dairy) without any computed\n  primary ingredients\n- `not_computed`: The product contains risky ingredients but the overall\n  grade could not be computed\n"
+                              summary:
+                                type: string
+                                enum:
+                                - missing_ingredients
+                                - with_other_risky_ingredients
+                                - without_primary_ingredients_or_other_risky_ingredients
+                                - with_primary_ingredients
+                                description: "Summary of the forest footprint computation status:\n\n- `missing_ingredients`: The product has no ingredients list, so the\n  forest footprint could not be computed\n- `with_other_risky_ingredients`: The product contains risky ingredients\n  (not yet assessed) but no computed primary ingredients\n- `without_primary_ingredients_or_other_risky_ingredients`: The product\n  has ingredients but none are risky or assessed; grade is A\n- `with_primary_ingredients`: The product has computed primary ingredients\n  (cocoa, coffee, palm oil, chicken/eggs)\n"
+                              total_footprint_per_kg:
+                                type:
+                                - number
+                                - 'null'
+                                description: 'Total forest footprint per kilogram of food, in square meters per kg.
+
+
+                                  This field is present (as a number) when the summary is
+
+                                  `with_primary_ingredients` or `without_primary_ingredients_or_other_risky_ingredients`.
+
+                                  It is `null` when the summary is `missing_ingredients` or
+
+                                  `with_other_risky_ingredients`. It may be absent if the field was not
+
+                                  populated.
+
+                                  '
+                              primary_ingredients:
+                                type: object
+                                description: 'Map of primary ingredients and their computed forest footprint details.
+
+                                  Keys are primary ingredient tags (`en:cocoa`, `en:coffee`,
+
+                                  `en:palm-oil`, `en:chicken-and-eggs`, `en:other-risky-ingredients`).
+
+                                  Only primary ingredients present in the product are included.
+
+                                  '
+                                additionalProperties:
+                                  oneOf:
+                                  - $ref: '#/components/schemas/ForestFootprintPrimaryIngredient'
+                                  - $ref: '#/components/schemas/ForestFootprintChickenAndEggs'
+                                  - $ref: '#/components/schemas/ForestFootprintOtherRiskyIngredients'
+                            components:
+                              schemas:
+                                ForestFootprintPrimaryIngredient:
+                                  type: object
+                                  description: 'Forest footprint details for cocoa, coffee, or palm oil primary ingredients.
+
+                                    '
+                                  properties:
+                                    footprint_per_kg:
+                                      type: number
+                                      description: Total footprint per kilogram for this primary ingredient.
+                                    grade:
+                                      type: string
+                                      enum:
+                                      - a
+                                      - b
+                                      - c
+                                      - d
+                                      description: Grade for this primary ingredient (A is best, D is worst).
+                                    ingredients:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          equivalence_ingredient:
+                                            type: number
+                                            description: Ingredient equivalence factor.
+                                          equivalence_ingredient_category:
+                                            type: number
+                                            description: Ingredient category equivalence factor.
+                                          footprint_per_kg:
+                                            type: number
+                                            description: Footprint per kg for this ingredient.
+                                          ingredient_category_id:
+                                            type: string
+                                            description: The ingredient category tag (e.g. en:cocoa, en:coffee, en:palm-oil).
+                                          ingredient_id:
+                                            type: string
+                                            description: The ingredient tag (canonical ID from the ingredients taxonomy).
+                                          label_id:
+                                            type: string
+                                            description: Label that reduces deforestation risk (if applicable).
+                                          origin_footprint:
+                                            type: number
+                                            description: Footprint per kg for the origin of this ingredient.
+                                          origin_id:
+                                            type: string
+                                            description: Origin tag (e.g. en:brazil, en:unknown).
+                                          percent:
+                                            type: number
+                                            description: Percentage of this ingredient in the product.
+                                          primary_ingredient_id:
+                                            type: string
+                                            description: The primary ingredient this ingredient maps to.
+                                          risk_factor:
+                                            type: number
+                                            description: Risk reduction factor applied by labels (1 = no reduction).
+                                          transformation_factor:
+                                            type: number
+                                            description: Combined equivalence/ingredient and category equivalence factors.
+                                        required:
+                                        - equivalence_ingredient
+                                        - equivalence_ingredient_category
+                                        - footprint_per_kg
+                                        - ingredient_category_id
+                                        - ingredient_id
+                                        - origin_footprint
+                                        - origin_id
+                                        - percent
+                                        - primary_ingredient_id
+                                        - risk_factor
+                                        - transformation_factor
+                                  required:
+                                  - footprint_per_kg
+                                  - grade
+                                  - ingredients
+                                ForestFootprintChickenAndEggs:
+                                  type: object
+                                  description: 'Forest footprint details for chicken and eggs, computed using the
+
+                                    legacy ForestFootprint algorithm (soy-based feed import risk).
+
+                                    This has a different data structure than the other primary ingredients.
+
+                                    '
+                                  properties:
+                                    footprint_per_kg:
+                                      type: number
+                                      description: Total footprint per kg for chicken and eggs.
+                                    grade:
+                                      type: string
+                                      enum:
+                                      - a
+                                      - b
+                                      - c
+                                      - d
+                                      - e
+                                      description: Grade for chicken and eggs (A is best, E is worst). Uses legacy thresholds.
+                                    ingredients:
+                                      type:
+                                      - array
+                                      - 'null'
+                                      items:
+                                        type: object
+                                        properties:
+                                          conditions_tags:
+                                            type: array
+                                            items:
+                                              type: string
+                                            description: Conditions tags (e.g. processing conditions).
+                                          footprint_per_kg:
+                                            type: number
+                                            description: Footprint per kg for this ingredient entry.
+                                          percent:
+                                            type: number
+                                            description: Percentage of this ingredient in the product.
+                                          processing_factor:
+                                            type: number
+                                            description: Processing factor applied.
+                                          tag_id:
+                                            type: string
+                                            description: The tag id (ingredient or category tag).
+                                          tag_type:
+                                            type: string
+                                            description: The type of tag (e.g. "ingredients", "categories").
+                                          type:
+                                            type: object
+                                            properties:
+                                              deforestation_risk:
+                                                type: number
+                                                description: Deforestation risk factor for this chicken/egg type.
+                                              name:
+                                                type: string
+                                                description: Human-readable name of the chicken/egg type.
+                                              soy_feed_factor:
+                                                type: number
+                                                description: Soy feed factor.
+                                              soy_yield:
+                                                type: number
+                                                description: Soy yield factor.
+                                            required:
+                                            - deforestation_risk
+                                            - name
+                                            - soy_feed_factor
+                                            - soy_yield
+                                        required:
+                                        - conditions_tags
+                                        - footprint_per_kg
+                                        - percent
+                                        - processing_factor
+                                        - tag_id
+                                        - tag_type
+                                        - type
+                                  required:
+                                  - footprint_per_kg
+                                  - grade
+                                  - ingredients
+                                ForestFootprintOtherRiskyIngredients:
+                                  type: object
+                                  description: 'Risky ingredients (corn, rice, cassava, soya, meat, dairy) that are
+
+                                    not yet assessed for deforestation risk. The footprint and grade are
+
+                                    unknown; only the ingredient list is provided.
+
+                                    '
+                                  properties:
+                                    footprint_per_kg:
+                                      type: 'null'
+                                      description: Always null, as risky ingredients are not yet assessed.
+                                    grade:
+                                      type: string
+                                      enum:
+                                      - unknown
+                                      description: Always "unknown".
+                                    ingredients:
+                                      type:
+                                      - array
+                                      - 'null'
+                                      items:
+                                        type: object
+                                        properties:
+                                          ingredient_category_id:
+                                            type: string
+                                            description: The risky ingredient category tag (e.g. en:rice, en:cassava).
+                                          ingredient_id:
+                                            type: string
+                                            description: The ingredient tag (canonical ID from the ingredients taxonomy).
+                                        required:
+                                        - ingredient_category_id
+                                        - ingredient_id
+                                  required:
+                                  - footprint_per_kg
+                                  - grade
+                                  - ingredients
+                          conservation_conditions:
+                            type: string
+                          customer_service:
+                            type: string
+                            description: 'Contact info of customer service.
+
+                              '
+                          expiration_date:
+                            type: string
+                          link:
+                            type: string
+                            description: 'link to the product on the website of the producer
+
+                              '
+                          main_countries_tags:
+                            type: array
+                            items:
+                              type: object
+                          minerals_prev_tags:
+                            type: array
+                            items:
+                              type: object
+                          minerals_tags:
+                            type: array
+                            items:
+                              type: object
+                          owner_fields:
+                            type: object
+                            description: 'Those are fields provided by the producer (through producers platform),
+
+                              and the value he provided.
+
+                              '
+                            properties:
+                              additionalProperties:
+                                description: 'you can retrieve all kind of properties, the same as on the parent object (the product).
+
+                                  It''s not processed entries (like tags for example) but raw ones.
+
+                                  '
+                                oneOf:
+                                - type: integer
+                                - type: string
+                                - type: object
+                          nova_groups_markers:
+                            type: object
+                            description: 'Detail of ingredients or processing that makes the products having Nova 3 or 4
+
+                              '
+                            propertyNames:
+                              description: Markers of level 3, 4, ...
+                              type: integer
+                              enum:
+                              - 3
+                              - 4
+                            additionalProperties:
+                              type: array
+                              items:
+                                type: array
+                                items:
+                                  description: This array has two elements for each marker. The first element is the tag type of the marker (e.g. "ingredients", "additives", "categories"), and the second is the tag id in the taxonomy (e.g. "en:e471")
+                                  type: string
+                          nucleotides_tags:
+                            type: array
+                            items:
+                              type: object
+                          origin:
+                            type: string
+                          purchase_places:
+                            type: string
+                            description: 'Country, state, or city where the product can be purchased.
+
+                              '
+                            example: Paris
+                          purchase_places_tags:
+                            type: array
+                            items:
+                              type: string
+                          stores:
+                            type: string
+                            description: 'Distributor name.
+
+                              '
+                            example: Walmart
+                          stores_tags:
+                            type: array
+                            items:
+                              type: string
+                          traces_from_ingredients:
+                            type: string
+                          traces_from_user:
+                            type: string
+                        patternProperties:
+                          conservation_conditions_(?<language_code>\w\w):
+                            type: string
+                          customer_service_(?<language_code>\w\w):
+                            type: string
+                          origin_(?<language_code>\w\w):
+                            type: string
+                            description: '`origin` in language indicated by `language_code`
+
+                              '
+                      - type: object
+                        description: 'Metadata of a product (author, editors, creation date, etc.)
+
+                          '
+                        required:
+                        - created_t
+                        - creator
+                        - last_modified_by
+                        - last_modified_t
+                        - last_updated_t
+                        - rev
+                        properties:
+                          created_t:
+                            type: integer
+                            description: 'Date when the product was added (UNIX timestamp format).
+
+                              See also `entry_dates_tags`
+
+                              '
+                            example: 1457680652
+                          creator:
+                            type: string
+                            description: 'The contributor who added the product first.
+
+                              '
+                          editors_tags:
+                            description: 'List of editors who edited the product.
+
+                              '
+                            type: array
+                            items:
+                              type: string
+                          informers_tags:
+                            type: array
+                            items:
+                              type: string
+                          interface_version_created:
+                            type: string
+                          interface_version_modified:
+                            type: string
+                          languages:
+                            type: object
+                            patternProperties:
+                              en:(?<language_name>\w\w):
+                                type: integer
+                                description: '**TODO** explain !
+
+                                  '
+                          languages_codes:
+                            type: object
+                            patternProperties:
+                              (?<language_code>\w\w):
+                                type: integer
+                            description: 'Same as `languages` but by language code, instead of language tags
+
+                              '
+                          languages_hierarchy:
+                            type: array
+                            items:
+                              type: string
+                          languages_tags:
+                            type: array
+                            items:
+                              type: string
+                          last_edit_dates_tags:
+                            type: array
+                            items:
+                              type: string
+                          last_editor:
+                            type: string
+                          last_modified_by:
+                            type: string
+                            description: 'The username of the user who last modified the product.
+
+                              '
+                            example: sebleouf
+                          last_modified_t:
+                            type: integer
+                            description: 'Date when the product page was last modified.
+
+                              This date is updated only when primary data is modified (data entered by the user or updated by an interface)
+
+                              '
+                          last_updated_t:
+                            type: integer
+                            description: 'Date when the product page was last modified.
+
+                              This date is updated when primary data or secondary data is modified
+
+                              (primary: data entered by a user or read from an interface, secondary: data computed by a utility
+
+                              such as update_all_products.pl)
+
+                              '
+                          owner:
+                            description: 'Id of the producer in case he provides his own data about a product (producer platform).
+
+                              '
+                            type: string
+                          owners_tags:
+                            description: 'Tagyfied version of owner
+
+                              '
+                            type: string
+                          photographers_tags:
+                            type: array
+                            items:
+                              type: string
+                          rev:
+                            description: revision number of this product version (each edit adds a revision)
+                            type: integer
+                          sources:
+                            type: array
+                            items:
+                              type: object
+                              title: product_meta_source
+                              properties:
+                                fields:
+                                  type: array
+                                  items:
+                                    type: string
+                                id:
+                                  type: string
+                                images:
+                                  type: array
+                                  items:
+                                    type: object
+                                import_t:
+                                  type: integer
+                                manufacturer:
+                                  type:
+                                  - integer
+                                  - string
+                                name:
+                                  type: string
+                                source_licence:
+                                  type: string
+                                source_licence_url:
+                                  type: string
+                                url:
+                                  type:
+                                  - 'null'
+                                  - string
+                          sources_fields:
+                            type: object
+                            title: product_meta_source_fields
+                            properties:
+                              org-gs1:
+                                type: object
+                                properties:
+                                  gln:
+                                    type: string
+                                  gpcCategoryCode:
+                                    type: string
+                                  gpcCategoryName:
+                                    type: string
+                                  isAllergenRelevantDataProvided:
+                                    type: string
+                                  lastChangeDateTime:
+                                    type: string
+                                  partyName:
+                                    type: string
+                                  productionVariantDescription:
+                                    type: string
+                                  publicationDateTime:
+                                    type: string
+                          teams:
+                            type: string
+                          teams_tags:
+                            type: array
+                            items:
+                              type: string
+                          update_key:
+                            type: string
+                      - type: object
+                        description: 'Knowledge panels for a product
+
+                          '
+                        properties:
+                          knowledge_panels:
+                            type: object
+                            title: panels
+                            description: 'The panels object is a dictionary of individual panel objects.
+
+                              Each key of the dictionary is the id of the panel, and the value is the panel object.
+
+
+                              Apps typically display a number of root panels with known panel ids (e.g. health_card and environment_card). Panels can reference other panels and display them as sub-panels.'
+                            examples:
+                            - additionalProperties: string
+                            additionalProperties:
+                              title: panel
+                              type: object
+                              description: Each panel contains an optional title and an optional array of elements.
+                              properties:
+                                type:
+                                  type: string
+                                  description: Type of the panel. If set to "card", the panel and its sub-panels should be displayed in a card. If set to "inline", the panel should have its content always displayed.
+                                expanded:
+                                  type: boolean
+                                  description: If true, the panel is to be displayed already expanded. If false, only the title should be displayed, and the user should be able to click or tap it to open the panel and display the elements.
+                                expand_for:
+                                  type: string
+                                  description: If set to "large", the content of the panel should be expanded on large screens, but it should still be possible to unexpand it.
+                                evaluation:
+                                  type: string
+                                  description: An evaluation status specifically for this title element. This can be used to directly color the icon if 'icon_color_from_evaluation' is true and this field is present, or it might provide context for the title itself. e.g. bad is red. Please be careful in choosing colors, to avoid 50 shades of red.
+                                  example: bad
+                                  enum:
+                                  - good
+                                  - average
+                                  - neutral
+                                  - bad
+                                  - unknown
+                                half_width_on_mobile:
+                                  type: boolean
+                                  description: If true, suggests that this panel could be rendered as half-width on mobile devices, allowing for side-by-side display with another half-width panel if applicable.
+                                  example: true
+                                title_element:
+                                  title: title_element
+                                  x-stoplight:
+                                    id: lox0wvl9bdgy2
+                                  type: object
+                                  description: The title of a panel.
+                                  properties:
+                                    name:
+                                      type: string
+                                      description: A short name of this panel, not including any actual values. e.g. "Fat"
+                                    title:
+                                      type: string
+                                    subtitle:
+                                      type: string
+                                    type:
+                                      type: string
+                                      enum:
+                                      - grade
+                                      - percentage
+                                      - string
+                                      description: Used to indicate how the value of this item is measured, such as "grade" for Nutri-Score and Green-Score or "percentage" for Salt
+                                    grade:
+                                      type: string
+                                      description: The value for this panel where it corresponds to a A to E grade such as the Nutri-Score or the Green-Score.
+                                      enum:
+                                      - a+
+                                      - a
+                                      - b
+                                      - c
+                                      - d
+                                      - e
+                                      - f
+                                      - unknown
+                                    value:
+                                      type: number
+                                      description: The numeric value of the panel, where the type is "percentage"
+                                    value_string:
+                                      type: string
+                                      description: The string value of the panel, for cases where the value is not numeric
+                                    icon_url:
+                                      type: string
+                                    icon_color_from_evaluation:
+                                      type: string
+                                    icon_size:
+                                      type: string
+                                      description: 'If set to "small", the icon should be displayed at a small size.
+
+                                        '
+                                elements:
+                                  type: array
+                                  description: An ordered list of elements to display in the content of the panel.
+                                  items:
+                                    title: element
+                                    x-stoplight:
+                                      id: e2ybdrtmx0tme
+                                    type: object
+                                    description: 'Each element object contains one specific element object such as a text element or an image element.
+
+                                      '
+                                    properties:
+                                      element_type:
+                                        type: string
+                                        enum:
+                                        - text
+                                        - image
+                                        - action
+                                        - panel
+                                        - panel_group
+                                        - table
+                                        description: 'The type of the included element object.
+
+                                          The element_type also indicates which field contains the included element object.
+
+                                          e.g. if the element_type is "text", the included element object will be in the "text_element" field.
+
+
+                                          Note that in the future, new type of element may be added,
+
+                                          so your code should ignore unrecognized types, and unknown properties.
+
+
+                                          TODO: add Map type
+
+                                          '
+                                      text_element:
+                                        title: text_element
+                                        x-stoplight:
+                                          id: vdwxlt73qnqfa
+                                        type: object
+                                        description: 'A text in simple HTML format to display.
+
+
+                                          For some specific texts that correspond to a product field (e.g. a product name, the ingredients list of a product),the edit_field_* fields are used to indicate how to edit the field value.'
+                                        properties:
+                                          type:
+                                            type: string
+                                            description: 'the type of text, might influence the way you display it.
+
+                                              '
+                                            enum:
+                                            - summary
+                                            - warning
+                                            - notes
+                                          html:
+                                            type: string
+                                            description: Text to display in HTML format.
+                                          language:
+                                            type: string
+                                            description: Language of the text. The name of the language is returned in the language requested when making the API call. e.g. if the text is in Polish, and the requested language is French, the language field will contain "Polonais" (French for "Polish"). Only set for specific fields such as the list of ingredients of a product.
+                                          lc:
+                                            type: string
+                                            description: 2 letter language code for the text. Only set for specific fields such as the list of ingredients of a product.
+                                          edit_field_id:
+                                            type: string
+                                            description: id of the field used to edit this text in the product edit API.
+                                          edit_field_type:
+                                            type: string
+                                            description: Type of the product field.
+                                          edit_field_value:
+                                            type: string
+                                            description: Current value of the product field. This may differ from the html field which can contain extra formating.
+                                          source_url:
+                                            type: string
+                                            description: Link to the source
+                                            example: https://en.wikipedia.org/wiki/Sodium acetate
+                                          source_text:
+                                            type: string
+                                            description: name of the source
+                                            example: Wikipedia
+                                          source_lc:
+                                            type: string
+                                            description: Source locale name
+                                            example: en
+                                          source_language:
+                                            type: string
+                                            description: Human readable source locale name
+                                            example: English
+                                      image_element:
+                                        title: image_element
+                                        x-stoplight:
+                                          id: k4v4kwt489q3j
+                                        type: object
+                                        properties:
+                                          url:
+                                            type: string
+                                            description: full URL of the image
+                                          width:
+                                            type: integer
+                                            description: "Width of the image.\n\nThis is just a suggestion coming from the server, \nthe client may choose to use its own dimensions for the image.\n"
+                                          height:
+                                            type: integer
+                                            description: 'Height of the image.
+
+
+                                              This is just a suggestion coming from the server,
+
+                                              the client may choose to use its own dimensions for the image.
+
+                                              '
+                                          alt_text:
+                                            type: string
+                                            description: Alt Text of the image.
+                                      action_element:
+                                        title: action_element
+                                        type: object
+                                        properties:
+                                          title:
+                                            type: string
+                                          actions:
+                                            type: array
+                                            description: The ids of the actions to show.
+                                            items:
+                                              type: string
+                                              description: The id of the action to show.
+                                              examples:
+                                              - edit_product
+                                              - add_categories
+                                        description: The action element is used to display a title and a list of actions like editing a product or adding categories.
+                                      panel_element:
+                                        title: panel_element
+                                        x-stoplight:
+                                          id: ymx41elz4yrnj
+                                        type: object
+                                        description: Panels can include other panels as sub-panels using the panel_element.
+                                        properties:
+                                          panel_id:
+                                            type: string
+                                            description: The id of the panel to include. The id is the key of the panel in the panels object returned in the knowledge_panels field.
+                                      panel_group_element:
+                                        title: panel_group_element
+                                        x-stoplight:
+                                          id: b7emlfrgiuue2
+                                        type: object
+                                        properties:
+                                          title:
+                                            type: string
+                                          panel_ids:
+                                            type: array
+                                            description: The ids of the panels to include. The ids are the keys of the panels in the panels object returned in the knowledge_panels field.
+                                            items:
+                                              type: string
+                                          image:
+                                            type: object
+                                            description: An image related to the panel group (e.g. the ingredients or nutrition facts image for the ingredients and nutrition panel groups).
+                                        description: The panel group element is used to display an optional title followed by a number of sub-panels.
+                                      table_element:
+                                        title: table_element
+                                        type: object
+                                        description: Element to display a table.
+                                        properties:
+                                          id:
+                                            type: string
+                                            description: An id for the table.
+                                          table_type:
+                                            type: string
+                                            description: Type of table (e.g. "percents" for tables with percentage columns)
+                                          title:
+                                            type: string
+                                            description: 'Title of the table.
+
+                                              '
+                                          columns:
+                                            type: array
+                                            items:
+                                              type: object
+                                              title: table_column
+                                              properties:
+                                                text:
+                                                  type: string
+                                                  description: Column header text
+                                                type:
+                                                  type: string
+                                                  description: Column type (e.g. "text", "percent")
+                                                text_for_small_screens:
+                                                  type: string
+                                                  description: Alternative text for small screens
+                                                style:
+                                                  type: string
+                                                  description: CSS style for the column
+                                                column_group_id:
+                                                  type: string
+                                                shown_by_default:
+                                                  type: boolean
+                                          rows:
+                                            type: array
+                                            description: Array of table rows
+                                            items:
+                                              type: object
+                                              properties:
+                                                id:
+                                                  type: string
+                                                  description: Row ID
+                                                style:
+                                                  type: string
+                                                  description: CSS style for the row
+                                                values:
+                                                  type: array
+                                                  description: Array of cell values
+                                                  items:
+                                                    type: object
+                                                    properties:
+                                                      text:
+                                                        type: string
+                                                        description: Cell text content
+                                                      icon_url:
+                                                        type: string
+                                                        description: URL of an icon to display in the cell
+                                                      percent:
+                                                        type: number
+                                                        description: Percentage value for progress bars (used with percent columns)
+                                                      evaluation:
+                                                        type: string
+                                                        description: Evaluation level (good, bad, neutral, etc.) for styling
+                                                      level:
+                                                        type: integer
+                                                        description: Indentation level
+                                                      style:
+                                                        type: string
+                                                        description: CSS style for the cell
+                                    required:
+                                    - element_type
+                                level:
+                                  type: string
+                                  description: 'a message level, as levels we use in log.
+
+                                    It might help theming the panel visually. Some possible values: info, recommendation
+
+                                    '
+                                  example: info
+                                size:
+                                  type: string
+                                  enum:
+                                  - small
+                                  description: "size is either empty (normal display) \nor small to indicate a panel that should have a smaller font size\n"
+                                  example: small
+                                topics:
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: health
+                                  description: topics currently include health, environment, problem
+                            readOnly: true
+                      - type: object
+                        description: 'Specific data about a product to enable personal ranking
+
+                          '
+                        properties:
+                          attribute_groups:
+                            type: array
+                            description: Each element is an attribute that can help compute a personal ranking for the product
+                            items:
+                              title: product_attribute_group
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                  description: 'Unique id of the attribute.
+
+
+                                    It will be use to match against preferences parameters.
+
+                                    '
+                                status:
+                                  type: string
+                                  enum:
+                                  - known
+                                  - unknown
+                                  description: wether we have the information to really compute this criteria or not.
+                                title:
+                                  type: string
+                                  description: 'A descriptive sentence about the situation of the product concerning attribute
+
+                                    '
+                                  example: 'Does not contain: Molluscs'
+                                match:
+                                  type: number
+                                  format: float
+                                  minimum: 0
+                                  maximum: 100
+                                  description: 'a numeric value for the match,
+
+                                    telling how much the products ranks well for this particular attribute.
+
+                                    The higher the value, the better the match.
+
+                                    '
+                                grade:
+                                  description: every attribute as a grade for a to e
+                                  type: string
+                                  enum:
+                                  - unknown
+                                  - a
+                                  - b
+                                  - c
+                                  - d
+                                  - e
+                                name:
+                                  type: string
+                                  description: The name of attribute, for eventual display
+                                icon_url:
+                                  type: string
+                                  description: an icon representing the attribute match (often using a color)
+                                description:
+                                  type: string
+                                  description: An eventual description of the value of the property upon which this attribute is based
+                                description_short:
+                                  type: string
+                                  description: An eventual short description of the value of the property upon which this attribute is based
+                  skip:
+                    type: integer
+                    description: 'Number of matching products skipped before the current page.
+
+                      '
+                    example: 0
+      operationId: get-search
+      description: 'Search request allows you to get products that match your search criteria.
+
+
+        It allows you create many custom APIs for your use case.
+
+
+        If a search query parameter has multiple values, separate them with commas (`,`).
+
+        When filtering with a language-specific parameter (`fr`, `de`, `en`, etc.),
+
+        specify the language code in the parameter name (for example: `categories_tags_en`).
+
+
+        **Important:** search API v2 does not support full text request (search_term),
+
+        you have to use search API v1 for that.
+
+        Upcoming search-a-licious project will fix that.
+
+
+        ### Limiting results
+
+
+        You can limit the size of returned objects thanks to the `fields` object (see below).
+
+
+        Example: `fields=code,product_name,brands,attribute_groups`
+
+
+        Please use it as much as possible to avoid overloading the servers.
+
+
+        The search endpoint uses pagination: see `page` and `page_size` parameters.
+
+
+        **Beware:** `page_count` is the number of products returned in the current page, not the total number of pages.
+
+
+        ### Conditions on tags
+
+
+        All `_tags`` parameters accepts either:
+
+
+        * a single value
+
+        * or a comma-separated list of values (doing a AND)
+
+        * or a pipe separated list of values (doing a OR)
+
+
+        You can exclude terms by using a "-" prefix.
+
+
+        For taxonomized entries, you might either use the tag id (recommended),
+
+        or a known synonym (without language prefix)
+
+
+        * `labels_tags=en:organic,en:fair-trade` find items that are fair-trade AND organic
+
+        * `labels_tags=en:organic|en:fair-trade` find items that are fair-trade OR organic
+
+        * `labels_tags=en:organic,en:-fair-trade` find items that are organic BUT NOT fair-trade
+
+
+        ### Conditions on nutriments
+
+
+        To get a list of nutrients:
+
+
+        You can either query on nutrient per 100g (`_100g` suffix)
+
+        or per serving (`serving` suffix).
+
+
+        You can also add `_prepared_`
+
+        to get the nutrients in the prepared product instead of as sold.
+
+
+        You can add a comparison operator and value to the parameter name
+
+        to get products with nutrient above or below a value.
+
+        If you use a parameter value it exactly match it.
+
+
+        * `energy-kj_100g10` products where sugar per serving is greater than 10g
+
+        * `saturated-fat_100g=1` products where saturated fat per 100g is exactly 10g
+
+        * `salt_prepared_serving<0.1` products where salt per serving for prepared product is less than 0.1g
+
+
+        ### Combining filters and pagination (examples)
+
+
+        1. Breakfast cereals with Nutri-Score A or B, with explicit pagination:
+
+        `/api/v2/search?categories_tags_en=breakfast-cereals&nutrition_grades_tags=a|b&page=2&page_size=20&fields=code,product_name,nutrition_grades`
+
+
+        2. Multiple constraints in one query (category + nutrients + sorting + compact fields):
+
+        `/api/v2/search?categories_tags_en=orange-juices&sugars_100g%3C8&salt_100g%3C0.2&sort_by=last_modified_t&page=1&page_size=24&fields=code,product_name,nutriments`
+
+
+        3. Include/exclude tags together:
+
+        `/api/v2/search?labels_tags=en:organic,en:-fair-trade&page=1&page_size=24&fields=code,product_name,labels_tags`
+
+
+        ### Response structure at a glance
+
+
+        A successful response contains:
+
+
+        * `count`: total number of matching products
+
+        * `page`: current page number
+
+        * `page_size`: requested number of products per page
+
+        * `page_count`: number of products actually returned in this page
+
+        * `skip`: number of products skipped before this page
+
+        * `products`: array of products for the current page
+
+
+        Total page count can be computed with:
+
+        `Math.floor((count - 1) / page_size) + 1`
+
+
+        ### More references
+
+
+        See also wiki page'
+      parameters:
+      - style: form
+        explode: false
+        schema:
+          type: string
+          example: e322
+        in: query
+        name: additives_tags
+        description: 'The additives_tags in english of product(s) you are searching for.
+
+          The [Open Food Facts Web App](https://world.openfoodfacts.org/facets/additives) has a list of possible values for `additives`. Translated values are available at https://static.openfoodfacts.org/data/taxonomies/additives.json
+
+
+          You can use multiple values by using a comma separated list.
+
+          You can add a "-" before values to avoid matching a tag.
+
+          '
+      - style: form
+        explode: false
+        schema:
+          type: string
+          example: m
+        in: query
+        name: allergens_tags
+        description: 'The allergens_tags in english of product(s) you are searching for.
+
+          The [Open Food Facts Web App](https://world.openfoodfacts.org/facets/allergens) has a list of possible values for `allergens`. Translated values are available at https://static.openfoodfacts.org/data/taxonomies/allergens.json
+
+
+          You can use multiple values by using a comma separated list.
+
+          You can add a "-" before values to avoid matching a tag.
+
+          '
+      - style: form
+        explode: false
+        schema:
+          type: string
+          example: ferrero
+        in: query
+        name: brands_tags
+        description: 'The brands_tags of product(s) you are searching for.
+
+          The [Open Food Facts Web App](https://world.openfoodfacts.org/facets/brands) has a list of possible values for `brands`. Taxonomized values are available at https://static.openfoodfacts.org/data/taxonomies/brands.json
+
+
+          You can use multiple values by using a comma separated list.
+
+          You can add a "-" before values to avoid matching a tag.
+
+          '
+      - style: form
+        explode: false
+        schema:
+          type: string
+          example: chocolates
+        in: query
+        name: categories_tags
+        description: 'The category of product(s) you are searching for.
+
+          The [Open Food Facts Web App](https://world.openfoodfacts.org/facets/categories) has a list of possible values for `categories`. Translated values are available at https://static.openfoodfacts.org/data/taxonomies/categories.json
+
+
+          You can use multiple values by using a comma separated list.
+
+          You can add a "-" before values to avoid matching a tag.
+
+          '
+      - style: form
+        explode: false
+        schema:
+          type: string
+          example: united-kingdom
+        in: query
+        name: countries_tags_en
+        description: 'The countries_tags_en of product(s) you are searching for.
+
+          The [Open Food Facts Web App](https://world.openfoodfacts.org/facets/countries) shows a list of possible values for `countries`. Translated values are available at https://static.openfoodfacts.org/data/taxonomies/countries.json
+
+
+          You can use multiple values by using a comma separated list.
+
+          You can add a "-" before values to avoid matching a tag.
+
+          '
+      - style: form
+        explode: false
+        schema:
+          type: string
+        in: query
+        name: emb_codes_tags
+        description: 'The emb_codes_tags of product(s) you are searching for.
+
+
+          You can use multiple values by using a comma separated list.
+
+          You can add a "-" before values to avoid matching a tag.
+
+          '
+      - style: form
+        explode: false
+        schema:
+          type: string
+          example: organic
+        in: query
+        name: labels_tags
+        description: 'The labels_tags in english of product(s) you are searching for.
+
+          The [Open Food Facts Web App](https://world.openfoodfacts.org/facets/labels) has a list of possible values for `labels`.
+
+
+          You can use multiple values by using a comma separated list.
+
+          You can add a "-" before values to avoid matching a tag.
+
+          '
+      - style: form
+        explode: false
+        schema:
+          type: string
+        in: query
+        name: manufacturing_places_tags
+        description: 'The manufacturing_places_tags of product(s) you are searching for.
+
+          The [Open Food Facts Web App](https://world.openfoodfacts.org/facets/manufacturing-places) has a list of possible values for `manufacturing-places`.
+
+
+          You can use multiple values by using a comma separated list.
+
+          You can add a "-" before values to avoid matching a tag.
+
+          '
+      - style: form
+        explode: false
+        schema:
+          type: string
+          example: e
+        in: query
+        name: nutrition_grades_tags
+        description: 'The nutrition_grades_tags of product(s) you are searching for.
+
+          The [Open Food Facts Web App](https://world.openfoodfacts.org/facets/nutrition-grades) has a list of possible values for `nutrition-grades`.
+
+
+          You can use multiple values by using a comma separated list.
+
+          You can add a "-" before values to avoid matching a tag.
+
+          '
+      - style: form
+        explode: false
+        schema:
+          type: string
+        in: query
+        name: origins_tags
+        description: 'The origins_tags of product(s) you are searching for. The [Open Food Facts Web App](https://world.openfoodfacts.org/facets/origins) has a list of possible values for `origins`.
+
+
+          You can use multiple values by using a comma separated list.
+
+          You can add a "-" before values to avoid matching a tag.
+
+          '
+      - style: form
+        explode: false
+        schema:
+          type: string
+          example: 1-jar-aus-klarglas
+        in: query
+        name: packaging_tags_de
+        description: "The packaging_tag in german of product(s) you are searching for.\nThe [Open Food Facts Web App](https://world.openfoodfacts.org/facets/packaging) has a list of possible values for `packaging`. \n\nYou can use multiple values by using a comma separated list.\nYou can add a \"-\" before values to avoid matching a tag.\n"
+      - style: form
+        explode: false
+        schema:
+          type: string
+        in: query
+        name: purchase_places_tags
+        description: 'The purchase_places_tags of product(s) you are searching for.
+
+
+          You can use multiple values by using a comma separated list.
+
+          You can add a "-" before values to avoid matching a tag.
+
+          '
+      - style: form
+        explode: false
+        schema:
+          type: string
+          example: nutrition-facts-completed
+        in: query
+        name: states_tags
+        description: 'The states_tags in english of product(s) you are searching for.
+
+          The [Open Food Facts Web App](https://world.openfoodfacts.org/facets/states) has a list of possible values for `states`. Translated values are available at https://static.openfoodfacts.org/data/taxonomies/states.json
+
+          You can use multiple values by using a comma separated list.
+
+          You can add a "-" before values to avoid matching a tag.
+
+          '
+      - style: form
+        explode: false
+        schema:
+          type: string
+          example: aldi
+        in: query
+        name: stores_tags
+        description: 'The stores_tags of product(s) you are searching for.
+
+
+          You can use multiple values by using a comma separated list.
+
+          You can add a "-" before values to avoid matching a tag.
+
+          '
+      - style: form
+        explode: false
+        schema:
+          type: string
+        in: query
+        name: traces_tags
+        description: 'The traces_tags of product(s) you are searching for.
+
+          The [Open Food Facts Web App](https://world.openfoodfacts.org/facets/traces) shows a list of possible values for `traces`.
+
+
+          You can use multiple values by using a comma separated list.
+
+          You can add a "-" before values to avoid matching a tag.
+
+          '
+      - in: query
+        name: <tag_name>_tags_<language_code>
+        description: 'You can add a language code to a specific tag to query it in a specific language
+
+          '
+        style: form
+        explode: false
+        schema:
+          type: object
+          patternProperties:
+            (?<tag_name>\w+)_tags_(?<language_code>\w\w):
+              type: string
+              description: 'Will search in the tags corresponding to `tag_name`,
+
+                in the language corresponding to `language_code.
+
+
+                `tag_name` is one of the field above which have the `_tags`` suffix:
+
+                categories, nutrition_grades, etc.
+
+
+                `language_code` is a two letter iso language `language_code.
+
+
+                You can use multiple values by using a comma separated list.
+
+                You can add a "-" before values to avoid matching a tag.
+
+                '
+          examples:
+          - packaging_tags_de: null
+            summary: packaging in German
+            value:
+              packaging_tags_de: de:Flasche
+          - origins_tags_fr: null
+            summary: origins in French
+            value:
+              origins_tags_fr: fr:France
+          - categories_tags_en: null
+            summary: categories in English
+            value:
+              categories_tags_en: en:Beer
+      - in: query
+        name: <nutrient>_lt_<value>
+        description: 'Search on nutrient lower than a value
+
+          '
+        schema:
+          type: object
+          patternProperties:
+            (?<nutrient>\w+)(?<prepared>_prepared)?(?<portion>100g|serving)<(?<value>\d+):
+              type: string
+              description: 'Will search for products with nutrients lower than  `value`
+
+                per `portion` (100g or serving).
+
+
+                If `prepared` is "prepared" search in prepared product instead of "as sold".
+
+
+                Important: the parameter value is discarded and should be empty
+
+                '
+          examples:
+          - salt_100g_lt_2: null
+            summary: salt per 100g is lower than 2g (in product as sold)
+            value:
+              salt_100g<2: 1
+      - in: query
+        name: <nutrient>_gt_<value>
+        description: 'Search on nutrient greater than a value
+
+          '
+        schema:
+          type: object
+          patternProperties:
+            (?<nutrient>\w+)(?<prepared>_prepared)?(?<portion>100g|serving)>(?<value>\d+):
+              type: string
+              description: 'Will search for products with nutrients more than  `value`
+
+                per `portion` (100g or serving).
+
+
+                If `prepared` is "prepared" search in prepared product instead of "as sold".
+
+
+                Important: the parameter value is discarded and should be empty
+
+                '
+          examples:
+          - carbohydrates_prepared_serving_gt_10: null
+            summary: carbohydrates per serving is greater than 10g in prepared product
+            value:
+              salt_100g>10: 1
+      - in: query
+        name: <nutrient>_eq_<value>
+        description: 'Search on nutrient for an exact quantity
+
+          '
+        schema:
+          type: object
+          patternProperties:
+            (?<nutrient>\w+)(?<prepared>_prepared)?(?<portion>100g|serving):
+              type: string
+              description: 'Will search for products with nutrients exactl  the parameter value
+
+                per `portion` (100g or serving).
+
+
+                If `prepared` is "prepared" search in prepared product instead of "as sold".
+
+                '
+          examples:
+          - fat_100g_eq_5: null
+            summary: fat per 100g is exactly equal to 5g (in product as sold)
+            value:
+              fat_100g: 5
+      - name: fields
+        in: query
+        description: Specific fields to return. Use 'knowledge_panels' for Knowledge Panels only.
+        required: false
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9_.-]+(,[a-zA-Z0-9_.-]+)*$
+          description: Custom comma-separated list of product field names
+          examples:
+          - knowledge_panels
+          - knowledge_panels,product_name,nutriments
+          - categories_tags,packaging_tags
+          - allergens_tags,nutriscores
+          - images,brands_tags,categories_tags,countries_tags,languages_tags,ecoscore_tags
+      - $ref: '#/components/parameters/sort_by'
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      security:
+      - userAgentAuth: []
     servers:
-    - url: https://world.openfoodfacts.org
-      description: Worldwide instance
-    - url: https://{country}.openfoodfacts.org
-      description: Country-specific instance
-      variables:
-        country:
-          default: world
-          description: Country subdomain (e.g., us, fr, de)
+    - description: dev
+      url: https://world.openfoodfacts.net
+    - description: prod
+      url: https://world.openfoodfacts.org
+    - description: proxy (for doc purpose)
+      url: http://localhost:8080
   /search:
     post:
       summary: Search
@@ -327,13 +3896,13 @@ paths:
       - Search
 components:
   parameters:
-    page_size:
+    page:
       schema:
         type: integer
         example: 24
       in: query
-      name: page_size
-      description: 'The number of elements should be sent per page
+      name: page
+      description: 'The page number you request to view (eg. in search results spanning multiple pages)
 
         '
     sort_by:
@@ -368,55 +3937,16 @@ components:
         * `nothing`, tells not to sort at all (because if you do not provide the sort_by argument we default to sorting on popularity (for food) or last modification date)
 
         '
-    page:
+    page_size:
       schema:
         type: integer
         example: 24
       in: query
-      name: page
-      description: 'The page number you request to view (eg. in search results spanning multiple pages)
+      name: page_size
+      description: 'The number of elements should be sent per page
 
         '
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    SearchResponseDebug:
-      properties:
-        query:
-          type: object
-          title: Query
-      type: object
-      required:
-      - query
-      title: SearchResponseDebug
-    FacetInfo:
-      properties:
-        name:
-          type: string
-          title: Name
-        items:
-          items:
-            $ref: '#/components/schemas/FacetItem'
-          type: array
-          title: Items
-        count_error_margin:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Count Error Margin
-      type: object
-      required:
-      - name
-      - items
-      title: FacetInfo
-      description: Search result for a facet
     SearchResponseError:
       properties:
         title:
@@ -431,20 +3961,6 @@ components:
       required:
       - title
       title: SearchResponseError
-    ErrorSearchResponse:
-      properties:
-        debug:
-          $ref: '#/components/schemas/SearchResponseDebug'
-        errors:
-          items:
-            $ref: '#/components/schemas/SearchResponseError'
-          type: array
-          title: Errors
-      type: object
-      required:
-      - debug
-      - errors
-      title: ErrorSearchResponse
     ValidationError:
       properties:
         loc:
@@ -466,6 +3982,172 @@ components:
       - msg
       - type
       title: ValidationError
+    FacetItem:
+      properties:
+        key:
+          type: string
+          title: Key
+        name:
+          type: string
+          title: Name
+        count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Count
+        selected:
+          type: boolean
+          title: Selected
+      type: object
+      required:
+      - key
+      - name
+      - count
+      - selected
+      title: FacetItem
+      description: Describes an entry of a facet
+    FacetInfo:
+      properties:
+        name:
+          type: string
+          title: Name
+        items:
+          items:
+            $ref: '#/components/schemas/FacetItem'
+          type: array
+          title: Items
+        count_error_margin:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Count Error Margin
+      type: object
+      required:
+      - name
+      - items
+      title: FacetInfo
+      description: Search result for a facet
+    ErrorSearchResponse:
+      properties:
+        debug:
+          $ref: '#/components/schemas/SearchResponseDebug'
+        errors:
+          items:
+            $ref: '#/components/schemas/SearchResponseError'
+          type: array
+          title: Errors
+      type: object
+      required:
+      - debug
+      - errors
+      title: ErrorSearchResponse
+    ScatterChartType:
+      properties:
+        chart_type:
+          type: string
+          enum:
+          - ScatterChartType
+          const: ScatterChartType
+          title: Chart Type
+          default: ScatterChartType
+        x:
+          type: string
+          title: X
+        y:
+          type: string
+          title: Y
+      type: object
+      required:
+      - x
+      - y
+      title: ScatterChartType
+      description: Describes an entry for a scatter plot
+    SuccessSearchResponse:
+      properties:
+        hits:
+          items:
+            type: object
+          type: array
+          title: Hits
+        aggregations:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Aggregations
+        facets:
+          anyOf:
+          - additionalProperties:
+              $ref: '#/components/schemas/FacetInfo'
+            type: object
+          - type: 'null'
+          title: Facets
+        charts:
+          anyOf:
+          - additionalProperties:
+              type: object
+            type: object
+          - type: 'null'
+          title: Charts
+        page:
+          type: integer
+          title: Page
+        page_size:
+          type: integer
+          title: Page Size
+        page_count:
+          type: integer
+          title: Page Count
+        debug:
+          $ref: '#/components/schemas/SearchResponseDebug'
+        took:
+          type: integer
+          title: Took
+        timed_out:
+          type: boolean
+          title: Timed Out
+        count:
+          type: integer
+          title: Count
+        is_count_exact:
+          type: boolean
+          title: Is Count Exact
+        warnings:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SearchResponseError'
+            type: array
+          - type: 'null'
+          title: Warnings
+      type: object
+      required:
+      - hits
+      - page
+      - page_size
+      - page_count
+      - debug
+      - took
+      - timed_out
+      - count
+      - is_count_exact
+      title: SuccessSearchResponse
+    SearchResponseDebug:
+      properties:
+        query:
+          type: object
+          title: Query
+      type: object
+      required:
+      - query
+      title: SearchResponseDebug
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     SearchParameters:
       properties:
         q:
@@ -598,51 +4280,6 @@ components:
       type: object
       title: SearchParameters
       description: Common parameters for search
-    ScatterChartType:
-      properties:
-        chart_type:
-          type: string
-          enum:
-          - ScatterChartType
-          const: ScatterChartType
-          title: Chart Type
-          default: ScatterChartType
-        x:
-          type: string
-          title: X
-        y:
-          type: string
-          title: Y
-      type: object
-      required:
-      - x
-      - y
-      title: ScatterChartType
-      description: Describes an entry for a scatter plot
-    FacetItem:
-      properties:
-        key:
-          type: string
-          title: Key
-        name:
-          type: string
-          title: Name
-        count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Count
-        selected:
-          type: boolean
-          title: Selected
-      type: object
-      required:
-      - key
-      - name
-      - count
-      - selected
-      title: FacetItem
-      description: Describes an entry of a facet
     DistributionChartType:
       properties:
         chart_type:
@@ -660,74 +4297,6 @@ components:
       - field
       title: DistributionChartType
       description: Describes an entry for a distribution chart
-    SuccessSearchResponse:
-      properties:
-        hits:
-          items:
-            type: object
-          type: array
-          title: Hits
-        aggregations:
-          anyOf:
-          - type: object
-          - type: 'null'
-          title: Aggregations
-        facets:
-          anyOf:
-          - additionalProperties:
-              $ref: '#/components/schemas/FacetInfo'
-            type: object
-          - type: 'null'
-          title: Facets
-        charts:
-          anyOf:
-          - additionalProperties:
-              type: object
-            type: object
-          - type: 'null'
-          title: Charts
-        page:
-          type: integer
-          title: Page
-        page_size:
-          type: integer
-          title: Page Size
-        page_count:
-          type: integer
-          title: Page Count
-        debug:
-          $ref: '#/components/schemas/SearchResponseDebug'
-        took:
-          type: integer
-          title: Took
-        timed_out:
-          type: boolean
-          title: Timed Out
-        count:
-          type: integer
-          title: Count
-        is_count_exact:
-          type: boolean
-          title: Is Count Exact
-        warnings:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/SearchResponseError'
-            type: array
-          - type: 'null'
-          title: Warnings
-      type: object
-      required:
-      - hits
-      - page
-      - page_size
-      - page_count
-      - debug
-      - took
-      - timed_out
-      - count
-      - is_count_exact
-      title: SuccessSearchResponse
   securitySchemes:
     cookieAuth:
       type: apiKey
@@ -753,6 +4322,6 @@ externalDocs:
     '
   url: https://openfoodfacts.github.io/openfoodfacts-server/api/
 x-refined-from:
-- open-food-facts-openapi.yml
 - open-food-facts-api-v2-openapi.yml
+- open-food-facts-openapi.yml
 - open-food-facts-search-a-licious-openapi.json

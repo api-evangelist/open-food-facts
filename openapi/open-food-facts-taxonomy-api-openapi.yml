@@ -2,68 +2,22 @@ openapi: 3.2.0
 info:
   title: Open Food Facts Taxonomy API
   version: '1.0'
-  description: 'Operations tagged Taxonomy across 2 of this provider''s published API definitions: open-food-facts-openapi.yml, open-food-facts-api-v3-openapi.yml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged Taxonomy across 2 of this provider''s published API definitions: open-food-facts-api-v3-openapi.yml, open-food-facts-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://world.openfoodfacts.org
-  description: Worldwide instance
+  description: prod
+- description: dev
+  url: https://world.openfoodfacts.net
 - url: https://{country}.openfoodfacts.org
   description: Country-specific instance
   variables:
     country:
       default: world
       description: Country subdomain (e.g., us, fr, de)
-- description: dev
-  url: https://world.openfoodfacts.net
 tags:
 - name: Taxonomy
+  description: Endpoints for retrieving taxonomy suggestions and data.
 paths:
-  /api/v2/taxonomy:
-    get:
-      summary: Retrieve taxonomy entries
-      description: Look up canonical taxonomy entries (categories, labels, ingredients, etc.).
-      operationId: getTaxonomy
-      parameters:
-      - name: tagtype
-        in: query
-        required: true
-        schema:
-          type: string
-          enum:
-          - additives
-          - allergens
-          - brands
-          - categories
-          - countries
-          - ingredients
-          - labels
-          - languages
-          - origins
-          - packaging
-          - states
-          - traces
-      - name: tags
-        in: query
-        schema:
-          type: string
-        description: Comma-separated taxonomy tag identifiers.
-      - name: fields
-        in: query
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Taxonomy entries.
-      tags:
-      - Taxonomy
-    servers:
-    - url: https://world.openfoodfacts.org
-      description: Worldwide instance
-    - url: https://{country}.openfoodfacts.org
-      description: Country-specific instance
-      variables:
-        country:
-          default: world
-          description: Country subdomain (e.g., us, fr, de)
   /api/v3/taxonomy_canonicalize_tags:
     get:
       summary: Get canonical tags for a list of local tags
@@ -861,6 +815,53 @@ paths:
       description: prod
     - description: dev
       url: https://world.openfoodfacts.net
+  /api/v2/taxonomy:
+    get:
+      summary: Retrieve taxonomy entries
+      description: Look up canonical taxonomy entries (categories, labels, ingredients, etc.).
+      operationId: getTaxonomy
+      parameters:
+      - name: tagtype
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - additives
+          - allergens
+          - brands
+          - categories
+          - countries
+          - ingredients
+          - labels
+          - languages
+          - origins
+          - packaging
+          - states
+          - traces
+      - name: tags
+        in: query
+        schema:
+          type: string
+        description: Comma-separated taxonomy tag identifiers.
+      - name: fields
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Taxonomy entries.
+      tags:
+      - Taxonomy
+    servers:
+    - url: https://world.openfoodfacts.org
+      description: Worldwide instance
+    - url: https://{country}.openfoodfacts.org
+      description: Country-specific instance
+      variables:
+        country:
+          default: world
+          description: Country subdomain (e.g., us, fr, de)
 components:
   securitySchemes:
     cookieAuth:
@@ -882,5 +883,5 @@ components:
       in: header
       name: User-Agent
 x-refined-from:
-- open-food-facts-openapi.yml
 - open-food-facts-api-v3-openapi.yml
+- open-food-facts-openapi.yml

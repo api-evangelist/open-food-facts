@@ -111,24 +111,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    PanelName:
-      type: string
-      enum:
-      - last_edits
-      - data_quality
-      - hunger_game
-      - wikidata
-      title: PanelName
-      description: An enumeration.
     BaseTitleElement:
       properties:
         title:
@@ -140,18 +122,27 @@ components:
       - title
       title: BaseTitleElement
       description: An element containing a title
-    KnowledgePanel:
+    ValidationError:
       properties:
-        HungerGames:
-          $ref: '#/components/schemas/KnowledgePanelItem'
-        Quality:
-          $ref: '#/components/schemas/KnowledgePanelItem'
-        LastEdits:
-          $ref: '#/components/schemas/KnowledgePanelItem'
-        WikiData:
-          $ref: '#/components/schemas/KnowledgePanelItem'
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
-      title: KnowledgePanel
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     FacetResponse:
       properties:
         knowledge_panels:
@@ -175,20 +166,15 @@ components:
       - text_element
       title: BaseElement
       description: Element container
-    KnowledgePanelItem:
+    HTTPValidationError:
       properties:
-        elements:
+        detail:
           items:
-            $ref: '#/components/schemas/BaseElement'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Elements
-        title_element:
-          $ref: '#/components/schemas/BaseTitleElement'
+          title: Detail
       type: object
-      required:
-      - title_element
-      title: KnowledgePanelItem
-      description: A Panel, made of multiple sub elements
+      title: HTTPValidationError
     BaseTextElement:
       properties:
         html:
@@ -206,24 +192,38 @@ components:
       type: object
       title: BaseTextElement
       description: An element with simple HTML to display
-    ValidationError:
+    PanelName:
+      type: string
+      enum:
+      - last_edits
+      - data_quality
+      - hunger_game
+      - wikidata
+      title: PanelName
+      description: An enumeration.
+    KnowledgePanel:
       properties:
-        loc:
+        HungerGames:
+          $ref: '#/components/schemas/KnowledgePanelItem'
+        Quality:
+          $ref: '#/components/schemas/KnowledgePanelItem'
+        LastEdits:
+          $ref: '#/components/schemas/KnowledgePanelItem'
+        WikiData:
+          $ref: '#/components/schemas/KnowledgePanelItem'
+      type: object
+      title: KnowledgePanel
+    KnowledgePanelItem:
+      properties:
+        elements:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/BaseElement'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Elements
+        title_element:
+          $ref: '#/components/schemas/BaseTitleElement'
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - title_element
+      title: KnowledgePanelItem
+      description: A Panel, made of multiple sub elements

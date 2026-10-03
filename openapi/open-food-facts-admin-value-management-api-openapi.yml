@@ -107,19 +107,23 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ValueDeleteRequest:
+    ValueRenameRequest:
       properties:
         property:
           type: string
           title: Property
-        value:
+        old_value:
           type: string
-          title: Value
+          title: Old Value
+        new_value:
+          type: string
+          title: New Value
       type: object
       required:
       - property
-      - value
-      title: ValueDeleteRequest
+      - old_value
+      - new_value
+      title: ValueRenameRequest
     ValidationError:
       properties:
         loc:
@@ -141,23 +145,19 @@ components:
       - msg
       - type
       title: ValidationError
-    ValueRenameRequest:
+    ValueDeleteRequest:
       properties:
         property:
           type: string
           title: Property
-        old_value:
+        value:
           type: string
-          title: Old Value
-        new_value:
-          type: string
-          title: New Value
+          title: Value
       type: object
       required:
       - property
-      - old_value
-      - new_value
-      title: ValueRenameRequest
+      - value
+      title: ValueDeleteRequest
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

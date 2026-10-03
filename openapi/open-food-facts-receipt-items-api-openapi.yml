@@ -185,41 +185,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PaginatedReceiptItemFullList:
-      type: object
-      required:
-      - items
-      - page
-      - pages
-      - size
-      - total
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReceiptItemFull'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
-    BlankEnum:
-      enum:
-      - ''
-    NullEnum:
-      enum:
-      - null
     ReceiptItemFull:
       type: object
       properties:
@@ -274,13 +239,6 @@ components:
       - price_id
       - proof_id
       - updated
-    ReceiptItemFullStatusEnum:
-      enum:
-      - 0
-      - 1
-      description: '* `0` - deleted
-
-        * `1` - linked_to_price'
     PatchedReceiptItemFull:
       type: object
       properties:
@@ -329,6 +287,48 @@ components:
           - integer
           - 'null'
           description: The proof prediction used to create this receipt item. Null if created by a user.
+    ReceiptItemFullStatusEnum:
+      enum:
+      - 0
+      - 1
+      description: '* `0` - deleted
+
+        * `1` - linked_to_price'
+    PaginatedReceiptItemFullList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceiptItemFull'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    NullEnum:
+      enum:
+      - null
+    BlankEnum:
+      enum:
+      - ''
   securitySchemes:
     CustomAuthentication:
       type: http

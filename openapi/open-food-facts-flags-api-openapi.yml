@@ -126,22 +126,27 @@ paths:
       - Flags
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    SourceType:
+    Flavor:
       type: string
       enum:
-      - mobile
-      - web
-      - robotoff
-      title: SourceType
+      - 'off'
+      - obf
+      - opff
+      - opf
+      - off-pro
+      title: Flavor
+      description: 'Flavor is used to refer to a specific Open*Facts project:
+
+
+        - Open Food Facts
+
+        - Open Beauty Facts
+
+        - Open Pet Food Facts
+
+        - Open Product Facts
+
+        - Open Food Facts (Pro plateform)'
     ValidationError:
       properties:
         loc:
@@ -174,14 +179,6 @@ components:
       required:
       - ticket_ids
       title: FlagsByTicketIdRequest
-    IssueType:
-      type: string
-      enum:
-      - product
-      - image
-      - search
-      title: IssueType
-      description: Type of the flag/ticket.
     GetFlagsResponse:
       properties:
         flags:
@@ -193,6 +190,13 @@ components:
       required:
       - flags
       title: GetFlagsResponse
+    SourceType:
+      type: string
+      enum:
+      - mobile
+      - web
+      - robotoff
+      title: SourceType
     Flag:
       properties:
         barcode:
@@ -277,27 +281,23 @@ components:
       - ticket_id
       - device_id
       title: Flag
-    Flavor:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    IssueType:
       type: string
       enum:
-      - 'off'
-      - obf
-      - opff
-      - opf
-      - off-pro
-      title: Flavor
-      description: 'Flavor is used to refer to a specific Open*Facts project:
-
-
-        - Open Food Facts
-
-        - Open Beauty Facts
-
-        - Open Pet Food Facts
-
-        - Open Product Facts
-
-        - Open Food Facts (Pro plateform)'
+      - product
+      - image
+      - search
+      title: IssueType
+      description: Type of the flag/ticket.
     FlagCreate:
       properties:
         barcode:

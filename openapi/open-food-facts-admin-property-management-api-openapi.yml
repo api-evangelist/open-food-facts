@@ -139,6 +139,40 @@ paths:
       - OAuth2PasswordBearer: []
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PropertyClashCheckRequest:
+      properties:
+        old_property:
+          type: string
+          title: Old Property
+        new_property:
+          type: string
+          title: New Property
+      type: object
+      required:
+      - old_property
+      - new_property
+      title: PropertyClashCheckRequest
     HTTPValidationError:
       properties:
         detail:
@@ -161,19 +195,6 @@ components:
       - old_property
       - new_property
       title: PropertyRenameRequest
-    PropertyClashCheckRequest:
-      properties:
-        old_property:
-          type: string
-          title: Old Property
-        new_property:
-          type: string
-          title: New Property
-      type: object
-      required:
-      - old_property
-      - new_property
-      title: PropertyClashCheckRequest
     PropertyClashCheck:
       properties:
         products_with_both:
@@ -205,27 +226,6 @@ components:
       required:
       - property
       title: PropertyDeleteRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

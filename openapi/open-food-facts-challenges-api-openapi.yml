@@ -149,45 +149,35 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    NullEnum:
-      enum:
-      - null
-    BlankEnum:
-      enum:
-      - ''
-    ChallengeStatusEnum:
-      enum:
-      - DRAFT
-      - UPCOMING
-      - ONGOING
-      - COMPLETED
-      type: string
-      description: '* `DRAFT` - DRAFT
-
-        * `UPCOMING` - UPCOMING
-
-        * `ONGOING` - ONGOING
-
-        * `COMPLETED` - COMPLETED'
-    LocationTypeEnum:
-      enum:
-      - OSM
-      - ONLINE
-      type: string
-      description: '* `OSM` - OSM
-
-        * `ONLINE` - ONLINE'
-    LocationOsmTypeEnum:
-      enum:
-      - NODE
-      - WAY
-      - RELATION
-      type: string
-      description: '* `NODE` - NODE
-
-        * `WAY` - WAY
-
-        * `RELATION` - RELATION'
+    PaginatedChallengeList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Challenge'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
     Challenge:
       type: object
       properties:
@@ -262,6 +252,42 @@ components:
       - status
       - tag
       - updated
+    LocationOsmTypeEnum:
+      enum:
+      - NODE
+      - WAY
+      - RELATION
+      type: string
+      description: '* `NODE` - NODE
+
+        * `WAY` - WAY
+
+        * `RELATION` - RELATION'
+    BlankEnum:
+      enum:
+      - ''
+    LocationTypeEnum:
+      enum:
+      - OSM
+      - ONLINE
+      type: string
+      description: '* `OSM` - OSM
+
+        * `ONLINE` - ONLINE'
+    ChallengeStatusEnum:
+      enum:
+      - DRAFT
+      - UPCOMING
+      - ONGOING
+      - COMPLETED
+      type: string
+      description: '* `DRAFT` - DRAFT
+
+        * `UPCOMING` - UPCOMING
+
+        * `ONGOING` - ONGOING
+
+        * `COMPLETED` - COMPLETED'
     Location:
       type: object
       properties:
@@ -384,35 +410,9 @@ components:
       - osm_brand_logo_url
       - type
       - updated
-    PaginatedChallengeList:
-      type: object
-      required:
-      - items
-      - page
-      - pages
-      - size
-      - total
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Challenge'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
+    NullEnum:
+      enum:
+      - null
   securitySchemes:
     CustomAuthentication:
       type: http

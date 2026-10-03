@@ -317,6 +317,80 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    PaginatedLocationNearbyList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocationNearby'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    PaginatedCountryCityList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CountryCity'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    CountryCity:
+      type: object
+      properties:
+        osm_name:
+          type: string
+        country_code_2:
+          type: string
+        location_count:
+          type: integer
+        price_count:
+          type: integer
+      required:
+      - country_code_2
+      - location_count
+      - osm_name
+      - price_count
     Country:
       type: object
       properties:
@@ -339,49 +413,6 @@ components:
       - name
       - osm_name
       - price_count
-    PaginatedLocationList:
-      type: object
-      required:
-      - items
-      - page
-      - pages
-      - size
-      - total
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Location'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
-    NullEnum:
-      enum:
-      - null
-    BlankEnum:
-      enum:
-      - ''
-    LocationTypeEnum:
-      enum:
-      - OSM
-      - ONLINE
-      type: string
-      description: '* `OSM` - OSM
-
-        * `ONLINE` - ONLINE'
     LocationNearby:
       type: object
       properties:
@@ -509,30 +540,31 @@ components:
       - osm_brand_logo_url
       - type
       - updated
-    LocationCompare:
-      type: object
-      properties:
-        location_a:
-          $ref: '#/components/schemas/Location'
-        location_b:
-          $ref: '#/components/schemas/Location'
-        shared_products: {}
-        total_sum_location_a:
-          type: number
-          format: double
-          exclusiveMinimum: -100000000
-          exclusiveMaximum: 100000000
-        total_sum_location_b:
-          type: number
-          format: double
-          exclusiveMinimum: -100000000
-          exclusiveMaximum: 100000000
-      required:
-      - location_a
-      - location_b
-      - shared_products
-      - total_sum_location_a
-      - total_sum_location_b
+    NullEnum:
+      enum:
+      - null
+    LocationOsmTypeEnum:
+      enum:
+      - NODE
+      - WAY
+      - RELATION
+      type: string
+      description: '* `NODE` - NODE
+
+        * `WAY` - WAY
+
+        * `RELATION` - RELATION'
+    LocationTypeEnum:
+      enum:
+      - OSM
+      - ONLINE
+      type: string
+      description: '* `OSM` - OSM
+
+        * `ONLINE` - ONLINE'
+    BlankEnum:
+      enum:
+      - ''
     LocationCreate:
       type: object
       properties:
@@ -557,46 +589,6 @@ components:
           format: uri
       required:
       - type
-    LocationOsmTypeEnum:
-      enum:
-      - NODE
-      - WAY
-      - RELATION
-      type: string
-      description: '* `NODE` - NODE
-
-        * `WAY` - WAY
-
-        * `RELATION` - RELATION'
-    PaginatedLocationNearbyList:
-      type: object
-      required:
-      - items
-      - page
-      - pages
-      - size
-      - total
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/LocationNearby'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
     Location:
       type: object
       properties:
@@ -719,23 +711,7 @@ components:
       - osm_brand_logo_url
       - type
       - updated
-    CountryCity:
-      type: object
-      properties:
-        osm_name:
-          type: string
-        country_code_2:
-          type: string
-        location_count:
-          type: integer
-        price_count:
-          type: integer
-      required:
-      - country_code_2
-      - location_count
-      - osm_name
-      - price_count
-    PaginatedCountryCityList:
+    PaginatedCountryList:
       type: object
       required:
       - items
@@ -747,7 +723,7 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/CountryCity'
+            $ref: '#/components/schemas/Country'
         page:
           type: integer
           description: Current page number
@@ -764,7 +740,31 @@ components:
           type: integer
           description: Total number of items
           example: 1531
-    PaginatedCountryList:
+    LocationCompare:
+      type: object
+      properties:
+        location_a:
+          $ref: '#/components/schemas/Location'
+        location_b:
+          $ref: '#/components/schemas/Location'
+        shared_products: {}
+        total_sum_location_a:
+          type: number
+          format: double
+          exclusiveMinimum: -100000000
+          exclusiveMaximum: 100000000
+        total_sum_location_b:
+          type: number
+          format: double
+          exclusiveMinimum: -100000000
+          exclusiveMaximum: 100000000
+      required:
+      - location_a
+      - location_b
+      - shared_products
+      - total_sum_location_a
+      - total_sum_location_b
+    PaginatedLocationList:
       type: object
       required:
       - items
@@ -776,7 +776,7 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/Country'
+            $ref: '#/components/schemas/Location'
         page:
           type: integer
           description: Current page number

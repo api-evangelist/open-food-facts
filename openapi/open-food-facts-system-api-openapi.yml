@@ -60,15 +60,6 @@ paths:
                 $ref: '#/components/schemas/PingResponse'
 components:
   schemas:
-    PingResponse:
-      properties:
-        ping:
-          type: string
-          title: Ping
-      type: object
-      required:
-      - ping
-      title: PingResponse
     HelloResponse:
       properties:
         message:
@@ -78,6 +69,15 @@ components:
       required:
       - message
       title: HelloResponse
+    PingResponse:
+      properties:
+        ping:
+          type: string
+          title: Ping
+      type: object
+      required:
+      - ping
+      title: PingResponse
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

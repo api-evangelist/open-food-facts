@@ -114,6 +114,35 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    PaginatedUserBadgeList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserBadge'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
     Badge:
       type: object
       properties:
@@ -175,48 +204,7 @@ components:
       - badge
       - id
       - user
-    MetricEnum:
-      enum:
-      - price_count
-      - price_in_proof_not_owned_count
-      - proof_count
-      - proof_type_price_tag_count
-      - proof_type_receipt_count
-      - proof_type_gdpr_request_count
-      - proof_type_shop_import_count
-      - location_count
-      - location_type_osm_city_count
-      - location_type_osm_country_count
-      - currency_count
-      - year_count
-      - challenge_count
-      type: string
-      description: '* `price_count` - price_count
-
-        * `price_in_proof_not_owned_count` - price_in_proof_not_owned_count
-
-        * `proof_count` - proof_count
-
-        * `proof_type_price_tag_count` - proof_type_price_tag_count
-
-        * `proof_type_receipt_count` - proof_type_receipt_count
-
-        * `proof_type_gdpr_request_count` - proof_type_gdpr_request_count
-
-        * `proof_type_shop_import_count` - proof_type_shop_import_count
-
-        * `location_count` - location_count
-
-        * `location_type_osm_city_count` - location_type_osm_city_count
-
-        * `location_type_osm_country_count` - location_type_osm_country_count
-
-        * `currency_count` - currency_count
-
-        * `year_count` - year_count
-
-        * `challenge_count` - challenge_count'
-    PaginatedUserBadgeList:
+    PaginatedUserList:
       type: object
       required:
       - items
@@ -228,7 +216,7 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/UserBadge'
+            $ref: '#/components/schemas/User'
         page:
           type: integer
           description: Current page number
@@ -344,35 +332,47 @@ components:
           minimum: 0
       required:
       - user_id
-    PaginatedUserList:
-      type: object
-      required:
-      - items
-      - page
-      - pages
-      - size
-      - total
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
+    MetricEnum:
+      enum:
+      - price_count
+      - price_in_proof_not_owned_count
+      - proof_count
+      - proof_type_price_tag_count
+      - proof_type_receipt_count
+      - proof_type_gdpr_request_count
+      - proof_type_shop_import_count
+      - location_count
+      - location_type_osm_city_count
+      - location_type_osm_country_count
+      - currency_count
+      - year_count
+      - challenge_count
+      type: string
+      description: '* `price_count` - price_count
+
+        * `price_in_proof_not_owned_count` - price_in_proof_not_owned_count
+
+        * `proof_count` - proof_count
+
+        * `proof_type_price_tag_count` - proof_type_price_tag_count
+
+        * `proof_type_receipt_count` - proof_type_receipt_count
+
+        * `proof_type_gdpr_request_count` - proof_type_gdpr_request_count
+
+        * `proof_type_shop_import_count` - proof_type_shop_import_count
+
+        * `location_count` - location_count
+
+        * `location_type_osm_city_count` - location_type_osm_city_count
+
+        * `location_type_osm_country_count` - location_type_osm_country_count
+
+        * `currency_count` - currency_count
+
+        * `year_count` - year_count
+
+        * `challenge_count` - challenge_count'
   securitySchemes:
     CustomAuthentication:
       type: http

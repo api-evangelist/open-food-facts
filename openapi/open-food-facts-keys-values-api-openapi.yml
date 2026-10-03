@@ -140,6 +140,23 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    KeyStats:
+      properties:
+        k:
+          type: string
+          title: K
+        count:
+          type: integer
+          title: Count
+        values:
+          type: integer
+          title: Values
+      type: object
+      required:
+      - k
+      - count
+      - values
+      title: KeyStats
     HTTPValidationError:
       properties:
         detail:
@@ -149,19 +166,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ValueCount:
-      properties:
-        v:
-          type: string
-          title: V
-        product_count:
-          type: integer
-          title: Product Count
-      type: object
-      required:
-      - v
-      - product_count
-      title: ValueCount
     ValidationError:
       properties:
         loc:
@@ -183,23 +187,19 @@ components:
       - msg
       - type
       title: ValidationError
-    KeyStats:
+    ValueCount:
       properties:
-        k:
+        v:
           type: string
-          title: K
-        count:
+          title: V
+        product_count:
           type: integer
-          title: Count
-        values:
-          type: integer
-          title: Values
+          title: Product Count
       type: object
       required:
-      - k
-      - count
-      - values
-      title: KeyStats
+      - v
+      - product_count
+      title: ValueCount
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

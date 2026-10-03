@@ -89,33 +89,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    Login:
-      type: object
-      properties:
-        username:
-          type: string
-        password:
-          type: string
-          writeOnly: true
-        access_token:
-          type: string
-          writeOnly: true
-    SessionFull:
-      type: object
-      properties:
-        user_id:
-          type: string
-        token:
-          type: string
-        created:
-          type: string
-        last_used:
-          type: string
-      required:
-      - created
-      - last_used
-      - token
-      - user_id
     SessionResponse:
       type: object
       properties:
@@ -132,6 +105,33 @@ components:
       - is_moderator
       - token_type
       - user_id
+    SessionFull:
+      type: object
+      properties:
+        user_id:
+          type: string
+        token:
+          type: string
+        created:
+          type: string
+        last_used:
+          type: string
+      required:
+      - created
+      - last_used
+      - token
+      - user_id
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+        access_token:
+          type: string
+          writeOnly: true
   securitySchemes:
     CustomAuthentication:
       type: http

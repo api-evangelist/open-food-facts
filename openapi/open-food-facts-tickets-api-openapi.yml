@@ -151,60 +151,6 @@ paths:
       - Tickets
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    IssueType:
-      type: string
-      enum:
-      - product
-      - image
-      - search
-      title: IssueType
-      description: Type of the flag/ticket.
-    GetTicketsResponse:
-      properties:
-        tickets:
-          items:
-            $ref: '#/components/schemas/Ticket'
-          type: array
-          title: Tickets
-        max_page:
-          type: integer
-          title: Max Page
-      type: object
-      required:
-      - tickets
-      - max_page
-      title: GetTicketsResponse
-      description: Response model for get_tickets endpoint.
     Flavor:
       type: string
       enum:
@@ -226,21 +172,66 @@ components:
         - Open Product Facts
 
         - Open Food Facts (Pro plateform)'
-    ReasonType:
-      type: string
-      enum:
-      - inappropriate
-      - human
-      - beauty
-      - other
-      title: ReasonType
-      description: Type of the reason for flagging.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    GetTicketsResponse:
+      properties:
+        tickets:
+          items:
+            $ref: '#/components/schemas/Ticket'
+          type: array
+          title: Tickets
+        max_page:
+          type: integer
+          title: Max Page
+      type: object
+      required:
+      - tickets
+      - max_page
+      title: GetTicketsResponse
+      description: Response model for get_tickets endpoint.
     TicketStatus:
       type: string
       enum:
       - open
       - closed
       title: TicketStatus
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    IssueType:
+      type: string
+      enum:
+      - product
+      - image
+      - search
+      title: IssueType
+      description: Type of the flag/ticket.
     Ticket:
       properties:
         barcode:
@@ -288,3 +279,12 @@ components:
       - flavor
       - id
       title: Ticket
+    ReasonType:
+      type: string
+      enum:
+      - inappropriate
+      - human
+      - beauty
+      - other
+      title: ReasonType
+      description: Type of the reason for flagging.
