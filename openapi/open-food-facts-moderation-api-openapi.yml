@@ -212,6 +212,83 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    FlagCreate:
+      type: object
+      properties:
+        reason:
+          $ref: '#/components/schemas/ReasonEnum'
+        comment:
+          type:
+          - string
+          - 'null'
+        content_object:
+          type: string
+          readOnly: true
+      required:
+      - content_object
+      - reason
+    ReasonEnum:
+      enum:
+      - WRONG_TYPE
+      - WRONG_PRICE_VALUE
+      - WRONG_CURRENCY
+      - WRONG_PRODUCT
+      - WRONG_LOCATION
+      - WRONG_DATE
+      - OTHER
+      type: string
+      description: '* `WRONG_TYPE` - Wrong type
+
+        * `WRONG_PRICE_VALUE` - Wrong price value
+
+        * `WRONG_CURRENCY` - Wrong currency
+
+        * `WRONG_PRODUCT` - Wrong product
+
+        * `WRONG_LOCATION` - Wrong location
+
+        * `WRONG_DATE` - Wrong date
+
+        * `OTHER` - Other'
+    PatchedFlagUpdate:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/FlagStatusEnum'
+    FlagUpdate:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/FlagStatusEnum'
+    PaginatedFlagList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Flag'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
     Flag:
       type: object
       properties:
@@ -255,45 +332,6 @@ components:
       - object_id
       - reason
       - updated
-    FlagUpdate:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/FlagStatusEnum'
-    PaginatedFlagList:
-      type: object
-      required:
-      - items
-      - page
-      - pages
-      - size
-      - total
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Flag'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
-    PatchedFlagUpdate:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/FlagStatusEnum'
     FlagStatusEnum:
       enum:
       - OPEN
@@ -302,44 +340,6 @@ components:
       description: '* `OPEN` - Open
 
         * `CLOSED` - Closed'
-    ReasonEnum:
-      enum:
-      - WRONG_TYPE
-      - WRONG_PRICE_VALUE
-      - WRONG_CURRENCY
-      - WRONG_PRODUCT
-      - WRONG_LOCATION
-      - WRONG_DATE
-      - OTHER
-      type: string
-      description: '* `WRONG_TYPE` - Wrong type
-
-        * `WRONG_PRICE_VALUE` - Wrong price value
-
-        * `WRONG_CURRENCY` - Wrong currency
-
-        * `WRONG_PRODUCT` - Wrong product
-
-        * `WRONG_LOCATION` - Wrong location
-
-        * `WRONG_DATE` - Wrong date
-
-        * `OTHER` - Other'
-    FlagCreate:
-      type: object
-      properties:
-        reason:
-          $ref: '#/components/schemas/ReasonEnum'
-        comment:
-          type:
-          - string
-          - 'null'
-        content_object:
-          type: string
-          readOnly: true
-      required:
-      - content_object
-      - reason
   securitySchemes:
     CustomAuthentication:
       type: http

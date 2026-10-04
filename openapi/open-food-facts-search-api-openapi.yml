@@ -3905,6 +3905,15 @@ components:
       description: 'The page number you request to view (eg. in search results spanning multiple pages)
 
         '
+    page_size:
+      schema:
+        type: integer
+        example: 24
+      in: query
+      name: page_size
+      description: 'The number of elements should be sent per page
+
+        '
     sort_by:
       schema:
         type: string
@@ -3937,15 +3946,6 @@ components:
         * `nothing`, tells not to sort at all (because if you do not provide the sort_by argument we default to sorting on popularity (for food) or last modification date)
 
         '
-    page_size:
-      schema:
-        type: integer
-        example: 24
-      in: query
-      name: page_size
-      description: 'The number of elements should be sent per page
-
-        '
   schemas:
     SearchResponseError:
       properties:
@@ -3961,51 +3961,6 @@ components:
       required:
       - title
       title: SearchResponseError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    FacetItem:
-      properties:
-        key:
-          type: string
-          title: Key
-        name:
-          type: string
-          title: Name
-        count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Count
-        selected:
-          type: boolean
-          title: Selected
-      type: object
-      required:
-      - key
-      - name
-      - count
-      - selected
-      title: FacetItem
-      description: Describes an entry of a facet
     FacetInfo:
       properties:
         name:
@@ -4027,6 +3982,24 @@ components:
       - items
       title: FacetInfo
       description: Search result for a facet
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SearchResponseDebug:
+      properties:
+        query:
+          type: object
+          title: Query
+      type: object
+      required:
+      - query
+      title: SearchResponseDebug
     ErrorSearchResponse:
       properties:
         debug:
@@ -4041,27 +4014,23 @@ components:
       - debug
       - errors
       title: ErrorSearchResponse
-    ScatterChartType:
+    DistributionChartType:
       properties:
         chart_type:
           type: string
           enum:
-          - ScatterChartType
-          const: ScatterChartType
+          - DistributionChartType
+          const: DistributionChartType
           title: Chart Type
-          default: ScatterChartType
-        x:
+          default: DistributionChartType
+        field:
           type: string
-          title: X
-        y:
-          type: string
-          title: Y
+          title: Field
       type: object
       required:
-      - x
-      - y
-      title: ScatterChartType
-      description: Describes an entry for a scatter plot
+      - field
+      title: DistributionChartType
+      description: Describes an entry for a distribution chart
     SuccessSearchResponse:
       properties:
         hits:
@@ -4130,24 +4099,6 @@ components:
       - count
       - is_count_exact
       title: SuccessSearchResponse
-    SearchResponseDebug:
-      properties:
-        query:
-          type: object
-          title: Query
-      type: object
-      required:
-      - query
-      title: SearchResponseDebug
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     SearchParameters:
       properties:
         q:
@@ -4280,23 +4231,72 @@ components:
       type: object
       title: SearchParameters
       description: Common parameters for search
-    DistributionChartType:
+    FacetItem:
+      properties:
+        key:
+          type: string
+          title: Key
+        name:
+          type: string
+          title: Name
+        count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Count
+        selected:
+          type: boolean
+          title: Selected
+      type: object
+      required:
+      - key
+      - name
+      - count
+      - selected
+      title: FacetItem
+      description: Describes an entry of a facet
+    ScatterChartType:
       properties:
         chart_type:
           type: string
           enum:
-          - DistributionChartType
-          const: DistributionChartType
+          - ScatterChartType
+          const: ScatterChartType
           title: Chart Type
-          default: DistributionChartType
-        field:
+          default: ScatterChartType
+        x:
           type: string
-          title: Field
+          title: X
+        y:
+          type: string
+          title: Y
       type: object
       required:
-      - field
-      title: DistributionChartType
-      description: Describes an entry for a distribution chart
+      - x
+      - y
+      title: ScatterChartType
+      description: Describes an entry for a scatter plot
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     cookieAuth:
       type: apiKey

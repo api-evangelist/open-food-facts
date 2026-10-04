@@ -139,40 +139,6 @@ paths:
       - OAuth2PasswordBearer: []
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    PropertyClashCheckRequest:
-      properties:
-        old_property:
-          type: string
-          title: Old Property
-        new_property:
-          type: string
-          title: New Property
-      type: object
-      required:
-      - old_property
-      - new_property
-      title: PropertyClashCheckRequest
     HTTPValidationError:
       properties:
         detail:
@@ -195,6 +161,28 @@ components:
       - old_property
       - new_property
       title: PropertyRenameRequest
+    PropertyDeleteRequest:
+      properties:
+        property:
+          type: string
+          title: Property
+      type: object
+      required:
+      - property
+      title: PropertyDeleteRequest
+    PropertyClashCheckRequest:
+      properties:
+        old_property:
+          type: string
+          title: Old Property
+        new_property:
+          type: string
+          title: New Property
+      type: object
+      required:
+      - old_property
+      - new_property
+      title: PropertyClashCheckRequest
     PropertyClashCheck:
       properties:
         products_with_both:
@@ -217,15 +205,27 @@ components:
       - products_with_new_only
       - conflicting_products
       title: PropertyClashCheck
-    PropertyDeleteRequest:
+    ValidationError:
       properties:
-        property:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Property
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - property
-      title: PropertyDeleteRequest
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

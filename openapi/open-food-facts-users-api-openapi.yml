@@ -114,125 +114,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PaginatedUserBadgeList:
-      type: object
-      required:
-      - items
-      - page
-      - pages
-      - size
-      - total
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserBadge'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
-    Badge:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          maxLength: 100
-        description:
-          type:
-          - string
-          - 'null'
-        image_url:
-          type:
-          - string
-          - 'null'
-          format: uri
-          maxLength: 200
-        metric:
-          $ref: '#/components/schemas/MetricEnum'
-        threshold:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        user_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        created:
-          type: string
-          format: date-time
-        updated:
-          type: string
-          format: date-time
-          readOnly: true
-      required:
-      - id
-      - metric
-      - name
-      - threshold
-      - updated
-    UserBadge:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        badge:
-          allOf:
-          - $ref: '#/components/schemas/Badge'
-          readOnly: true
-        achieved_at:
-          type: string
-          format: date-time
-        user:
-          type: string
-      required:
-      - badge
-      - id
-      - user
-    PaginatedUserList:
-      type: object
-      required:
-      - items
-      - page
-      - pages
-      - size
-      - total
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
     User:
       type: object
       properties:
@@ -332,6 +213,35 @@ components:
           minimum: 0
       required:
       - user_id
+    PaginatedUserBadgeList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserBadge'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
     MetricEnum:
       enum:
       - price_count
@@ -373,6 +283,96 @@ components:
         * `year_count` - year_count
 
         * `challenge_count` - challenge_count'
+    PaginatedUserList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    Badge:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type:
+          - string
+          - 'null'
+        image_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          maxLength: 200
+        metric:
+          $ref: '#/components/schemas/MetricEnum'
+        threshold:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        user_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - metric
+      - name
+      - threshold
+      - updated
+    UserBadge:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        badge:
+          allOf:
+          - $ref: '#/components/schemas/Badge'
+          readOnly: true
+        achieved_at:
+          type: string
+          format: date-time
+        user:
+          type: string
+      required:
+      - badge
+      - id
+      - user
   securitySchemes:
     CustomAuthentication:
       type: http

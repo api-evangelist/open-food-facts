@@ -98,32 +98,6 @@ paths:
       - OAuth2PasswordBearer: []
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValueRenameRequest:
-      properties:
-        property:
-          type: string
-          title: Property
-        old_value:
-          type: string
-          title: Old Value
-        new_value:
-          type: string
-          title: New Value
-      type: object
-      required:
-      - property
-      - old_value
-      - new_value
-      title: ValueRenameRequest
     ValidationError:
       properties:
         loc:
@@ -158,6 +132,32 @@ components:
       - property
       - value
       title: ValueDeleteRequest
+    ValueRenameRequest:
+      properties:
+        property:
+          type: string
+          title: Property
+        old_value:
+          type: string
+          title: Old Value
+        new_value:
+          type: string
+          title: New Value
+      type: object
+      required:
+      - property
+      - old_value
+      - new_value
+      title: ValueRenameRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

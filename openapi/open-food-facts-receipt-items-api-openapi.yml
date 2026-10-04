@@ -239,6 +239,16 @@ components:
       - price_id
       - proof_id
       - updated
+    ReceiptItemFullStatusEnum:
+      enum:
+      - 0
+      - 1
+      description: '* `0` - deleted
+
+        * `1` - linked_to_price'
+    NullEnum:
+      enum:
+      - null
     PatchedReceiptItemFull:
       type: object
       properties:
@@ -287,13 +297,9 @@ components:
           - integer
           - 'null'
           description: The proof prediction used to create this receipt item. Null if created by a user.
-    ReceiptItemFullStatusEnum:
+    BlankEnum:
       enum:
-      - 0
-      - 1
-      description: '* `0` - deleted
-
-        * `1` - linked_to_price'
+      - ''
     PaginatedReceiptItemFullList:
       type: object
       required:
@@ -323,12 +329,6 @@ components:
           type: integer
           description: Total number of items
           example: 1531
-    NullEnum:
-      enum:
-      - null
-    BlankEnum:
-      enum:
-      - ''
   securitySchemes:
     CustomAuthentication:
       type: http

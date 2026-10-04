@@ -3651,126 +3651,18 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    ProofHalfFull:
+    ProofDraftUpload:
       type: object
+      description: Serializer for draft proof upload - accepts only the file and type fields.
       properties:
-        id:
-          type: integer
-          readOnly: true
-        location_id:
-          type: integer
-        location:
-          $ref: '#/components/schemas/Location'
-        file_path:
-          type:
-          - string
-          - 'null'
-        mimetype:
-          type:
-          - string
-          - 'null'
+        file:
+          type: string
         type:
           $ref: '#/components/schemas/ProofTypeEnum'
-        image_md5_hash:
-          type:
-          - string
-          - 'null'
-          maxLength: 32
-        image_thumb_path:
-          type:
-          - string
-          - 'null'
-        location_osm_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 9223372036854775807
-          minimum: 0
-          format: int64
-        location_osm_type:
-          oneOf:
-          - $ref: '#/components/schemas/LocationOsmTypeEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        date:
-          type:
-          - string
-          - 'null'
-          format: date
-        currency:
-          oneOf:
-          - $ref: '#/components/schemas/CurrencyEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        receipt_price_count:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-          title: Receipt's number of prices (user input)
-        receipt_price_total:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          title: Receipt's total amount (user input)
-          exclusiveMaximum: 10000000
-        receipt_online_delivery_costs:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          title: Receipt's online delivery costs (user input)
-          exclusiveMaximum: 10000000
-        ready_for_price_tag_validation:
-          type: boolean
-        owner_consumption:
-          type:
-          - boolean
-          - 'null'
-        owner_comment:
-          type:
-          - string
-          - 'null'
-        draft:
-          type: boolean
-        price_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        prediction_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        owner:
-          type:
-          - string
-          - 'null'
-        source:
-          type:
-          - string
-          - 'null'
-        tags:
-          type: array
-          items:
-            type: string
-        created:
-          type: string
-          format: date-time
-        updated:
-          type: string
-          format: date-time
-          readOnly: true
       required:
-      - id
-      - location
-      - location_id
+      - file
       - type
-      - updated
-    PaginatedProofHalfFullList:
+    PaginatedProofFullList:
       type: object
       required:
       - items
@@ -3782,7 +3674,7 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/ProofHalfFull'
+            $ref: '#/components/schemas/ProofFull'
         page:
           type: integer
           description: Current page number
@@ -3799,98 +3691,34 @@ components:
           type: integer
           description: Total number of items
           example: 1531
-    ProofUpload:
-      type: object
-      properties:
-        file:
-          type: string
-        location_osm_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 9223372036854775807
-          minimum: 0
-          format: int64
-        location_osm_type:
-          oneOf:
-          - $ref: '#/components/schemas/LocationOsmTypeEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        type:
-          $ref: '#/components/schemas/ProofTypeEnum'
-        currency:
-          oneOf:
-          - $ref: '#/components/schemas/CurrencyEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        date:
-          type:
-          - string
-          - 'null'
-          format: date
-        receipt_price_count:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-          title: Receipt's number of prices (user input)
-        receipt_price_total:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          title: Receipt's total amount (user input)
-          exclusiveMaximum: 10000000
-        receipt_online_delivery_costs:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          title: Receipt's online delivery costs (user input)
-          exclusiveMaximum: 10000000
-        ready_for_price_tag_validation:
-          type: boolean
-        owner_consumption:
-          type:
-          - boolean
-          - 'null'
-        owner_comment:
-          type:
-          - string
-          - 'null'
-        location_id:
-          type: integer
-      required:
-      - file
-      - type
-    LocationOsmTypeEnum:
+    LocationTypeEnum:
       enum:
-      - NODE
-      - WAY
-      - RELATION
+      - OSM
+      - ONLINE
       type: string
-      description: '* `NODE` - NODE
+      description: '* `OSM` - OSM
 
-        * `WAY` - WAY
-
-        * `RELATION` - RELATION'
-    ProofTypeEnum:
+        * `ONLINE` - ONLINE'
+    NullEnum:
       enum:
-      - PRICE_TAG
-      - RECEIPT
-      - GDPR_REQUEST
-      - SHOP_IMPORT
+      - null
+    ProofPredictionTypeEnum:
+      enum:
+      - OBJECT_DETECTION
+      - CLASSIFICATION
+      - RECEIPT_EXTRACTION
+      - RECEIPT_ANONYMIZATION
       type: string
-      description: '* `PRICE_TAG` - PRICE_TAG
+      description: '* `OBJECT_DETECTION` - OBJECT_DETECTION
 
-        * `RECEIPT` - RECEIPT
+        * `CLASSIFICATION` - CLASSIFICATION
 
-        * `GDPR_REQUEST` - GDPR_REQUEST
+        * `RECEIPT_EXTRACTION` - RECEIPT_EXTRACTION
 
-        * `SHOP_IMPORT` - SHOP_IMPORT'
+        * `RECEIPT_ANONYMIZATION` - RECEIPT_ANONYMIZATION'
+    BlankEnum:
+      enum:
+      - ''
     CurrencyEnum:
       enum:
       - ADP
@@ -4814,447 +4642,6 @@ components:
         * `ZWL` - ZWL
 
         * `ZWR` - ZWR'
-    ProofPrediction:
-      type: object
-      properties:
-        type:
-          allOf:
-          - $ref: '#/components/schemas/ProofPredictionTypeEnum'
-          title: The type of the prediction
-        model_name:
-          type: string
-          title: The name of the model that generated the prediction
-          maxLength: 30
-        model_version:
-          type: string
-          title: The specific version of the model that generated the prediction
-          maxLength: 30
-        data:
-          title: A dict representing the data of the prediction. This field is model-specific.
-        value:
-          type:
-          - string
-          - 'null'
-          title: The predicted value, only for classification models, null otherwise.
-          maxLength: 30
-        max_confidence:
-          type:
-          - number
-          - 'null'
-          format: double
-          title: The maximum confidence of the prediction, may be null for some models.For object detection models, this is the confidence of the most confident object.For classification models, this is the confidence of the predicted class.
-        created:
-          type: string
-          format: date-time
-          title: When the prediction was created in DB
-      required:
-      - model_name
-      - model_version
-      - type
-    NullEnum:
-      enum:
-      - null
-    DraftProofAnonymizeRequest:
-      type: object
-      description: Serializer for payload when anonymizing a receipt.
-      properties:
-        bounding_boxes:
-          type: array
-          items:
-            type: array
-            items:
-              type: number
-              format: double
-            maxItems: 4
-            minItems: 4
-          minItems: 1
-      required:
-      - bounding_boxes
-    Location:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        osm_brand_logo_url:
-          type: string
-          readOnly: true
-        type:
-          $ref: '#/components/schemas/LocationTypeEnum'
-        osm_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 9223372036854775807
-          minimum: 0
-          format: int64
-        osm_type:
-          oneOf:
-          - $ref: '#/components/schemas/LocationOsmTypeEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        osm_name:
-          type:
-          - string
-          - 'null'
-        osm_display_name:
-          type:
-          - string
-          - 'null'
-        osm_tag_key:
-          type:
-          - string
-          - 'null'
-        osm_tag_value:
-          type:
-          - string
-          - 'null'
-        osm_brand:
-          type:
-          - string
-          - 'null'
-        osm_address_postcode:
-          type:
-          - string
-          - 'null'
-        osm_address_city:
-          type:
-          - string
-          - 'null'
-        osm_address_country:
-          type:
-          - string
-          - 'null'
-        osm_address_country_code:
-          type:
-          - string
-          - 'null'
-        osm_lat:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -10000
-          exclusiveMaximum: 10000
-        osm_lon:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -10000
-          exclusiveMaximum: 10000
-        osm_version:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        osm_version_date:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        website_url:
-          type:
-          - string
-          - 'null'
-          format: uri
-          maxLength: 200
-        price_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        user_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        product_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        proof_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        source:
-          type:
-          - string
-          - 'null'
-        created:
-          type: string
-          format: date-time
-        updated:
-          type: string
-          format: date-time
-          readOnly: true
-      required:
-      - id
-      - osm_brand_logo_url
-      - type
-      - updated
-    PaginatedProofHistoryList:
-      type: object
-      required:
-      - items
-      - page
-      - pages
-      - size
-      - total
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProofHistory'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
-    PatchedProofUpdate:
-      type: object
-      properties:
-        location_osm_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 9223372036854775807
-          minimum: 0
-          format: int64
-        location_osm_type:
-          oneOf:
-          - $ref: '#/components/schemas/LocationOsmTypeEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        type:
-          $ref: '#/components/schemas/ProofTypeEnum'
-        currency:
-          oneOf:
-          - $ref: '#/components/schemas/CurrencyEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        date:
-          type:
-          - string
-          - 'null'
-          format: date
-        receipt_price_count:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-          title: Receipt's number of prices (user input)
-        receipt_price_total:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          title: Receipt's total amount (user input)
-          exclusiveMaximum: 10000000
-        receipt_online_delivery_costs:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          title: Receipt's online delivery costs (user input)
-          exclusiveMaximum: 10000000
-        ready_for_price_tag_validation:
-          type: boolean
-        owner_consumption:
-          type:
-          - boolean
-          - 'null'
-        owner_comment:
-          type:
-          - string
-          - 'null'
-    ProofUpdate:
-      type: object
-      properties:
-        location_osm_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 9223372036854775807
-          minimum: 0
-          format: int64
-        location_osm_type:
-          oneOf:
-          - $ref: '#/components/schemas/LocationOsmTypeEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        type:
-          $ref: '#/components/schemas/ProofTypeEnum'
-        currency:
-          oneOf:
-          - $ref: '#/components/schemas/CurrencyEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        date:
-          type:
-          - string
-          - 'null'
-          format: date
-        receipt_price_count:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-          title: Receipt's number of prices (user input)
-        receipt_price_total:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          title: Receipt's total amount (user input)
-          exclusiveMaximum: 10000000
-        receipt_online_delivery_costs:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          title: Receipt's online delivery costs (user input)
-          exclusiveMaximum: 10000000
-        ready_for_price_tag_validation:
-          type: boolean
-        owner_consumption:
-          type:
-          - boolean
-          - 'null'
-        owner_comment:
-          type:
-          - string
-          - 'null'
-      required:
-      - type
-    ProofDraftUpload:
-      type: object
-      description: Serializer for draft proof upload - accepts only the file and type fields.
-      properties:
-        file:
-          type: string
-        type:
-          $ref: '#/components/schemas/ProofTypeEnum'
-      required:
-      - file
-      - type
-    LocationTypeEnum:
-      enum:
-      - OSM
-      - ONLINE
-      type: string
-      description: '* `OSM` - OSM
-
-        * `ONLINE` - ONLINE'
-    BlankEnum:
-      enum:
-      - ''
-    PaginatedProofFullList:
-      type: object
-      required:
-      - items
-      - page
-      - pages
-      - size
-      - total
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProofFull'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
-    ProofProcessWithGemini:
-      type: object
-      properties:
-        files:
-          type: array
-          items:
-            type: string
-        mode:
-          type: string
-      required:
-      - files
-      - mode
-    ProofHistory:
-      type: object
-      properties:
-        history_id:
-          type: integer
-        history_date:
-          type: string
-          format: date-time
-        history_change_reason:
-          type: string
-        history_type:
-          $ref: '#/components/schemas/HistoryTypeEnum'
-        history_user_id:
-          type: string
-        changes:
-          type: array
-          items: {}
-      required:
-      - changes
-      - history_change_reason
-      - history_date
-      - history_id
-      - history_type
-      - history_user_id
-    ProofPredictionTypeEnum:
-      enum:
-      - OBJECT_DETECTION
-      - CLASSIFICATION
-      - RECEIPT_EXTRACTION
-      - RECEIPT_ANONYMIZATION
-      type: string
-      description: '* `OBJECT_DETECTION` - OBJECT_DETECTION
-
-        * `CLASSIFICATION` - CLASSIFICATION
-
-        * `RECEIPT_EXTRACTION` - RECEIPT_EXTRACTION
-
-        * `RECEIPT_ANONYMIZATION` - RECEIPT_ANONYMIZATION'
-    HistoryTypeEnum:
-      enum:
-      - +
-      - '~'
-      - '-'
-      type: string
-      description: '* `+` - Created
-
-        * `~` - Changed
-
-        * `-` - Deleted'
     ProofFull:
       type: object
       properties:
@@ -5380,6 +4767,619 @@ components:
       - predictions
       - type
       - updated
+    ProofTypeEnum:
+      enum:
+      - PRICE_TAG
+      - RECEIPT
+      - GDPR_REQUEST
+      - SHOP_IMPORT
+      type: string
+      description: '* `PRICE_TAG` - PRICE_TAG
+
+        * `RECEIPT` - RECEIPT
+
+        * `GDPR_REQUEST` - GDPR_REQUEST
+
+        * `SHOP_IMPORT` - SHOP_IMPORT'
+    LocationOsmTypeEnum:
+      enum:
+      - NODE
+      - WAY
+      - RELATION
+      type: string
+      description: '* `NODE` - NODE
+
+        * `WAY` - WAY
+
+        * `RELATION` - RELATION'
+    PatchedProofUpdate:
+      type: object
+      properties:
+        location_osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        location_osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        type:
+          $ref: '#/components/schemas/ProofTypeEnum'
+        currency:
+          oneOf:
+          - $ref: '#/components/schemas/CurrencyEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        date:
+          type:
+          - string
+          - 'null'
+          format: date
+        receipt_price_count:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+          title: Receipt's number of prices (user input)
+        receipt_price_total:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's total amount (user input)
+          exclusiveMaximum: 10000000
+        receipt_online_delivery_costs:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's online delivery costs (user input)
+          exclusiveMaximum: 10000000
+        ready_for_price_tag_validation:
+          type: boolean
+        owner_consumption:
+          type:
+          - boolean
+          - 'null'
+        owner_comment:
+          type:
+          - string
+          - 'null'
+    ProofPrediction:
+      type: object
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/ProofPredictionTypeEnum'
+          title: The type of the prediction
+        model_name:
+          type: string
+          title: The name of the model that generated the prediction
+          maxLength: 30
+        model_version:
+          type: string
+          title: The specific version of the model that generated the prediction
+          maxLength: 30
+        data:
+          title: A dict representing the data of the prediction. This field is model-specific.
+        value:
+          type:
+          - string
+          - 'null'
+          title: The predicted value, only for classification models, null otherwise.
+          maxLength: 30
+        max_confidence:
+          type:
+          - number
+          - 'null'
+          format: double
+          title: The maximum confidence of the prediction, may be null for some models.For object detection models, this is the confidence of the most confident object.For classification models, this is the confidence of the predicted class.
+        created:
+          type: string
+          format: date-time
+          title: When the prediction was created in DB
+      required:
+      - model_name
+      - model_version
+      - type
+    ProofHalfFull:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        location_id:
+          type: integer
+        location:
+          $ref: '#/components/schemas/Location'
+        file_path:
+          type:
+          - string
+          - 'null'
+        mimetype:
+          type:
+          - string
+          - 'null'
+        type:
+          $ref: '#/components/schemas/ProofTypeEnum'
+        image_md5_hash:
+          type:
+          - string
+          - 'null'
+          maxLength: 32
+        image_thumb_path:
+          type:
+          - string
+          - 'null'
+        location_osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        location_osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        date:
+          type:
+          - string
+          - 'null'
+          format: date
+        currency:
+          oneOf:
+          - $ref: '#/components/schemas/CurrencyEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        receipt_price_count:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+          title: Receipt's number of prices (user input)
+        receipt_price_total:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's total amount (user input)
+          exclusiveMaximum: 10000000
+        receipt_online_delivery_costs:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's online delivery costs (user input)
+          exclusiveMaximum: 10000000
+        ready_for_price_tag_validation:
+          type: boolean
+        owner_consumption:
+          type:
+          - boolean
+          - 'null'
+        owner_comment:
+          type:
+          - string
+          - 'null'
+        draft:
+          type: boolean
+        price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        prediction_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        owner:
+          type:
+          - string
+          - 'null'
+        source:
+          type:
+          - string
+          - 'null'
+        tags:
+          type: array
+          items:
+            type: string
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - location
+      - location_id
+      - type
+      - updated
+    PaginatedProofHalfFullList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProofHalfFull'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    ProofUpload:
+      type: object
+      properties:
+        file:
+          type: string
+        location_osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        location_osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        type:
+          $ref: '#/components/schemas/ProofTypeEnum'
+        currency:
+          oneOf:
+          - $ref: '#/components/schemas/CurrencyEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        date:
+          type:
+          - string
+          - 'null'
+          format: date
+        receipt_price_count:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+          title: Receipt's number of prices (user input)
+        receipt_price_total:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's total amount (user input)
+          exclusiveMaximum: 10000000
+        receipt_online_delivery_costs:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's online delivery costs (user input)
+          exclusiveMaximum: 10000000
+        ready_for_price_tag_validation:
+          type: boolean
+        owner_consumption:
+          type:
+          - boolean
+          - 'null'
+        owner_comment:
+          type:
+          - string
+          - 'null'
+        location_id:
+          type: integer
+      required:
+      - file
+      - type
+    ProofUpdate:
+      type: object
+      properties:
+        location_osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        location_osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        type:
+          $ref: '#/components/schemas/ProofTypeEnum'
+        currency:
+          oneOf:
+          - $ref: '#/components/schemas/CurrencyEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        date:
+          type:
+          - string
+          - 'null'
+          format: date
+        receipt_price_count:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+          title: Receipt's number of prices (user input)
+        receipt_price_total:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's total amount (user input)
+          exclusiveMaximum: 10000000
+        receipt_online_delivery_costs:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's online delivery costs (user input)
+          exclusiveMaximum: 10000000
+        ready_for_price_tag_validation:
+          type: boolean
+        owner_consumption:
+          type:
+          - boolean
+          - 'null'
+        owner_comment:
+          type:
+          - string
+          - 'null'
+      required:
+      - type
+    HistoryTypeEnum:
+      enum:
+      - +
+      - '~'
+      - '-'
+      type: string
+      description: '* `+` - Created
+
+        * `~` - Changed
+
+        * `-` - Deleted'
+    ProofHistory:
+      type: object
+      properties:
+        history_id:
+          type: integer
+        history_date:
+          type: string
+          format: date-time
+        history_change_reason:
+          type: string
+        history_type:
+          $ref: '#/components/schemas/HistoryTypeEnum'
+        history_user_id:
+          type: string
+        changes:
+          type: array
+          items: {}
+      required:
+      - changes
+      - history_change_reason
+      - history_date
+      - history_id
+      - history_type
+      - history_user_id
+    ProofProcessWithGemini:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+      required:
+      - files
+      - mode
+    Location:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        osm_brand_logo_url:
+          type: string
+          readOnly: true
+        type:
+          $ref: '#/components/schemas/LocationTypeEnum'
+        osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        osm_name:
+          type:
+          - string
+          - 'null'
+        osm_display_name:
+          type:
+          - string
+          - 'null'
+        osm_tag_key:
+          type:
+          - string
+          - 'null'
+        osm_tag_value:
+          type:
+          - string
+          - 'null'
+        osm_brand:
+          type:
+          - string
+          - 'null'
+        osm_address_postcode:
+          type:
+          - string
+          - 'null'
+        osm_address_city:
+          type:
+          - string
+          - 'null'
+        osm_address_country:
+          type:
+          - string
+          - 'null'
+        osm_address_country_code:
+          type:
+          - string
+          - 'null'
+        osm_lat:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000
+          exclusiveMaximum: 10000
+        osm_lon:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000
+          exclusiveMaximum: 10000
+        osm_version:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        osm_version_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        website_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          maxLength: 200
+        price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        user_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        source:
+          type:
+          - string
+          - 'null'
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - osm_brand_logo_url
+      - type
+      - updated
+    DraftProofAnonymizeRequest:
+      type: object
+      description: Serializer for payload when anonymizing a receipt.
+      properties:
+        bounding_boxes:
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+              format: double
+            maxItems: 4
+            minItems: 4
+          minItems: 1
+      required:
+      - bounding_boxes
+    PaginatedProofHistoryList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProofHistory'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
   securitySchemes:
     CustomAuthentication:
       type: http

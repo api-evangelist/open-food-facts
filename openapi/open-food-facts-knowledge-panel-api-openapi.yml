@@ -111,70 +111,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    BaseTitleElement:
-      properties:
-        title:
-          type: string
-          title: Title
-          description: title of the panel
-      type: object
-      required:
-      - title
-      title: BaseTitleElement
-      description: An element containing a title
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    FacetResponse:
-      properties:
-        knowledge_panels:
-          $ref: '#/components/schemas/KnowledgePanel'
-      type: object
-      title: FacetResponse
-    BaseElement:
-      properties:
-        element_type:
-          type: string
-          title: Element Type
-          description: The type of the included element object.The type also indicates which field contains the included element object. e.g. if the type is "text", the included element object will be in the "text_element" field.
-        text_element:
-          allOf:
-          - $ref: '#/components/schemas/BaseTextElement'
-          title: Text Element
-          description: A text in simple HTML format to display.
-      type: object
-      required:
-      - element_type
-      - text_element
-      title: BaseElement
-      description: Element container
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     BaseTextElement:
       properties:
         html:
@@ -192,6 +128,21 @@ components:
       type: object
       title: BaseTextElement
       description: An element with simple HTML to display
+    FacetResponse:
+      properties:
+        knowledge_panels:
+          $ref: '#/components/schemas/KnowledgePanel'
+      type: object
+      title: FacetResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     PanelName:
       type: string
       enum:
@@ -201,6 +152,17 @@ components:
       - wikidata
       title: PanelName
       description: An enumeration.
+    BaseTitleElement:
+      properties:
+        title:
+          type: string
+          title: Title
+          description: title of the panel
+      type: object
+      required:
+      - title
+      title: BaseTitleElement
+      description: An element containing a title
     KnowledgePanel:
       properties:
         HungerGames:
@@ -227,3 +189,41 @@ components:
       - title_element
       title: KnowledgePanelItem
       description: A Panel, made of multiple sub elements
+    BaseElement:
+      properties:
+        element_type:
+          type: string
+          title: Element Type
+          description: The type of the included element object.The type also indicates which field contains the included element object. e.g. if the type is "text", the included element object will be in the "text_element" field.
+        text_element:
+          allOf:
+          - $ref: '#/components/schemas/BaseTextElement'
+          title: Text Element
+          description: A text in simple HTML format to display.
+      type: object
+      required:
+      - element_type
+      - text_element
+      title: BaseElement
+      description: Element container
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
