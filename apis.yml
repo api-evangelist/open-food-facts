@@ -59,6 +59,9 @@ modified: '2026-09-17'
 url: https://raw.githubusercontent.com/api-evangelist/open-food-facts/refs/heads/main/apis.yml
 specificationVersion: '0.23'
 common:
+  - type: CapabilityMap
+    url: capabilities/open-food-facts-capability-edges.yml
+    name: Open Food Facts Business Capability Map
   - type: Overlay
     url: overlays/open-food-facts-api-v2-overlay.yaml
   - type: Overlay
@@ -242,6 +245,8 @@ apis:
   humanURL: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v2/
   baseURL: https://world.openfoodfacts.net
   tags:
+  - Authentication
+  tags_raw:
   - auth
   properties:
   - type: OpenAPI
@@ -293,6 +298,8 @@ apis:
   humanURL: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v2/
   baseURL: https://world.openfoodfacts.net
   tags:
+  - Badges
+  tags_raw:
   - badges
   properties:
   - type: OpenAPI
@@ -310,6 +317,8 @@ apis:
   humanURL: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v2/
   baseURL: https://world.openfoodfacts.net
   tags:
+  - Challenges
+  tags_raw:
   - challenges
   properties:
   - type: OpenAPI
@@ -327,6 +336,8 @@ apis:
   humanURL: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v2/
   baseURL: https://world.openfoodfacts.net
   tags:
+  - Documents
+  tags_raw:
   - Document
   properties:
   - type: OpenAPI
@@ -378,6 +389,8 @@ apis:
   humanURL: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v2/
   baseURL: https://world.openfoodfacts.net
   tags:
+  - Image
+  tags_raw:
   - Images
   properties:
   - type: OpenAPI
@@ -446,6 +459,8 @@ apis:
   humanURL: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v2/
   baseURL: https://world.openfoodfacts.net
   tags:
+  - Location
+  tags_raw:
   - locations
   properties:
   - type: OpenAPI
@@ -480,6 +495,8 @@ apis:
   humanURL: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v2/
   baseURL: https://world.openfoodfacts.net
   tags:
+  - Moderation
+  tags_raw:
   - moderation
   properties:
   - type: OpenAPI
@@ -618,6 +635,8 @@ apis:
   humanURL: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v2/
   baseURL: https://world.openfoodfacts.net
   tags:
+  - Prices
+  tags_raw:
   - prices
   properties:
   - type: OpenAPI
@@ -669,6 +688,8 @@ apis:
   humanURL: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v2/
   baseURL: https://world.openfoodfacts.net
   tags:
+  - Product
+  tags_raw:
   - Products
   properties:
   - type: OpenAPI
@@ -686,6 +707,8 @@ apis:
   humanURL: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v2/
   baseURL: https://world.openfoodfacts.net
   tags:
+  - Proofs
+  tags_raw:
   - proofs
   properties:
   - type: OpenAPI
@@ -857,6 +880,8 @@ apis:
   humanURL: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v2/
   baseURL: https://world.openfoodfacts.net
   tags:
+  - Ticketing
+  tags_raw:
   - Tickets
   properties:
   - type: OpenAPI
@@ -891,6 +916,8 @@ apis:
   humanURL: https://openfoodfacts.github.io/openfoodfacts-server/api/ref-v2/
   baseURL: https://world.openfoodfacts.net
   tags:
+  - User
+  tags_raw:
   - users
   properties:
   - type: OpenAPI
