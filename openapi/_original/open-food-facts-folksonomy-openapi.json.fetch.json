@@ -1,0 +1,12 @@
+{
+ "url": "https://api.folksonomy.openfoodfacts.org/openapi.json",
+ "requested_url": "https://api.folksonomy.openfoodfacts.org/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 21910,
+ "sha256": "ecf11a0df87a45a8230e470d53fe1084360fa83039c898dfb029994691569099",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}

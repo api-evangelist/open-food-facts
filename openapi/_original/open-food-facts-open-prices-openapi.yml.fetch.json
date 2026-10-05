@@ -1,0 +1,12 @@
+{
+ "url": "https://prices.openfoodfacts.org/api/schema",
+ "requested_url": "https://prices.openfoodfacts.org/api/schema",
+ "status": 200,
+ "content_type": "application/yaml; charset=utf-8",
+ "bytes": 254364,
+ "sha256": "cf7a76a46395fd95c09f65c28d40029be755a3946098f7393a47247cbb4b4a25",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
