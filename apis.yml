@@ -154,6 +154,8 @@ common:
     url: skills/_index.yml
   - type: FinOps
     url: finops/open-food-facts-finops.yml
+  - type: SpectralRules
+    url: https://github.com/openfoodfacts/robotoff/blob/4019f07251fb12191c445c852009cd8135b848de/.spectral.yml
 apis:
 - aid: open-food-facts:open-food-facts-cgi-api
   name: Open Food Facts Cgi API

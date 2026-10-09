@@ -1,4 +1,4 @@
-generated: '2026-09-17'
+generated: '2026-09-23'
 method: generated
 source: openapi/open-food-facts-api-v2-openapi.yml, openapi/open-food-facts-api-v3-openapi.yml,
   openapi/open-food-facts-cgi-api-openapi.yml, openapi/open-food-facts-facets-knowledge-panels-openapi.json,
@@ -12,11 +12,11 @@ description: Recommended x-agentic-access execution contracts, classified heuris
 summary:
   operations: 136
   by_action_class:
-    connected: 88
-    acting: 48
+    connected: 90
+    acting: 46
   by_consequence:
-    read: 88
-    write: 48
+    read: 90
+    write: 46
   human_in_the_loop_required: 0
 operations:
 - path: /api/v2/product/{code}
@@ -713,18 +713,12 @@ operations:
   method: post
   operationId: get_flags_by_ticket_batch_api_v1_flags_batch_post
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /api/v1/tickets/{ticket_id}/status
   method: put
   operationId: update_ticket_status_api_v1_tickets__ticket_id__status_put
@@ -1565,18 +1559,12 @@ operations:
   method: post
   operationId: search_search_post
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /search
   method: get
   operationId: search_get_search_get
