@@ -3905,15 +3905,6 @@ components:
       description: 'The page number you request to view (eg. in search results spanning multiple pages)
 
         '
-    page_size:
-      schema:
-        type: integer
-        example: 24
-      in: query
-      name: page_size
-      description: 'The number of elements should be sent per page
-
-        '
     sort_by:
       schema:
         type: string
@@ -3946,6 +3937,15 @@ components:
         * `nothing`, tells not to sort at all (because if you do not provide the sort_by argument we default to sorting on popularity (for food) or last modification date)
 
         '
+    page_size:
+      schema:
+        type: integer
+        example: 24
+      in: query
+      name: page_size
+      description: 'The number of elements should be sent per page
+
+        '
   schemas:
     SearchResponseError:
       properties:
@@ -3961,144 +3961,6 @@ components:
       required:
       - title
       title: SearchResponseError
-    FacetInfo:
-      properties:
-        name:
-          type: string
-          title: Name
-        items:
-          items:
-            $ref: '#/components/schemas/FacetItem'
-          type: array
-          title: Items
-        count_error_margin:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Count Error Margin
-      type: object
-      required:
-      - name
-      - items
-      title: FacetInfo
-      description: Search result for a facet
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    SearchResponseDebug:
-      properties:
-        query:
-          type: object
-          title: Query
-      type: object
-      required:
-      - query
-      title: SearchResponseDebug
-    ErrorSearchResponse:
-      properties:
-        debug:
-          $ref: '#/components/schemas/SearchResponseDebug'
-        errors:
-          items:
-            $ref: '#/components/schemas/SearchResponseError'
-          type: array
-          title: Errors
-      type: object
-      required:
-      - debug
-      - errors
-      title: ErrorSearchResponse
-    DistributionChartType:
-      properties:
-        chart_type:
-          type: string
-          enum:
-          - DistributionChartType
-          const: DistributionChartType
-          title: Chart Type
-          default: DistributionChartType
-        field:
-          type: string
-          title: Field
-      type: object
-      required:
-      - field
-      title: DistributionChartType
-      description: Describes an entry for a distribution chart
-    SuccessSearchResponse:
-      properties:
-        hits:
-          items:
-            type: object
-          type: array
-          title: Hits
-        aggregations:
-          anyOf:
-          - type: object
-          - type: 'null'
-          title: Aggregations
-        facets:
-          anyOf:
-          - additionalProperties:
-              $ref: '#/components/schemas/FacetInfo'
-            type: object
-          - type: 'null'
-          title: Facets
-        charts:
-          anyOf:
-          - additionalProperties:
-              type: object
-            type: object
-          - type: 'null'
-          title: Charts
-        page:
-          type: integer
-          title: Page
-        page_size:
-          type: integer
-          title: Page Size
-        page_count:
-          type: integer
-          title: Page Count
-        debug:
-          $ref: '#/components/schemas/SearchResponseDebug'
-        took:
-          type: integer
-          title: Took
-        timed_out:
-          type: boolean
-          title: Timed Out
-        count:
-          type: integer
-          title: Count
-        is_count_exact:
-          type: boolean
-          title: Is Count Exact
-        warnings:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/SearchResponseError'
-            type: array
-          - type: 'null'
-          title: Warnings
-      type: object
-      required:
-      - hits
-      - page
-      - page_size
-      - page_count
-      - debug
-      - took
-      - timed_out
-      - count
-      - is_count_exact
-      title: SuccessSearchResponse
     SearchParameters:
       properties:
         q:
@@ -4255,6 +4117,76 @@ components:
       - selected
       title: FacetItem
       description: Describes an entry of a facet
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ErrorSearchResponse:
+      properties:
+        debug:
+          $ref: '#/components/schemas/SearchResponseDebug'
+        errors:
+          items:
+            $ref: '#/components/schemas/SearchResponseError'
+          type: array
+          title: Errors
+      type: object
+      required:
+      - debug
+      - errors
+      title: ErrorSearchResponse
+    DistributionChartType:
+      properties:
+        chart_type:
+          type: string
+          enum:
+          - DistributionChartType
+          const: DistributionChartType
+          title: Chart Type
+          default: DistributionChartType
+        field:
+          type: string
+          title: Field
+      type: object
+      required:
+      - field
+      title: DistributionChartType
+      description: Describes an entry for a distribution chart
+    FacetInfo:
+      properties:
+        name:
+          type: string
+          title: Name
+        items:
+          items:
+            $ref: '#/components/schemas/FacetItem'
+          type: array
+          title: Items
+        count_error_margin:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Count Error Margin
+      type: object
+      required:
+      - name
+      - items
+      title: FacetInfo
+      description: Search result for a facet
+    SearchResponseDebug:
+      properties:
+        query:
+          type: object
+          title: Query
+      type: object
+      required:
+      - query
+      title: SearchResponseDebug
     ScatterChartType:
       properties:
         chart_type:
@@ -4276,6 +4208,74 @@ components:
       - y
       title: ScatterChartType
       description: Describes an entry for a scatter plot
+    SuccessSearchResponse:
+      properties:
+        hits:
+          items:
+            type: object
+          type: array
+          title: Hits
+        aggregations:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Aggregations
+        facets:
+          anyOf:
+          - additionalProperties:
+              $ref: '#/components/schemas/FacetInfo'
+            type: object
+          - type: 'null'
+          title: Facets
+        charts:
+          anyOf:
+          - additionalProperties:
+              type: object
+            type: object
+          - type: 'null'
+          title: Charts
+        page:
+          type: integer
+          title: Page
+        page_size:
+          type: integer
+          title: Page Size
+        page_count:
+          type: integer
+          title: Page Count
+        debug:
+          $ref: '#/components/schemas/SearchResponseDebug'
+        took:
+          type: integer
+          title: Took
+        timed_out:
+          type: boolean
+          title: Timed Out
+        count:
+          type: integer
+          title: Count
+        is_count_exact:
+          type: boolean
+          title: Is Count Exact
+        warnings:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SearchResponseError'
+            type: array
+          - type: 'null'
+          title: Warnings
+      type: object
+      required:
+      - hits
+      - page
+      - page_size
+      - page_count
+      - debug
+      - took
+      - timed_out
+      - count
+      - is_count_exact
+      title: SuccessSearchResponse
     ValidationError:
       properties:
         loc:

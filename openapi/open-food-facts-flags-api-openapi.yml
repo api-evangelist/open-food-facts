@@ -126,105 +126,6 @@ paths:
       - Flags
 components:
   schemas:
-    FlagCreate:
-      properties:
-        barcode:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Barcode
-          description: Barcode of the product, if the flag is about a product or a product image. In case of a search issue, this field is null.
-        type:
-          $ref: '#/components/schemas/IssueType'
-          description: Type of the issue
-        url:
-          type: string
-          title: Url
-          description: URL of the product or of the flagged image
-        user_id:
-          type: string
-          title: User Id
-          description: Open Food Facts User ID of the flagger
-        source:
-          $ref: '#/components/schemas/SourceType'
-          description: Source of the flag. It can be a user from the mobile app, the web or a flag generated automatically by robotoff.
-        confidence:
-          anyOf:
-          - type: number
-            maximum: 1.0
-            minimum: 0.0
-          - type: 'null'
-          title: Confidence
-          description: Confidence score of the model that generated the flag, this field should only be provided by Robotoff.
-        image_id:
-          anyOf:
-          - type: string
-            minLength: 1
-          - type: 'null'
-          title: Image Id
-          description: ID of the flagged image
-          examples:
-          - '1'
-          - front_fr
-        flavor:
-          $ref: '#/components/schemas/Flavor'
-          description: Flavor (project) associated with the ticket
-        reason:
-          anyOf:
-          - type: string
-            minLength: 1
-          - type: 'null'
-          title: Reason
-          description: Reason for flagging provided by the user. The field is optional.
-        comment:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Comment
-          description: Comment provided by the user during flagging. This is a free text field.
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-          description: Creation datetime of the flag
-      type: object
-      required:
-      - type
-      - url
-      - user_id
-      - source
-      - flavor
-      title: FlagCreate
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Flavor:
-      type: string
-      enum:
-      - 'off'
-      - obf
-      - opff
-      - opf
-      - off-pro
-      title: Flavor
-      description: 'Flavor is used to refer to a specific Open*Facts project:
-
-
-        - Open Food Facts
-
-        - Open Beauty Facts
-
-        - Open Pet Food Facts
-
-        - Open Product Facts
-
-        - Open Food Facts (Pro plateform)'
     SourceType:
       type: string
       enum:
@@ -232,25 +133,6 @@ components:
       - web
       - robotoff
       title: SourceType
-    IssueType:
-      type: string
-      enum:
-      - product
-      - image
-      - search
-      title: IssueType
-      description: Type of the flag/ticket.
-    FlagsByTicketIdRequest:
-      properties:
-        ticket_ids:
-          items:
-            type: integer
-          type: array
-          title: Ticket Ids
-      type: object
-      required:
-      - ticket_ids
-      title: FlagsByTicketIdRequest
     GetFlagsResponse:
       properties:
         flags:
@@ -346,6 +228,103 @@ components:
       - ticket_id
       - device_id
       title: Flag
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    IssueType:
+      type: string
+      enum:
+      - product
+      - image
+      - search
+      title: IssueType
+      description: Type of the flag/ticket.
+    FlagCreate:
+      properties:
+        barcode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Barcode
+          description: Barcode of the product, if the flag is about a product or a product image. In case of a search issue, this field is null.
+        type:
+          $ref: '#/components/schemas/IssueType'
+          description: Type of the issue
+        url:
+          type: string
+          title: Url
+          description: URL of the product or of the flagged image
+        user_id:
+          type: string
+          title: User Id
+          description: Open Food Facts User ID of the flagger
+        source:
+          $ref: '#/components/schemas/SourceType'
+          description: Source of the flag. It can be a user from the mobile app, the web or a flag generated automatically by robotoff.
+        confidence:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Confidence
+          description: Confidence score of the model that generated the flag, this field should only be provided by Robotoff.
+        image_id:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Image Id
+          description: ID of the flagged image
+          examples:
+          - '1'
+          - front_fr
+        flavor:
+          $ref: '#/components/schemas/Flavor'
+          description: Flavor (project) associated with the ticket
+        reason:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Reason
+          description: Reason for flagging provided by the user. The field is optional.
+        comment:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Comment
+          description: Comment provided by the user during flagging. This is a free text field.
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Creation datetime of the flag
+      type: object
+      required:
+      - type
+      - url
+      - user_id
+      - source
+      - flavor
+      title: FlagCreate
+    FlagsByTicketIdRequest:
+      properties:
+        ticket_ids:
+          items:
+            type: integer
+          type: array
+          title: Ticket Ids
+      type: object
+      required:
+      - ticket_ids
+      title: FlagsByTicketIdRequest
     ValidationError:
       properties:
         loc:
@@ -367,3 +346,24 @@ components:
       - msg
       - type
       title: ValidationError
+    Flavor:
+      type: string
+      enum:
+      - 'off'
+      - obf
+      - opff
+      - opf
+      - off-pro
+      title: Flavor
+      description: 'Flavor is used to refer to a specific Open*Facts project:
+
+
+        - Open Food Facts
+
+        - Open Beauty Facts
+
+        - Open Pet Food Facts
+
+        - Open Product Facts
+
+        - Open Food Facts (Pro plateform)'

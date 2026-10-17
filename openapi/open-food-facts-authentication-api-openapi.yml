@@ -152,19 +152,6 @@ paths:
       description: Local development server
 components:
   schemas:
-    TokenResponse:
-      properties:
-        access_token:
-          type: string
-          title: Access Token
-        token_type:
-          type: string
-          title: Token Type
-      type: object
-      required:
-      - access_token
-      - token_type
-      title: TokenResponse
     ValidationError:
       properties:
         loc:
@@ -186,6 +173,15 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     Body_authentication_auth_post:
       properties:
         grant_type:
@@ -219,15 +215,19 @@ components:
       - username
       - password
       title: Body_authentication_auth_post
-    HTTPValidationError:
+    TokenResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        access_token:
+          type: string
+          title: Access Token
+        token_type:
+          type: string
+          title: Token Type
       type: object
-      title: HTTPValidationError
+      required:
+      - access_token
+      - token_type
+      title: TokenResponse
   securitySchemes:
     cookieAuth:
       type: apiKey

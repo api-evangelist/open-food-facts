@@ -239,6 +239,41 @@ components:
       - price_id
       - proof_id
       - updated
+    PaginatedReceiptItemFullList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceiptItemFull'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    BlankEnum:
+      enum:
+      - ''
+    NullEnum:
+      enum:
+      - null
     ReceiptItemFullStatusEnum:
       enum:
       - 0
@@ -246,9 +281,6 @@ components:
       description: '* `0` - deleted
 
         * `1` - linked_to_price'
-    NullEnum:
-      enum:
-      - null
     PatchedReceiptItemFull:
       type: object
       properties:
@@ -297,38 +329,6 @@ components:
           - integer
           - 'null'
           description: The proof prediction used to create this receipt item. Null if created by a user.
-    BlankEnum:
-      enum:
-      - ''
-    PaginatedReceiptItemFullList:
-      type: object
-      required:
-      - items
-      - page
-      - pages
-      - size
-      - total
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReceiptItemFull'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
   securitySchemes:
     CustomAuthentication:
       type: http

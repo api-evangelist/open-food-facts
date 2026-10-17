@@ -317,20 +317,15 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    LocationOsmTypeEnum:
-      enum:
-      - NODE
-      - WAY
-      - RELATION
-      type: string
-      description: '* `NODE` - NODE
-
-        * `WAY` - WAY
-
-        * `RELATION` - RELATION'
-    LocationCreate:
+    Location:
       type: object
       properties:
+        id:
+          type: integer
+          readOnly: true
+        osm_brand_logo_url:
+          type: string
+          readOnly: true
         type:
           $ref: '#/components/schemas/LocationTypeEnum'
         osm_id:
@@ -345,13 +340,116 @@ components:
           - $ref: '#/components/schemas/LocationOsmTypeEnum'
           - $ref: '#/components/schemas/BlankEnum'
           - $ref: '#/components/schemas/NullEnum'
+        osm_name:
+          type:
+          - string
+          - 'null'
+        osm_display_name:
+          type:
+          - string
+          - 'null'
+        osm_tag_key:
+          type:
+          - string
+          - 'null'
+        osm_tag_value:
+          type:
+          - string
+          - 'null'
+        osm_brand:
+          type:
+          - string
+          - 'null'
+        osm_address_postcode:
+          type:
+          - string
+          - 'null'
+        osm_address_city:
+          type:
+          - string
+          - 'null'
+        osm_address_country:
+          type:
+          - string
+          - 'null'
+        osm_address_country_code:
+          type:
+          - string
+          - 'null'
+        osm_lat:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000
+          exclusiveMaximum: 10000
+        osm_lon:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000
+          exclusiveMaximum: 10000
+        osm_version:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        osm_version_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
         website_url:
           type:
           - string
           - 'null'
           format: uri
+          maxLength: 200
+        price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        user_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        source:
+          type:
+          - string
+          - 'null'
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
       required:
+      - id
+      - osm_brand_logo_url
       - type
+      - updated
+    LocationOsmTypeEnum:
+      enum:
+      - NODE
+      - WAY
+      - RELATION
+      type: string
+      description: '* `NODE` - NODE
+
+        * `WAY` - WAY
+
+        * `RELATION` - RELATION'
     PaginatedCountryCityList:
       type: object
       required:
@@ -365,6 +463,51 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CountryCity'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    CountryCity:
+      type: object
+      properties:
+        osm_name:
+          type: string
+        country_code_2:
+          type: string
+        location_count:
+          type: integer
+        price_count:
+          type: integer
+      required:
+      - country_code_2
+      - location_count
+      - osm_name
+      - price_count
+    PaginatedCountryList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Country'
         page:
           type: integer
           description: Current page number
@@ -410,12 +553,16 @@ components:
           type: integer
           description: Total number of items
           example: 1531
-    CountryCity:
+    Country:
       type: object
       properties:
-        osm_name:
+        id:
+          type: integer
+        name:
           type: string
         country_code_2:
+          type: string
+        osm_name:
           type: string
         location_count:
           type: integer
@@ -423,9 +570,49 @@ components:
           type: integer
       required:
       - country_code_2
+      - id
       - location_count
+      - name
       - osm_name
       - price_count
+    NullEnum:
+      enum:
+      - null
+    BlankEnum:
+      enum:
+      - ''
+    LocationTypeEnum:
+      enum:
+      - OSM
+      - ONLINE
+      type: string
+      description: '* `OSM` - OSM
+
+        * `ONLINE` - ONLINE'
+    LocationCompare:
+      type: object
+      properties:
+        location_a:
+          $ref: '#/components/schemas/Location'
+        location_b:
+          $ref: '#/components/schemas/Location'
+        shared_products: {}
+        total_sum_location_a:
+          type: number
+          format: double
+          exclusiveMinimum: -100000000
+          exclusiveMaximum: 100000000
+        total_sum_location_b:
+          type: number
+          format: double
+          exclusiveMinimum: -100000000
+          exclusiveMaximum: 100000000
+      required:
+      - location_a
+      - location_b
+      - shared_products
+      - total_sum_location_a
+      - total_sum_location_b
     LocationNearby:
       type: object
       properties:
@@ -553,26 +740,9 @@ components:
       - osm_brand_logo_url
       - type
       - updated
-    LocationTypeEnum:
-      enum:
-      - OSM
-      - ONLINE
-      type: string
-      description: '* `OSM` - OSM
-
-        * `ONLINE` - ONLINE'
-    NullEnum:
-      enum:
-      - null
-    Location:
+    LocationCreate:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        osm_brand_logo_url:
-          type: string
-          readOnly: true
         type:
           $ref: '#/components/schemas/LocationTypeEnum'
         osm_id:
@@ -587,183 +757,13 @@ components:
           - $ref: '#/components/schemas/LocationOsmTypeEnum'
           - $ref: '#/components/schemas/BlankEnum'
           - $ref: '#/components/schemas/NullEnum'
-        osm_name:
-          type:
-          - string
-          - 'null'
-        osm_display_name:
-          type:
-          - string
-          - 'null'
-        osm_tag_key:
-          type:
-          - string
-          - 'null'
-        osm_tag_value:
-          type:
-          - string
-          - 'null'
-        osm_brand:
-          type:
-          - string
-          - 'null'
-        osm_address_postcode:
-          type:
-          - string
-          - 'null'
-        osm_address_city:
-          type:
-          - string
-          - 'null'
-        osm_address_country:
-          type:
-          - string
-          - 'null'
-        osm_address_country_code:
-          type:
-          - string
-          - 'null'
-        osm_lat:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -10000
-          exclusiveMaximum: 10000
-        osm_lon:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -10000
-          exclusiveMaximum: 10000
-        osm_version:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        osm_version_date:
-          type:
-          - string
-          - 'null'
-          format: date-time
         website_url:
           type:
           - string
           - 'null'
           format: uri
-          maxLength: 200
-        price_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        user_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        product_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        proof_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        source:
-          type:
-          - string
-          - 'null'
-        created:
-          type: string
-          format: date-time
-        updated:
-          type: string
-          format: date-time
-          readOnly: true
       required:
-      - id
-      - osm_brand_logo_url
       - type
-      - updated
-    LocationCompare:
-      type: object
-      properties:
-        location_a:
-          $ref: '#/components/schemas/Location'
-        location_b:
-          $ref: '#/components/schemas/Location'
-        shared_products: {}
-        total_sum_location_a:
-          type: number
-          format: double
-          exclusiveMinimum: -100000000
-          exclusiveMaximum: 100000000
-        total_sum_location_b:
-          type: number
-          format: double
-          exclusiveMinimum: -100000000
-          exclusiveMaximum: 100000000
-      required:
-      - location_a
-      - location_b
-      - shared_products
-      - total_sum_location_a
-      - total_sum_location_b
-    PaginatedCountryList:
-      type: object
-      required:
-      - items
-      - page
-      - pages
-      - size
-      - total
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Country'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
-    Country:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        country_code_2:
-          type: string
-        osm_name:
-          type: string
-        location_count:
-          type: integer
-        price_count:
-          type: integer
-      required:
-      - country_code_2
-      - id
-      - location_count
-      - name
-      - osm_name
-      - price_count
-    BlankEnum:
-      enum:
-      - ''
     PaginatedLocationNearbyList:
       type: object
       required:

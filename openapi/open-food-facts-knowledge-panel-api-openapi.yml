@@ -111,6 +111,29 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    PanelName:
+      type: string
+      enum:
+      - last_edits
+      - data_quality
+      - hunger_game
+      - wikidata
+      title: PanelName
+      description: An enumeration.
+    KnowledgePanelItem:
+      properties:
+        elements:
+          items:
+            $ref: '#/components/schemas/BaseElement'
+          type: array
+          title: Elements
+        title_element:
+          $ref: '#/components/schemas/BaseTitleElement'
+      type: object
+      required:
+      - title_element
+      title: KnowledgePanelItem
+      description: A Panel, made of multiple sub elements
     BaseTextElement:
       properties:
         html:
@@ -128,12 +151,6 @@ components:
       type: object
       title: BaseTextElement
       description: An element with simple HTML to display
-    FacetResponse:
-      properties:
-        knowledge_panels:
-          $ref: '#/components/schemas/KnowledgePanel'
-      type: object
-      title: FacetResponse
     HTTPValidationError:
       properties:
         detail:
@@ -143,15 +160,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    PanelName:
-      type: string
-      enum:
-      - last_edits
-      - data_quality
-      - hunger_game
-      - wikidata
-      title: PanelName
-      description: An enumeration.
     BaseTitleElement:
       properties:
         title:
@@ -163,32 +171,12 @@ components:
       - title
       title: BaseTitleElement
       description: An element containing a title
-    KnowledgePanel:
+    FacetResponse:
       properties:
-        HungerGames:
-          $ref: '#/components/schemas/KnowledgePanelItem'
-        Quality:
-          $ref: '#/components/schemas/KnowledgePanelItem'
-        LastEdits:
-          $ref: '#/components/schemas/KnowledgePanelItem'
-        WikiData:
-          $ref: '#/components/schemas/KnowledgePanelItem'
+        knowledge_panels:
+          $ref: '#/components/schemas/KnowledgePanel'
       type: object
-      title: KnowledgePanel
-    KnowledgePanelItem:
-      properties:
-        elements:
-          items:
-            $ref: '#/components/schemas/BaseElement'
-          type: array
-          title: Elements
-        title_element:
-          $ref: '#/components/schemas/BaseTitleElement'
-      type: object
-      required:
-      - title_element
-      title: KnowledgePanelItem
-      description: A Panel, made of multiple sub elements
+      title: FacetResponse
     BaseElement:
       properties:
         element_type:
@@ -227,3 +215,15 @@ components:
       - msg
       - type
       title: ValidationError
+    KnowledgePanel:
+      properties:
+        HungerGames:
+          $ref: '#/components/schemas/KnowledgePanelItem'
+        Quality:
+          $ref: '#/components/schemas/KnowledgePanelItem'
+        LastEdits:
+          $ref: '#/components/schemas/KnowledgePanelItem'
+        WikiData:
+          $ref: '#/components/schemas/KnowledgePanelItem'
+      type: object
+      title: KnowledgePanel

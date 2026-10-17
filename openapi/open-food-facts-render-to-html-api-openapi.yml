@@ -109,15 +109,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    PanelName:
-      type: string
-      enum:
-      - last_edits
-      - data_quality
-      - hunger_game
-      - wikidata
-      title: PanelName
-      description: An enumeration.
     ValidationError:
       properties:
         loc:
@@ -148,3 +139,12 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    PanelName:
+      type: string
+      enum:
+      - last_edits
+      - data_quality
+      - hunger_game
+      - wikidata
+      title: PanelName
+      description: An enumeration.

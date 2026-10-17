@@ -212,21 +212,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    FlagCreate:
-      type: object
-      properties:
-        reason:
-          $ref: '#/components/schemas/ReasonEnum'
-        comment:
-          type:
-          - string
-          - 'null'
-        content_object:
-          type: string
-          readOnly: true
-      required:
-      - content_object
-      - reason
     ReasonEnum:
       enum:
       - WRONG_TYPE
@@ -250,45 +235,6 @@ components:
         * `WRONG_DATE` - Wrong date
 
         * `OTHER` - Other'
-    PatchedFlagUpdate:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/FlagStatusEnum'
-    FlagUpdate:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/FlagStatusEnum'
-    PaginatedFlagList:
-      type: object
-      required:
-      - items
-      - page
-      - pages
-      - size
-      - total
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Flag'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
     Flag:
       type: object
       properties:
@@ -332,6 +278,55 @@ components:
       - object_id
       - reason
       - updated
+    PaginatedFlagList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Flag'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    FlagUpdate:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/FlagStatusEnum'
+    FlagCreate:
+      type: object
+      properties:
+        reason:
+          $ref: '#/components/schemas/ReasonEnum'
+        comment:
+          type:
+          - string
+          - 'null'
+        content_object:
+          type: string
+          readOnly: true
+      required:
+      - content_object
+      - reason
     FlagStatusEnum:
       enum:
       - OPEN
@@ -340,6 +335,11 @@ components:
       description: '* `OPEN` - Open
 
         * `CLOSED` - Closed'
+    PatchedFlagUpdate:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/FlagStatusEnum'
   securitySchemes:
     CustomAuthentication:
       type: http

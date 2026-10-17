@@ -119,6 +119,15 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValueDeleteRequest:
       properties:
         property:
@@ -149,15 +158,6 @@ components:
       - old_value
       - new_value
       title: ValueRenameRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

@@ -139,50 +139,6 @@ paths:
       - OAuth2PasswordBearer: []
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    PropertyRenameRequest:
-      properties:
-        old_property:
-          type: string
-          title: Old Property
-        new_property:
-          type: string
-          title: New Property
-      type: object
-      required:
-      - old_property
-      - new_property
-      title: PropertyRenameRequest
-    PropertyDeleteRequest:
-      properties:
-        property:
-          type: string
-          title: Property
-      type: object
-      required:
-      - property
-      title: PropertyDeleteRequest
-    PropertyClashCheckRequest:
-      properties:
-        old_property:
-          type: string
-          title: Old Property
-        new_property:
-          type: string
-          title: New Property
-      type: object
-      required:
-      - old_property
-      - new_property
-      title: PropertyClashCheckRequest
     PropertyClashCheck:
       properties:
         products_with_both:
@@ -205,6 +161,50 @@ components:
       - products_with_new_only
       - conflicting_products
       title: PropertyClashCheck
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    PropertyDeleteRequest:
+      properties:
+        property:
+          type: string
+          title: Property
+      type: object
+      required:
+      - property
+      title: PropertyDeleteRequest
+    PropertyRenameRequest:
+      properties:
+        old_property:
+          type: string
+          title: Old Property
+        new_property:
+          type: string
+          title: New Property
+      type: object
+      required:
+      - old_property
+      - new_property
+      title: PropertyRenameRequest
+    PropertyClashCheckRequest:
+      properties:
+        old_property:
+          type: string
+          title: Old Property
+        new_property:
+          type: string
+          title: New Property
+      type: object
+      required:
+      - old_property
+      - new_property
+      title: PropertyClashCheckRequest
     ValidationError:
       properties:
         loc:

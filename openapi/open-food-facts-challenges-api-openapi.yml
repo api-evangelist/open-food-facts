@@ -149,28 +149,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    LocationOsmTypeEnum:
-      enum:
-      - NODE
-      - WAY
-      - RELATION
-      type: string
-      description: '* `NODE` - NODE
-
-        * `WAY` - WAY
-
-        * `RELATION` - RELATION'
-    LocationTypeEnum:
-      enum:
-      - OSM
-      - ONLINE
-      type: string
-      description: '* `OSM` - OSM
-
-        * `ONLINE` - ONLINE'
-    NullEnum:
-      enum:
-      - null
     Challenge:
       type: object
       properties:
@@ -367,23 +345,17 @@ components:
       - osm_brand_logo_url
       - type
       - updated
-    BlankEnum:
+    LocationOsmTypeEnum:
       enum:
-      - ''
-    ChallengeStatusEnum:
-      enum:
-      - DRAFT
-      - UPCOMING
-      - ONGOING
-      - COMPLETED
+      - NODE
+      - WAY
+      - RELATION
       type: string
-      description: '* `DRAFT` - DRAFT
+      description: '* `NODE` - NODE
 
-        * `UPCOMING` - UPCOMING
+        * `WAY` - WAY
 
-        * `ONGOING` - ONGOING
-
-        * `COMPLETED` - COMPLETED'
+        * `RELATION` - RELATION'
     PaginatedChallengeList:
       type: object
       required:
@@ -413,6 +385,34 @@ components:
           type: integer
           description: Total number of items
           example: 1531
+    NullEnum:
+      enum:
+      - null
+    BlankEnum:
+      enum:
+      - ''
+    LocationTypeEnum:
+      enum:
+      - OSM
+      - ONLINE
+      type: string
+      description: '* `OSM` - OSM
+
+        * `ONLINE` - ONLINE'
+    ChallengeStatusEnum:
+      enum:
+      - DRAFT
+      - UPCOMING
+      - ONGOING
+      - COMPLETED
+      type: string
+      description: '* `DRAFT` - DRAFT
+
+        * `UPCOMING` - UPCOMING
+
+        * `ONGOING` - ONGOING
+
+        * `COMPLETED` - COMPLETED'
   securitySchemes:
     CustomAuthentication:
       type: http

@@ -151,6 +151,12 @@ paths:
       - Tickets
 components:
   schemas:
+    TicketStatus:
+      type: string
+      enum:
+      - open
+      - closed
+      title: TicketStatus
     GetTicketsResponse:
       properties:
         tickets:
@@ -176,27 +182,14 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    Flavor:
+    IssueType:
       type: string
       enum:
-      - 'off'
-      - obf
-      - opff
-      - opf
-      - off-pro
-      title: Flavor
-      description: 'Flavor is used to refer to a specific Open*Facts project:
-
-
-        - Open Food Facts
-
-        - Open Beauty Facts
-
-        - Open Pet Food Facts
-
-        - Open Product Facts
-
-        - Open Food Facts (Pro plateform)'
+      - product
+      - image
+      - search
+      title: IssueType
+      description: Type of the flag/ticket.
     ReasonType:
       type: string
       enum:
@@ -206,20 +199,6 @@ components:
       - other
       title: ReasonType
       description: Type of the reason for flagging.
-    TicketStatus:
-      type: string
-      enum:
-      - open
-      - closed
-      title: TicketStatus
-    IssueType:
-      type: string
-      enum:
-      - product
-      - image
-      - search
-      title: IssueType
-      description: Type of the flag/ticket.
     Ticket:
       properties:
         barcode:
@@ -288,3 +267,24 @@ components:
       - msg
       - type
       title: ValidationError
+    Flavor:
+      type: string
+      enum:
+      - 'off'
+      - obf
+      - opff
+      - opf
+      - off-pro
+      title: Flavor
+      description: 'Flavor is used to refer to a specific Open*Facts project:
+
+
+        - Open Food Facts
+
+        - Open Beauty Facts
+
+        - Open Pet Food Facts
+
+        - Open Product Facts
+
+        - Open Food Facts (Pro plateform)'

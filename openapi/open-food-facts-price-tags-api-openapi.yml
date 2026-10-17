@@ -235,62 +235,39 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PriceTagPredictionTypeEnum:
-      enum:
-      - PRICE_TAG_EXTRACTION
-      - PRICE_TAG_CLF
-      type: string
-      description: '* `PRICE_TAG_EXTRACTION` - PRICE_TAG_EXTRACTION
+    PatchedPriceTagUpdate:
+      type: object
+      properties:
+        bounding_box:
+          type: array
+          items:
+            type: number
+            format: double
+          description: Coordinates of the bounding box, in the format [y_min, x_min, y_max, x_max]
+        status:
+          description: 'The annotation status
 
-        * `PRICE_TAG_CLF` - PRICE_TAG_CLF'
-    ProofTypeEnum:
-      enum:
-      - PRICE_TAG
-      - RECEIPT
-      - GDPR_REQUEST
-      - SHOP_IMPORT
-      type: string
-      description: '* `PRICE_TAG` - PRICE_TAG
 
-        * `RECEIPT` - RECEIPT
+            * `0` - deleted
 
-        * `GDPR_REQUEST` - GDPR_REQUEST
+            * `1` - linked_to_price
 
-        * `SHOP_IMPORT` - SHOP_IMPORT'
-    LocationOsmTypeEnum:
-      enum:
-      - NODE
-      - WAY
-      - RELATION
-      type: string
-      description: '* `NODE` - NODE
+            * `2` - not_readable
 
-        * `WAY` - WAY
+            * `3` - truncated
 
-        * `RELATION` - RELATION'
-    PriceTagStatusEnum:
-      enum:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 10
-      type: integer
-      description: '* `0` - deleted
+            * `4` - not_price_tag
 
-        * `1` - linked_to_price
+            * `5` - no_barcode
 
-        * `2` - not_readable
-
-        * `3` - truncated
-
-        * `4` - not_price_tag
-
-        * `5` - no_barcode
-
-        * `10` - other'
+            * `10` - other'
+          minimum: -2147483648
+          maximum: 2147483647
+          oneOf:
+          - $ref: '#/components/schemas/PriceTagStatusEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        price_id:
+          type: integer
     PriceTagCreate:
       type: object
       properties:
@@ -329,201 +306,6 @@ components:
       required:
       - bounding_box
       - proof_id
-    NullEnum:
-      enum:
-      - null
-    PriceTagPrediction:
-      type: object
-      properties:
-        type:
-          allOf:
-          - $ref: '#/components/schemas/PriceTagPredictionTypeEnum'
-          description: 'The type of the prediction
-
-
-            * `PRICE_TAG_EXTRACTION` - PRICE_TAG_EXTRACTION
-
-            * `PRICE_TAG_CLF` - PRICE_TAG_CLF'
-        model_name:
-          type: string
-          description: The name of the model that generated the prediction
-          maxLength: 30
-        model_version:
-          type: string
-          description: The specific version of the model that generated the prediction
-          maxLength: 30
-        schema_version:
-          type:
-          - string
-          - 'null'
-          description: The schema version of the prediction data. Used to handle changes in the prediction data structure. It is currently used when calling Gemini API to extract price tags.
-          maxLength: 20
-        data:
-          description: a dict representing the data of the prediction. This field is model-specific.
-        created:
-          type: string
-          format: date-time
-          description: When the prediction was created in DB
-      required:
-      - model_name
-      - model_version
-      - type
-    LocationTypeEnum:
-      enum:
-      - OSM
-      - ONLINE
-      type: string
-      description: '* `OSM` - OSM
-
-        * `ONLINE` - ONLINE'
-    PaginatedPriceTagFullList:
-      type: object
-      required:
-      - items
-      - page
-      - pages
-      - size
-      - total
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/PriceTagFull'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
-    ProofHalfFull:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        location_id:
-          type: integer
-        location:
-          $ref: '#/components/schemas/Location'
-        file_path:
-          type:
-          - string
-          - 'null'
-        mimetype:
-          type:
-          - string
-          - 'null'
-        type:
-          $ref: '#/components/schemas/ProofTypeEnum'
-        image_md5_hash:
-          type:
-          - string
-          - 'null'
-          maxLength: 32
-        image_thumb_path:
-          type:
-          - string
-          - 'null'
-        location_osm_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 9223372036854775807
-          minimum: 0
-          format: int64
-        location_osm_type:
-          oneOf:
-          - $ref: '#/components/schemas/LocationOsmTypeEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        date:
-          type:
-          - string
-          - 'null'
-          format: date
-        currency:
-          oneOf:
-          - $ref: '#/components/schemas/CurrencyEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        receipt_price_count:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-          title: Receipt's number of prices (user input)
-        receipt_price_total:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          title: Receipt's total amount (user input)
-          exclusiveMaximum: 10000000
-        receipt_online_delivery_costs:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          title: Receipt's online delivery costs (user input)
-          exclusiveMaximum: 10000000
-        ready_for_price_tag_validation:
-          type: boolean
-        owner_consumption:
-          type:
-          - boolean
-          - 'null'
-        owner_comment:
-          type:
-          - string
-          - 'null'
-        draft:
-          type: boolean
-        price_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        prediction_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        owner:
-          type:
-          - string
-          - 'null'
-        source:
-          type:
-          - string
-          - 'null'
-        tags:
-          type: array
-          items:
-            type: string
-        created:
-          type: string
-          format: date-time
-        updated:
-          type: string
-          format: date-time
-          readOnly: true
-      required:
-      - id
-      - location
-      - location_id
-      - type
-      - updated
     Location:
       type: object
       properties:
@@ -646,108 +428,162 @@ components:
       - osm_brand_logo_url
       - type
       - updated
-    PatchedPriceTagUpdate:
+    LocationOsmTypeEnum:
+      enum:
+      - NODE
+      - WAY
+      - RELATION
+      type: string
+      description: '* `NODE` - NODE
+
+        * `WAY` - WAY
+
+        * `RELATION` - RELATION'
+    PaginatedPriceTagFullList:
       type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
       properties:
-        bounding_box:
+        items:
           type: array
           items:
-            type: number
-            format: double
-          description: Coordinates of the bounding box, in the format [y_min, x_min, y_max, x_max]
-        status:
-          description: 'The annotation status
-
-
-            * `0` - deleted
-
-            * `1` - linked_to_price
-
-            * `2` - not_readable
-
-            * `3` - truncated
-
-            * `4` - not_price_tag
-
-            * `5` - no_barcode
-
-            * `10` - other'
-          minimum: -2147483648
-          maximum: 2147483647
-          oneOf:
-          - $ref: '#/components/schemas/PriceTagStatusEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        price_id:
+            $ref: '#/components/schemas/PriceTagFull'
+        page:
           type: integer
-    BlankEnum:
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    ProofTypeEnum:
       enum:
-      - ''
-    PriceTagFull:
+      - PRICE_TAG
+      - RECEIPT
+      - GDPR_REQUEST
+      - SHOP_IMPORT
+      type: string
+      description: '* `PRICE_TAG` - PRICE_TAG
+
+        * `RECEIPT` - RECEIPT
+
+        * `GDPR_REQUEST` - GDPR_REQUEST
+
+        * `SHOP_IMPORT` - SHOP_IMPORT'
+    ProofHalfFull:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        price_id:
+        location_id:
+          type: integer
+        location:
+          $ref: '#/components/schemas/Location'
+        file_path:
+          type:
+          - string
+          - 'null'
+        mimetype:
+          type:
+          - string
+          - 'null'
+        type:
+          $ref: '#/components/schemas/ProofTypeEnum'
+        image_md5_hash:
+          type:
+          - string
+          - 'null'
+          maxLength: 32
+        image_thumb_path:
+          type:
+          - string
+          - 'null'
+        location_osm_id:
           type:
           - integer
           - 'null'
-          description: The price linked to this tag
-          readOnly: true
-        predictions:
-          type: array
-          items:
-            $ref: '#/components/schemas/PriceTagPrediction'
-          readOnly: true
-        proof:
-          $ref: '#/components/schemas/ProofHalfFull'
-        image_path:
-          type: string
-          readOnly: true
-        bounding_box:
-          type: array
-          items:
-            type: number
-            format: double
-          description: Coordinates of the bounding box, in the format [y_min, x_min, y_max, x_max]
-        status:
-          description: 'The annotation status
-
-
-            * `0` - deleted
-
-            * `1` - linked_to_price
-
-            * `2` - not_readable
-
-            * `3` - truncated
-
-            * `4` - not_price_tag
-
-            * `5` - no_barcode
-
-            * `10` - other'
-          minimum: -2147483648
-          maximum: 2147483647
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        location_osm_type:
           oneOf:
-          - $ref: '#/components/schemas/PriceTagStatusEnum'
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
           - $ref: '#/components/schemas/NullEnum'
+        date:
+          type:
+          - string
+          - 'null'
+          format: date
+        currency:
+          oneOf:
+          - $ref: '#/components/schemas/CurrencyEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        receipt_price_count:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+          title: Receipt's number of prices (user input)
+        receipt_price_total:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's total amount (user input)
+          exclusiveMaximum: 10000000
+        receipt_online_delivery_costs:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's online delivery costs (user input)
+          exclusiveMaximum: 10000000
+        ready_for_price_tag_validation:
+          type: boolean
+        owner_consumption:
+          type:
+          - boolean
+          - 'null'
+        owner_comment:
+          type:
+          - string
+          - 'null'
+        draft:
+          type: boolean
+        price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
         prediction_count:
           type: integer
           maximum: 2147483647
           minimum: 0
-        created_by:
+        owner:
           type:
           - string
           - 'null'
-          description: The name of the user who created this price tag. This field is null if the tag was created by a model.
-          maxLength: 100
-        updated_by:
+        source:
           type:
           - string
           - 'null'
-          description: The name of the user who last updated this price tag bounding boxes. If the price tag bounding boxes were never updated, this field is null.
-          maxLength: 100
         tags:
           type: array
           items:
@@ -755,24 +591,15 @@ components:
         created:
           type: string
           format: date-time
-          description: When the tag was created in DB
         updated:
           type: string
           format: date-time
           readOnly: true
-          description: When the tag was last updated
-        proof_prediction:
-          type:
-          - integer
-          - 'null'
-          description: The proof prediction used to create this price tag. Null if created by a user.
       required:
-      - bounding_box
       - id
-      - image_path
-      - predictions
-      - price_id
-      - proof
+      - location
+      - location_id
+      - type
       - updated
     CurrencyEnum:
       enum:
@@ -1733,6 +1560,179 @@ components:
       required:
       - bounding_box
       - price_id
+    NullEnum:
+      enum:
+      - null
+    PriceTagPredictionTypeEnum:
+      enum:
+      - PRICE_TAG_EXTRACTION
+      - PRICE_TAG_CLF
+      type: string
+      description: '* `PRICE_TAG_EXTRACTION` - PRICE_TAG_EXTRACTION
+
+        * `PRICE_TAG_CLF` - PRICE_TAG_CLF'
+    BlankEnum:
+      enum:
+      - ''
+    LocationTypeEnum:
+      enum:
+      - OSM
+      - ONLINE
+      type: string
+      description: '* `OSM` - OSM
+
+        * `ONLINE` - ONLINE'
+    PriceTagPrediction:
+      type: object
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/PriceTagPredictionTypeEnum'
+          description: 'The type of the prediction
+
+
+            * `PRICE_TAG_EXTRACTION` - PRICE_TAG_EXTRACTION
+
+            * `PRICE_TAG_CLF` - PRICE_TAG_CLF'
+        model_name:
+          type: string
+          description: The name of the model that generated the prediction
+          maxLength: 30
+        model_version:
+          type: string
+          description: The specific version of the model that generated the prediction
+          maxLength: 30
+        schema_version:
+          type:
+          - string
+          - 'null'
+          description: The schema version of the prediction data. Used to handle changes in the prediction data structure. It is currently used when calling Gemini API to extract price tags.
+          maxLength: 20
+        data:
+          description: a dict representing the data of the prediction. This field is model-specific.
+        created:
+          type: string
+          format: date-time
+          description: When the prediction was created in DB
+      required:
+      - model_name
+      - model_version
+      - type
+    PriceTagStatusEnum:
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 10
+      type: integer
+      description: '* `0` - deleted
+
+        * `1` - linked_to_price
+
+        * `2` - not_readable
+
+        * `3` - truncated
+
+        * `4` - not_price_tag
+
+        * `5` - no_barcode
+
+        * `10` - other'
+    PriceTagFull:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        price_id:
+          type:
+          - integer
+          - 'null'
+          description: The price linked to this tag
+          readOnly: true
+        predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceTagPrediction'
+          readOnly: true
+        proof:
+          $ref: '#/components/schemas/ProofHalfFull'
+        image_path:
+          type: string
+          readOnly: true
+        bounding_box:
+          type: array
+          items:
+            type: number
+            format: double
+          description: Coordinates of the bounding box, in the format [y_min, x_min, y_max, x_max]
+        status:
+          description: 'The annotation status
+
+
+            * `0` - deleted
+
+            * `1` - linked_to_price
+
+            * `2` - not_readable
+
+            * `3` - truncated
+
+            * `4` - not_price_tag
+
+            * `5` - no_barcode
+
+            * `10` - other'
+          minimum: -2147483648
+          maximum: 2147483647
+          oneOf:
+          - $ref: '#/components/schemas/PriceTagStatusEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        prediction_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        created_by:
+          type:
+          - string
+          - 'null'
+          description: The name of the user who created this price tag. This field is null if the tag was created by a model.
+          maxLength: 100
+        updated_by:
+          type:
+          - string
+          - 'null'
+          description: The name of the user who last updated this price tag bounding boxes. If the price tag bounding boxes were never updated, this field is null.
+          maxLength: 100
+        tags:
+          type: array
+          items:
+            type: string
+        created:
+          type: string
+          format: date-time
+          description: When the tag was created in DB
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+          description: When the tag was last updated
+        proof_prediction:
+          type:
+          - integer
+          - 'null'
+          description: The proof prediction used to create this price tag. Null if created by a user.
+      required:
+      - bounding_box
+      - id
+      - image_path
+      - predictions
+      - price_id
+      - proof
+      - updated
   securitySchemes:
     CustomAuthentication:
       type: http

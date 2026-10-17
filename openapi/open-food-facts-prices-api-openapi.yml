@@ -3950,39 +3950,129 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PriceHistory:
+    Location:
       type: object
       properties:
-        history_id:
+        id:
           type: integer
-        history_date:
+          readOnly: true
+        osm_brand_logo_url:
+          type: string
+          readOnly: true
+        type:
+          $ref: '#/components/schemas/LocationTypeEnum'
+        osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        osm_name:
+          type:
+          - string
+          - 'null'
+        osm_display_name:
+          type:
+          - string
+          - 'null'
+        osm_tag_key:
+          type:
+          - string
+          - 'null'
+        osm_tag_value:
+          type:
+          - string
+          - 'null'
+        osm_brand:
+          type:
+          - string
+          - 'null'
+        osm_address_postcode:
+          type:
+          - string
+          - 'null'
+        osm_address_city:
+          type:
+          - string
+          - 'null'
+        osm_address_country:
+          type:
+          - string
+          - 'null'
+        osm_address_country_code:
+          type:
+          - string
+          - 'null'
+        osm_lat:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000
+          exclusiveMaximum: 10000
+        osm_lon:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000
+          exclusiveMaximum: 10000
+        osm_version:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        osm_version_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        website_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          maxLength: 200
+        price_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        user_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        product_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        proof_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        source:
+          type:
+          - string
+          - 'null'
+        created:
           type: string
           format: date-time
-        history_change_reason:
+        updated:
           type: string
-        history_type:
-          $ref: '#/components/schemas/HistoryTypeEnum'
-        history_user_id:
-          type: string
-        changes:
-          type: array
-          items: {}
+          format: date-time
+          readOnly: true
       required:
-      - changes
-      - history_change_reason
-      - history_date
-      - history_id
-      - history_type
-      - history_user_id
-    PricePerEnum:
-      enum:
-      - UNIT
-      - KILOGRAM
-      type: string
-      description: '* `UNIT` - UNIT
-
-        * `KILOGRAM` - KILOGRAM'
-    PriceCreate:
+      - id
+      - osm_brand_logo_url
+      - type
+      - updated
+    PriceUpdate:
       type: object
       properties:
         product_code:
@@ -4053,9 +4143,55 @@ components:
           type:
           - string
           - 'null'
+    NullEnum:
+      enum:
+      - null
+    LocationTypeEnum:
+      enum:
+      - OSM
+      - ONLINE
+      type: string
+      description: '* `OSM` - OSM
+
+        * `ONLINE` - ONLINE'
+    LocationOsmTypeEnum:
+      enum:
+      - NODE
+      - WAY
+      - RELATION
+      type: string
+      description: '* `NODE` - NODE
+
+        * `WAY` - WAY
+
+        * `RELATION` - RELATION'
+    BlankEnum:
+      enum:
+      - ''
+    Proof:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        location_id:
+          type: integer
+        file_path:
+          type:
+          - string
+          - 'null'
+        mimetype:
+          type:
+          - string
+          - 'null'
         type:
-          $ref: '#/components/schemas/PriceTypeEnum'
-        product_name:
+          $ref: '#/components/schemas/ProofTypeEnum'
+        image_md5_hash:
+          type:
+          - string
+          - 'null'
+          maxLength: 32
+        image_thumb_path:
           type:
           - string
           - 'null'
@@ -4071,23 +4207,83 @@ components:
           - $ref: '#/components/schemas/LocationOsmTypeEnum'
           - $ref: '#/components/schemas/BlankEnum'
           - $ref: '#/components/schemas/NullEnum'
-        location_id:
+        date:
+          type:
+          - string
+          - 'null'
+          format: date
+        currency:
+          oneOf:
+          - $ref: '#/components/schemas/CurrencyEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        receipt_price_count:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+          title: Receipt's number of prices (user input)
+        receipt_price_total:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's total amount (user input)
+          exclusiveMaximum: 10000000
+        receipt_online_delivery_costs:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's online delivery costs (user input)
+          exclusiveMaximum: 10000000
+        ready_for_price_tag_validation:
+          type: boolean
+        owner_consumption:
+          type:
+          - boolean
+          - 'null'
+        owner_comment:
+          type:
+          - string
+          - 'null'
+        draft:
+          type: boolean
+        price_count:
           type: integer
-        proof_id:
+          maximum: 2147483647
+          minimum: 0
+        prediction_count:
           type: integer
+          maximum: 2147483647
+          minimum: 0
+        owner:
+          type:
+          - string
+          - 'null'
+        source:
+          type:
+          - string
+          - 'null'
+        tags:
+          type: array
+          items:
+            type: string
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
       required:
-      - proof_id
-    NullEnum:
-      enum:
-      - null
-    LocationTypeEnum:
-      enum:
-      - OSM
-      - ONLINE
-      type: string
-      description: '* `OSM` - OSM
-
-        * `ONLINE` - ONLINE'
+      - id
+      - location_id
+      - type
+      - updated
     SourceEnum:
       enum:
       - 'off'
@@ -4102,9 +4298,277 @@ components:
         * `opff` - opff
 
         * `opf` - opf'
-    BlankEnum:
+    PriceFull:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        product_id:
+          type: integer
+        location_id:
+          type: integer
+        proof_id:
+          type: integer
+        product:
+          $ref: '#/components/schemas/ProductFull'
+        location:
+          $ref: '#/components/schemas/Location'
+        proof:
+          $ref: '#/components/schemas/Proof'
+        type:
+          $ref: '#/components/schemas/PriceTypeEnum'
+        product_code:
+          type:
+          - string
+          - 'null'
+        product_name:
+          type:
+          - string
+          - 'null'
+        category_tag:
+          type:
+          - string
+          - 'null'
+        labels_tags:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        origins_tags:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        price:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          exclusiveMaximum: 10000000
+        price_is_discounted:
+          type: boolean
+        price_without_discount:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          exclusiveMaximum: 10000000
+        discount_type:
+          oneOf:
+          - $ref: '#/components/schemas/DiscountTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        price_per:
+          oneOf:
+          - $ref: '#/components/schemas/PricePerEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        currency:
+          oneOf:
+          - $ref: '#/components/schemas/CurrencyEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        location_osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        location_osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        date:
+          type:
+          - string
+          - 'null'
+          format: date
+        receipt_quantity:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's price quantity (user input)
+          exclusiveMaximum: 10000000
+        owner_comment:
+          type:
+          - string
+          - 'null'
+        owner:
+          type:
+          - string
+          - 'null'
+        source:
+          type:
+          - string
+          - 'null'
+        tags:
+          type: array
+          items:
+            type: string
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+        duplicate_of:
+          type:
+          - integer
+          - 'null'
+      required:
+      - id
+      - location
+      - location_id
+      - product
+      - product_id
+      - proof
+      - proof_id
+      - type
+      - updated
+    PatchedPriceUpdate:
+      type: object
+      properties:
+        product_code:
+          type:
+          - string
+          - 'null'
+        category_tag:
+          type:
+          - string
+          - 'null'
+        labels_tags:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        origins_tags:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        price:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          exclusiveMaximum: 10000000
+        price_is_discounted:
+          type: boolean
+        price_without_discount:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          exclusiveMaximum: 10000000
+        discount_type:
+          oneOf:
+          - $ref: '#/components/schemas/DiscountTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        price_per:
+          oneOf:
+          - $ref: '#/components/schemas/PricePerEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        currency:
+          oneOf:
+          - $ref: '#/components/schemas/CurrencyEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        date:
+          type:
+          - string
+          - 'null'
+          format: date
+        receipt_quantity:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0
+          title: Receipt's price quantity (user input)
+          exclusiveMaximum: 10000000
+        owner_comment:
+          type:
+          - string
+          - 'null'
+    PaginatedPriceHistoryList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceHistory'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
+    PricePerEnum:
       enum:
-      - ''
+      - UNIT
+      - KILOGRAM
+      type: string
+      description: '* `UNIT` - UNIT
+
+        * `KILOGRAM` - KILOGRAM'
+    DiscountTypeEnum:
+      enum:
+      - QUANTITY
+      - SALE
+      - SEASONAL
+      - LOYALTY_PROGRAM
+      - EXPIRES_SOON
+      - PICK_IT_YOURSELF
+      - SECOND_HAND
+      - OTHER
+      type: string
+      description: '* `QUANTITY` - QUANTITY
+
+        * `SALE` - SALE
+
+        * `SEASONAL` - SEASONAL
+
+        * `LOYALTY_PROGRAM` - LOYALTY_PROGRAM
+
+        * `EXPIRES_SOON` - EXPIRES_SOON
+
+        * `PICK_IT_YOURSELF` - PICK_IT_YOURSELF
+
+        * `SECOND_HAND` - SECOND_HAND
+
+        * `OTHER` - OTHER'
     CurrencyEnum:
       enum:
       - ADP
@@ -5028,339 +5492,38 @@ components:
         * `ZWL` - ZWL
 
         * `ZWR` - ZWR'
-    DiscountTypeEnum:
-      enum:
-      - QUANTITY
-      - SALE
-      - SEASONAL
-      - LOYALTY_PROGRAM
-      - EXPIRES_SOON
-      - PICK_IT_YOURSELF
-      - SECOND_HAND
-      - OTHER
-      type: string
-      description: '* `QUANTITY` - QUANTITY
-
-        * `SALE` - SALE
-
-        * `SEASONAL` - SEASONAL
-
-        * `LOYALTY_PROGRAM` - LOYALTY_PROGRAM
-
-        * `EXPIRES_SOON` - EXPIRES_SOON
-
-        * `PICK_IT_YOURSELF` - PICK_IT_YOURSELF
-
-        * `SECOND_HAND` - SECOND_HAND
-
-        * `OTHER` - OTHER'
-    ProofTypeEnum:
-      enum:
-      - PRICE_TAG
-      - RECEIPT
-      - GDPR_REQUEST
-      - SHOP_IMPORT
-      type: string
-      description: '* `PRICE_TAG` - PRICE_TAG
-
-        * `RECEIPT` - RECEIPT
-
-        * `GDPR_REQUEST` - GDPR_REQUEST
-
-        * `SHOP_IMPORT` - SHOP_IMPORT'
-    LocationOsmTypeEnum:
-      enum:
-      - NODE
-      - WAY
-      - RELATION
-      type: string
-      description: '* `NODE` - NODE
-
-        * `WAY` - WAY
-
-        * `RELATION` - RELATION'
-    PaginatedPriceHistoryList:
-      type: object
-      required:
-      - items
-      - page
-      - pages
-      - size
-      - total
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/PriceHistory'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
-    PriceFull:
+    PriceHistory:
       type: object
       properties:
-        id:
+        history_id:
           type: integer
-          readOnly: true
-        product_id:
-          type: integer
-        location_id:
-          type: integer
-        proof_id:
-          type: integer
-        product:
-          $ref: '#/components/schemas/ProductFull'
-        location:
-          $ref: '#/components/schemas/Location'
-        proof:
-          $ref: '#/components/schemas/Proof'
-        type:
-          $ref: '#/components/schemas/PriceTypeEnum'
-        product_code:
-          type:
-          - string
-          - 'null'
-        product_name:
-          type:
-          - string
-          - 'null'
-        category_tag:
-          type:
-          - string
-          - 'null'
-        labels_tags:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        origins_tags:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        price:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          exclusiveMaximum: 10000000
-        price_is_discounted:
-          type: boolean
-        price_without_discount:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          exclusiveMaximum: 10000000
-        discount_type:
-          oneOf:
-          - $ref: '#/components/schemas/DiscountTypeEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        price_per:
-          oneOf:
-          - $ref: '#/components/schemas/PricePerEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        currency:
-          oneOf:
-          - $ref: '#/components/schemas/CurrencyEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        location_osm_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 9223372036854775807
-          minimum: 0
-          format: int64
-        location_osm_type:
-          oneOf:
-          - $ref: '#/components/schemas/LocationOsmTypeEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        date:
-          type:
-          - string
-          - 'null'
-          format: date
-        receipt_quantity:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          title: Receipt's price quantity (user input)
-          exclusiveMaximum: 10000000
-        owner_comment:
-          type:
-          - string
-          - 'null'
-        owner:
-          type:
-          - string
-          - 'null'
-        source:
-          type:
-          - string
-          - 'null'
-        tags:
+        history_date:
+          type: string
+          format: date-time
+        history_change_reason:
+          type: string
+        history_type:
+          $ref: '#/components/schemas/HistoryTypeEnum'
+        history_user_id:
+          type: string
+        changes:
           type: array
-          items:
-            type: string
-        created:
-          type: string
-          format: date-time
-        updated:
-          type: string
-          format: date-time
-          readOnly: true
-        duplicate_of:
-          type:
-          - integer
-          - 'null'
+          items: {}
       required:
-      - id
-      - location
-      - location_id
-      - product
-      - product_id
-      - proof
-      - proof_id
-      - type
-      - updated
-    Proof:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        location_id:
-          type: integer
-        file_path:
-          type:
-          - string
-          - 'null'
-        mimetype:
-          type:
-          - string
-          - 'null'
-        type:
-          $ref: '#/components/schemas/ProofTypeEnum'
-        image_md5_hash:
-          type:
-          - string
-          - 'null'
-          maxLength: 32
-        image_thumb_path:
-          type:
-          - string
-          - 'null'
-        location_osm_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 9223372036854775807
-          minimum: 0
-          format: int64
-        location_osm_type:
-          oneOf:
-          - $ref: '#/components/schemas/LocationOsmTypeEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        date:
-          type:
-          - string
-          - 'null'
-          format: date
-        currency:
-          oneOf:
-          - $ref: '#/components/schemas/CurrencyEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        receipt_price_count:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-          title: Receipt's number of prices (user input)
-        receipt_price_total:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          title: Receipt's total amount (user input)
-          exclusiveMaximum: 10000000
-        receipt_online_delivery_costs:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          title: Receipt's online delivery costs (user input)
-          exclusiveMaximum: 10000000
-        ready_for_price_tag_validation:
-          type: boolean
-        owner_consumption:
-          type:
-          - boolean
-          - 'null'
-        owner_comment:
-          type:
-          - string
-          - 'null'
-        draft:
-          type: boolean
-        price_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        prediction_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        owner:
-          type:
-          - string
-          - 'null'
-        source:
-          type:
-          - string
-          - 'null'
-        tags:
-          type: array
-          items:
-            type: string
-        created:
-          type: string
-          format: date-time
-        updated:
-          type: string
-          format: date-time
-          readOnly: true
-      required:
-      - id
-      - location_id
-      - type
-      - updated
+      - changes
+      - history_change_reason
+      - history_date
+      - history_id
+      - history_type
+      - history_user_id
+    PriceTypeEnum:
+      enum:
+      - PRODUCT
+      - CATEGORY
+      type: string
+      description: '* `PRODUCT` - PRODUCT
+
+        * `CATEGORY` - CATEGORY'
     ProductFull:
       type: object
       properties:
@@ -5476,6 +5639,20 @@ components:
       - code
       - id
       - updated
+    ProofTypeEnum:
+      enum:
+      - PRICE_TAG
+      - RECEIPT
+      - GDPR_REQUEST
+      - SHOP_IMPORT
+      type: string
+      description: '* `PRICE_TAG` - PRICE_TAG
+
+        * `RECEIPT` - RECEIPT
+
+        * `GDPR_REQUEST` - GDPR_REQUEST
+
+        * `SHOP_IMPORT` - SHOP_IMPORT'
     HistoryTypeEnum:
       enum:
       - +
@@ -5487,7 +5664,7 @@ components:
         * `~` - Changed
 
         * `-` - Deleted'
-    PriceUpdate:
+    PriceCreate:
       type: object
       properties:
         product_code:
@@ -5558,14 +5735,55 @@ components:
           type:
           - string
           - 'null'
-    PriceTypeEnum:
-      enum:
-      - PRODUCT
-      - CATEGORY
-      type: string
-      description: '* `PRODUCT` - PRODUCT
-
-        * `CATEGORY` - CATEGORY'
+        type:
+          $ref: '#/components/schemas/PriceTypeEnum'
+        product_name:
+          type:
+          - string
+          - 'null'
+        location_osm_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        location_osm_type:
+          oneOf:
+          - $ref: '#/components/schemas/LocationOsmTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        location_id:
+          type: integer
+        proof_id:
+          type: integer
+      required:
+      - proof_id
+    PriceStats:
+      type: object
+      properties:
+        price__count:
+          type: integer
+        price__min:
+          type: number
+          format: double
+          exclusiveMinimum: -100000000
+          exclusiveMaximum: 100000000
+        price__max:
+          type: number
+          format: double
+          exclusiveMinimum: -100000000
+          exclusiveMaximum: 100000000
+        price__avg:
+          type: number
+          format: double
+          exclusiveMinimum: -100000000
+          exclusiveMaximum: 100000000
+      required:
+      - price__avg
+      - price__count
+      - price__max
+      - price__min
     PaginatedPriceFullList:
       type: object
       required:
@@ -5595,224 +5813,6 @@ components:
           type: integer
           description: Total number of items
           example: 1531
-    PriceStats:
-      type: object
-      properties:
-        price__count:
-          type: integer
-        price__min:
-          type: number
-          format: double
-          exclusiveMinimum: -100000000
-          exclusiveMaximum: 100000000
-        price__max:
-          type: number
-          format: double
-          exclusiveMinimum: -100000000
-          exclusiveMaximum: 100000000
-        price__avg:
-          type: number
-          format: double
-          exclusiveMinimum: -100000000
-          exclusiveMaximum: 100000000
-      required:
-      - price__avg
-      - price__count
-      - price__max
-      - price__min
-    Location:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        osm_brand_logo_url:
-          type: string
-          readOnly: true
-        type:
-          $ref: '#/components/schemas/LocationTypeEnum'
-        osm_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 9223372036854775807
-          minimum: 0
-          format: int64
-        osm_type:
-          oneOf:
-          - $ref: '#/components/schemas/LocationOsmTypeEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        osm_name:
-          type:
-          - string
-          - 'null'
-        osm_display_name:
-          type:
-          - string
-          - 'null'
-        osm_tag_key:
-          type:
-          - string
-          - 'null'
-        osm_tag_value:
-          type:
-          - string
-          - 'null'
-        osm_brand:
-          type:
-          - string
-          - 'null'
-        osm_address_postcode:
-          type:
-          - string
-          - 'null'
-        osm_address_city:
-          type:
-          - string
-          - 'null'
-        osm_address_country:
-          type:
-          - string
-          - 'null'
-        osm_address_country_code:
-          type:
-          - string
-          - 'null'
-        osm_lat:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -10000
-          exclusiveMaximum: 10000
-        osm_lon:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -10000
-          exclusiveMaximum: 10000
-        osm_version:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        osm_version_date:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        website_url:
-          type:
-          - string
-          - 'null'
-          format: uri
-          maxLength: 200
-        price_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        user_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        product_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        proof_count:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        source:
-          type:
-          - string
-          - 'null'
-        created:
-          type: string
-          format: date-time
-        updated:
-          type: string
-          format: date-time
-          readOnly: true
-      required:
-      - id
-      - osm_brand_logo_url
-      - type
-      - updated
-    PatchedPriceUpdate:
-      type: object
-      properties:
-        product_code:
-          type:
-          - string
-          - 'null'
-        category_tag:
-          type:
-          - string
-          - 'null'
-        labels_tags:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        origins_tags:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        price:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          exclusiveMaximum: 10000000
-        price_is_discounted:
-          type: boolean
-        price_without_discount:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          exclusiveMaximum: 10000000
-        discount_type:
-          oneOf:
-          - $ref: '#/components/schemas/DiscountTypeEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        price_per:
-          oneOf:
-          - $ref: '#/components/schemas/PricePerEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        currency:
-          oneOf:
-          - $ref: '#/components/schemas/CurrencyEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        date:
-          type:
-          - string
-          - 'null'
-          format: date
-        receipt_quantity:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0
-          title: Receipt's price quantity (user input)
-          exclusiveMaximum: 10000000
-        owner_comment:
-          type:
-          - string
-          - 'null'
   securitySchemes:
     CustomAuthentication:
       type: http

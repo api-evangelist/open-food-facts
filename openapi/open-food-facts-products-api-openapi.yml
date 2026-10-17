@@ -25762,45 +25762,6 @@ components:
                   example: health
                 description: topics currently include health, environment, problem
           readOnly: true
-    ProductList:
-      properties:
-        product:
-          type: string
-          title: Product
-        k:
-          type: string
-          title: K
-        v:
-          type: string
-          title: V
-      type: object
-      required:
-      - product
-      - k
-      - v
-      title: ProductList
-    ProductStats:
-      properties:
-        product:
-          type: string
-          title: Product
-        keys:
-          type: integer
-          title: Keys
-        editors:
-          type: integer
-          title: Editors
-        last_edit:
-          type: string
-          format: date-time
-          title: Last Edit
-      type: object
-      required:
-      - product
-      - keys
-      - editors
-      - last_edit
-      title: ProductStats
     ValidationError:
       properties:
         loc:
@@ -25831,38 +25792,45 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    PaginatedProductFullList:
+    ProductStats:
+      properties:
+        product:
+          type: string
+          title: Product
+        keys:
+          type: integer
+          title: Keys
+        editors:
+          type: integer
+          title: Editors
+        last_edit:
+          type: string
+          format: date-time
+          title: Last Edit
       type: object
       required:
-      - items
-      - page
-      - pages
-      - size
-      - total
+      - product
+      - keys
+      - editors
+      - last_edit
+      title: ProductStats
+    ProductList:
       properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductFull'
-        page:
-          type: integer
-          description: Current page number
-          example: 1
-        pages:
-          type: integer
-          description: Total number of pages
-          example: 16
-        size:
-          type: integer
-          description: Number of items per page
-          example: 100
-        total:
-          type: integer
-          description: Total number of items
-          example: 1531
-    NullEnum:
-      enum:
-      - null
+        product:
+          type: string
+          title: Product
+        k:
+          type: string
+          title: K
+        v:
+          type: string
+          title: V
+      type: object
+      required:
+      - product
+      - k
+      - v
+      title: ProductList
     PatchedProductFull:
       type: object
       properties:
@@ -25974,23 +25942,41 @@ components:
           type: string
           format: date-time
           readOnly: true
-    SourceEnum:
-      enum:
-      - 'off'
-      - obf
-      - opff
-      - opf
-      type: string
-      description: '* `off` - off
-
-        * `obf` - obf
-
-        * `opff` - opff
-
-        * `opf` - opf'
+    PaginatedProductFullList:
+      type: object
+      required:
+      - items
+      - page
+      - pages
+      - size
+      - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductFull'
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        pages:
+          type: integer
+          description: Total number of pages
+          example: 16
+        size:
+          type: integer
+          description: Number of items per page
+          example: 100
+        total:
+          type: integer
+          description: Total number of items
+          example: 1531
     BlankEnum:
       enum:
       - ''
+    NullEnum:
+      enum:
+      - null
     ProductFull:
       type: object
       properties:
@@ -26106,6 +26092,20 @@ components:
       - code
       - id
       - updated
+    SourceEnum:
+      enum:
+      - 'off'
+      - obf
+      - opff
+      - opf
+      type: string
+      description: '* `off` - off
+
+        * `obf` - obf
+
+        * `opff` - opff
+
+        * `opf` - opf'
   securitySchemes:
     cookieAuth:
       type: apiKey

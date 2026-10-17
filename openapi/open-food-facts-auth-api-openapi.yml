@@ -89,6 +89,22 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    SessionResponse:
+      type: object
+      properties:
+        user_id:
+          type: string
+        is_moderator:
+          type: boolean
+        access_token:
+          type: string
+        token_type:
+          type: string
+      required:
+      - access_token
+      - is_moderator
+      - token_type
+      - user_id
     Login:
       type: object
       properties:
@@ -115,22 +131,6 @@ components:
       - created
       - last_used
       - token
-      - user_id
-    SessionResponse:
-      type: object
-      properties:
-        user_id:
-          type: string
-        is_moderator:
-          type: boolean
-        access_token:
-          type: string
-        token_type:
-          type: string
-      required:
-      - access_token
-      - is_moderator
-      - token_type
       - user_id
   securitySchemes:
     CustomAuthentication:
