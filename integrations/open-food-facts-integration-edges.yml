@@ -200,6 +200,66 @@ edges:
     detected: '2026-10-22'
   detected_by: sweep-openssf-best-practices-badges.py
   first_seen: '2026-10-22'
+- partner_name: Packagist
+  partner: packagist
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (PHP)
+  evidence: https://packagist.org/packages/openfoodfacts/openfoodfacts-php
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: Packagist (public registry JSON)
+    spec_file: null
+    language: PHP
+    packages:
+    - name: openfoodfacts/openfoodfacts-php
+      version: v0.4.0
+      released: '2025-07-29'
+      released_field: time
+      lapsed: false
+      page: https://packagist.org/packages/openfoodfacts/openfoodfacts-php
+      repo_leg: domain:openfoodfacts.org
+      publisher_leg: org:openfoodfacts
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-php-dart-elixir-package-registries.py
+    detected: '2026-10-22'
+  detected_by: sweep-php-dart-elixir-package-registries.py
+  first_seen: '2026-10-22'
+- partner_name: pub.dev
+  partner: pub-dev
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (Dart/Flutter)
+  evidence: https://pub.dev/packages/openfoodfacts
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: pub.dev (public registry JSON)
+    spec_file: null
+    language: Dart/Flutter
+    packages:
+    - name: openfoodfacts
+      version: 3.31.1
+      released: '2026-10-19'
+      released_field: published
+      lapsed: false
+      page: https://pub.dev/packages/openfoodfacts
+      repo_leg: not required (verified publisher)
+      publisher_leg: verified-publisher:openfoodfacts.org
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-php-dart-elixir-package-registries.py
+    detected: '2026-10-22'
+  detected_by: sweep-php-dart-elixir-package-registries.py
+  first_seen: '2026-10-22'
 generated: '2026-10-18'
 method: searched
 source:
@@ -227,3 +287,6 @@ checked:
 - https://raw.githubusercontent.com/obsidianmd/obsidian-releases/793b52114f54b055b760ef47761ec5c93d689804/community-plugins.json
 - https://www.bestpractices.dev/en/projects.json
 - https://www.bestpractices.dev/en/projects.json?page=N
+- https://hex.pm/api
+- https://packagist.org/packages
+- https://pub.dev/api
