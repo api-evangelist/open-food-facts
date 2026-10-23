@@ -264,3 +264,1387 @@
     detected: '2026-10-22'
   status: not-a-workflow
   arazzo: null
+- slug: open-food-facts-4th-heart
+  label: 4th & Heart
+  partner: 4th-heart
+  partner_name: 4th & Heart
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - 4TH & HEART
+    matched_by: register-name
+    register_name_note: register-name '4thandheart' = 4th-heart; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-7-eleven
+  label: 7-Eleven
+  partner: 7-eleven
+  partner_name: 7-Eleven
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - 7-ELEVEN
+    - 7-Eleven, Inc.
+    matched_by: register-name
+    register_name_note: register-name '7eleven' = 7-eleven; wikidata P856 7-11.com.tw, 7-eleven.ca, 7-eleven.co.kr,
+      7-eleven.com, 7-eleven.com.hk, 7-eleven.com.mx, 7-eleven.com.ph, 7-eleven.dk, 7-eleven.no, 7eleven.ca, 7eleven.co.th,
+      7eleven.com.au, 7eleven.com.my, sej.co.jp agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-the-a2-milk-company
+  label: The a2 Milk Company
+  partner: a2-milk-company
+  partner_name: The a2 Milk Company
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - The a2 Milk Company
+    matched_by: register-name
+    register_name_note: register-name 'a2milkcompany' = a2-milk-company; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-acme-markets
+  label: Acme Markets
+  partner: acme-markets
+  partner_name: Acme Markets
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - ACME MARKETS
+    matched_by: register-name
+    register_name_note: register-name 'acmemarkets' = acme-markets; wikidata P856 acmemarkets.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-advanced-bio-development
+  label: Advanced Bio Development
+  partner: advancedbiodevelopment
+  partner_name: Advanced Bio Development
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - Advanced Bio Development Inc
+    - Advanced Bio Development, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'advancedbiodevelopment' = advancedbiodevelopment; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-albertsons
+  label: Albertsons
+  partner: albertsons
+  partner_name: Albertsons
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - ALBERTSONS
+    matched_by: register-name
+    register_name_note: register-name 'albertsons' = albertsons; wikidata P856 albertsons.com, albertsonscompanies.com
+      agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-beyond-meat
+  label: Beyond Meat
+  partner: beyond-meat
+  partner_name: Beyond Meat
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - BEYOND MEAT
+    - Beyond Meat, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'beyondmeat' = beyond-meat; wikidata P856 beyondmeat.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-brandless
+  label: Brandless
+  partner: brandless
+  partner_name: Brandless
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - BRANDLESS
+    matched_by: register-name
+    register_name_note: register-name 'brandless' = brandless; wikidata P856 brandless.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-bulletproof
+  label: BulletProof
+  partner: bulletproof
+  partner_name: BulletProof
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - BULLETPROOF
+    matched_by: register-name
+    register_name_note: register-name 'bulletproof' = bulletproof; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-casey-s-general-stores
+  label: Casey's General Stores
+  partner: caseys-general-stores
+  partner_name: Casey's General Stores
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - Casey's General Stores, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'caseysgeneralstores' = caseys-general-stores; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-chobani
+  label: Chobani
+  partner: chobani
+  partner_name: Chobani
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - CHOBANI
+    - Chobani
+    - Chobani, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'chobani' = chobani; wikidata P856 chobani.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-church-and-dwight
+  label: Church and Dwight
+  partner: church-and-dwight
+  partner_name: Church and Dwight
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - Church & Dwight Co., Inc.
+    matched_by: register-name
+    register_name_note: register-name 'churchanddwight' = church-and-dwight; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-circle-k
+  label: Circle K
+  partner: circlek
+  partner_name: Circle K
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - CIRCLE K
+    - Circle K
+    matched_by: register-name
+    register_name_note: register-name 'circlek' = circlek; wikidata P856 circlek-deutschland.de, circlek.com, circlek.com.mx,
+      circlek.com.vn, circlek.dk, circlek.ee, circlek.hk, circlek.lt, circlek.lv, circlek.nl, circlek.no, circlek.pl,
+      circlek.se, circlekatlantic.ca, circlekindo.com, circleksouthafrica.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-the-coca-cola-company
+  label: The Coca-Cola Company
+  partner: coca-cola
+  partner_name: The Coca-Cola Company
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - THE COCA-COLA COMPANY
+    - The Coca-Cola Company
+    matched_by: register-name
+    register_name_note: register-name 'cocacolacompany' = coca-cola; wikidata P856 coca-cola.com, coca-cola.com.br,
+      coca-colacompany.com, cokesolutions.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-conagra-brands
+  label: Conagra Brands
+  partner: conagra-brands
+  partner_name: Conagra Brands
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - CONAGRA BRANDS
+    - Conagra Brands
+    - Conagra Brands, Inc
+    - Conagra Brands, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'conagrabrands' = conagra-brands; wikidata P856 conagrabrands.com agrees or
+      unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-constellation-brands
+  label: Constellation Brands
+  partner: constellation-brands
+  partner_name: Constellation Brands
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - Constellation Brands, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'constellationbrands' = constellation-brands; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-flowers-foods
+  label: Flowers Foods
+  partner: flowers-foods
+  partner_name: Flowers Foods
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - FLOWERS FOODS
+    - Flowers Foods, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'flowersfoods' = flowers-foods; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-frankford-candy
+  label: Frankford Candy
+  partner: frankford-candy
+  partner_name: Frankford Candy
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - FRANKFORD CANDY LLC
+    - Frankford Candy, LLC
+    matched_by: register-name
+    register_name_note: register-name 'frankfordcandy' = frankford-candy; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-general-mills
+  label: General Mills
+  partner: general-mills
+  partner_name: General Mills
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - General Mills, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'generalmills' = general-mills; wikidata P856 generalmills.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-hain-celestial-group
+  label: Hain Celestial Group
+  partner: hain-celestial-group
+  partner_name: Hain Celestial Group
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - THE HAIN CELESTIAL GROUP, INC.
+    - The Hain Celestial Group, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'haincelestialgroup' = hain-celestial-group; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-hellofresh
+  label: HelloFresh
+  partner: hellofresh
+  partner_name: HelloFresh
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - HELLO FRESH
+    matched_by: register-name
+    register_name_note: register-name 'hellofresh' = hellofresh; wikidata P856 hellofresh.at, hellofresh.ch, hellofresh.com,
+      hellofresh.de, hellofreshgroup.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-hint
+  label: Hint
+  partner: hint
+  partner_name: Hint
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - HINT
+    - Hint, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'hint' = hint; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-ingles-markets
+  label: Ingles Markets
+  partner: ingles-markets
+  partner_name: Ingles Markets
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - Ingles Markets Inc.
+    matched_by: register-name
+    register_name_note: register-name 'inglesmarkets' = ingles-markets; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-jelly-belly
+  label: Jelly Belly
+  partner: jelly-belly
+  partner_name: Jelly Belly
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - JELLY BELLY
+    matched_by: register-name
+    register_name_note: register-name 'jellybelly' = jelly-belly; wikidata P856 jellybelly.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-kate-farms
+  label: Kate Farms
+  partner: kate-farms
+  partner_name: Kate Farms
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - KATE FARMS
+    matched_by: register-name
+    register_name_note: register-name 'katefarms' = kate-farms; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-kroger
+  label: Kroger
+  partner: kroger
+  partner_name: Kroger
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - KROGER
+    - The Kroger Co.
+    matched_by: register-name
+    register_name_note: register-name 'kroger' = kroger; wikidata P856 kroger.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-land-o-lakes
+  label: Land O'Lakes
+  partner: land-olakes
+  partner_name: Land O'Lakes
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - LAND O LAKES
+    - LAND O' LAKES
+    - LAND O'LAKES
+    - LAND O'LAKES, INC.
+    - Land O Lakes
+    - Land O'Lakes, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'landolakes' = land-olakes; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-miyokos
+  label: Miyokos
+  partner: miyokos
+  partner_name: Miyokos
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - MIYOKO'S
+    matched_by: register-name
+    register_name_note: register-name 'miyokos' = miyokos; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-nbty
+  label: NBTY
+  partner: nbty
+  partner_name: NBTY
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - NBTY, INC.
+    matched_by: register-name
+    register_name_note: register-name 'nbty' = nbty; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-olipop
+  label: Olipop
+  partner: olipop
+  partner_name: Olipop
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - OLIPOP
+    matched_by: register-name
+    register_name_note: register-name 'olipop' = olipop; wikidata P856 drinkolipop.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-pepsico
+  label: PepsiCo
+  partner: pepsico
+  partner_name: PepsiCo
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - PEPSICO, INC
+    - PEPSICO, INC.
+    - PepsiCo
+    - Pepsico Inc.
+    - Pepsico, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'pepsico' = pepsico; wikidata P856 pepsi.com, pepsico.com, pepsico.com.mx
+      agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-performance-food-group
+  label: Performance Food Group
+  partner: performance-food
+  partner_name: Performance Food Group
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - Performance Food Group
+    matched_by: register-name
+    register_name_note: register-name 'performancefoodgroup' = performance-food; wikidata P856 performancefoodservice.com,
+      pfgc.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-publix-super-markets
+  label: Publix Super Markets
+  partner: publix-super-markets
+  partner_name: Publix Super Markets
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - Publix Super Markets, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'publixsupermarkets' = publix-super-markets; wikidata P856 publix.com agrees
+      or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-reckitt-benckiser
+  label: Reckitt Benckiser
+  partner: reckitt
+  partner_name: Reckitt Benckiser
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - Reckitt Benckiser LLC
+    - Reckitt Benckiser, Inc.
+    - Reckitt Benckiser, LLC
+    matched_by: register-name
+    register_name_note: register-name 'reckittbenckiser' = reckitt; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-revolution-foods
+  label: Revolution Foods
+  partner: revolution-foods
+  partner_name: Revolution Foods
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - Revolution Foods, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'revolutionfoods' = revolution-foods; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-ripple-foods
+  label: Ripple Foods
+  partner: ripple-foods
+  partner_name: Ripple Foods
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - Ripple Foods
+    matched_by: register-name
+    register_name_note: register-name 'ripplefoods' = ripple-foods; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-roundy-s
+  label: Roundy's
+  partner: roundys
+  partner_name: Roundy's
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - ROUNDY'S
+    - ROUNDYS
+    - Roundy's, Inc.
+    - Roundys
+    matched_by: register-name
+    register_name_note: register-name 'roundys' = roundys; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-sambazon
+  label: Sambazon
+  partner: sambazon
+  partner_name: Sambazon
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - Sambazon, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'sambazon' = sambazon; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-soylent
+  label: Soylent
+  partner: soylent
+  partner_name: Soylent
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - SOYLENT
+    matched_by: register-name
+    register_name_note: register-name 'soylent' = soylent; wikidata P856 soylent.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-sprouts-farmers-market
+  label: Sprouts Farmers Market
+  partner: sprouts-farmers-market
+  partner_name: Sprouts Farmers Market
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - SPROUTS FARMERS MARKET
+    - Sprouts Farmers Market, LLC
+    matched_by: register-name
+    register_name_note: register-name 'sproutsfarmersmarket' = sprouts-farmers-market; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-starbucks
+  label: Starbucks
+  partner: starbucks
+  partner_name: Starbucks
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - STARBUCKS
+    - STARBUCKS, INC
+    - Starbucks
+    matched_by: register-name
+    register_name_note: register-name 'starbucks' = starbucks; wikidata P856 istarbucks.co.kr, starbucks.ca, starbucks.co.id,
+      starbucks.co.jp, starbucks.co.kr, starbucks.co.th, starbucks.co.uk, starbucks.co.za, starbucks.com, starbucks.com.ar,
+      starbucks.com.br, starbucks.com.cn, starbucks.com.hk, starbucks.com.mx, starbucks.com.my, starbucks.com.tr,
+      starbucks.com.tw, starbucks.de, starbucks.es, starbucks.fr, starbucks.hu, starbucks.in, starbucks.ph agrees
+      or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-supervalu
+  label: SuperValu
+  partner: supervalu
+  partner_name: SuperValu
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - SUPERVALU
+    - Supervalu, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'supervalu' = supervalu; wikidata P856 supervalu.com, supervalu.ie agrees
+      or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-sysco
+  label: Sysco
+  partner: sysco
+  partner_name: Sysco
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - Sysco Corporation
+    matched_by: register-name
+    register_name_note: register-name 'sysco' = sysco; wikidata P856 sysco.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-tastykake
+  label: Tastykake
+  partner: tastykake
+  partner_name: Tastykake
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - TASTYKAKE
+    matched_by: register-name
+    register_name_note: register-name 'tastykake' = tastykake; wikidata P856 tastykake.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-trader-joe-s
+  label: Trader Joe's
+  partner: trader-joes
+  partner_name: Trader Joe's
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - TRADER JOE'S
+    - TRADER JOES
+    - TRADER JOE`S
+    matched_by: register-name
+    register_name_note: register-name 'traderjoes' = trader-joes; wikidata P856 traderjoes.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-unified-grocers
+  label: Unified Grocers
+  partner: unified-grocers
+  partner_name: Unified Grocers
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - Unified Grocers, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'unifiedgrocers' = unified-grocers; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-unilever
+  label: Unilever
+  partner: unilever
+  partner_name: Unilever
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - UNILEVER
+    - Unilever
+    matched_by: register-name
+    register_name_note: register-name 'unilever' = unilever; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-urban-remedy
+  label: Urban Remedy
+  partner: urbanremedy
+  partner_name: Urban Remedy
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - URBAN REMEDY
+    - Urban Remedy
+    matched_by: register-name
+    register_name_note: register-name 'urbanremedy' = urbanremedy; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-us-foods
+  label: US Foods
+  partner: us-foods
+  partner_name: US Foods
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - US Foods, Inc.
+    - US. FOODS
+    matched_by: register-name
+    register_name_note: register-name 'usfoods' = us-foods; no wikidata P856
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-wawa
+  label: Wawa
+  partner: wawa
+  partner_name: Wawa
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - WAWA
+    - Wawa Incorporated
+    matched_by: register-name
+    register_name_note: register-name 'wawa' = wawa; wikidata P856 wawa.cc, wawa.com agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
+- slug: open-food-facts-whole-foods-market
+  label: Whole Foods Market
+  partner: whole-foods-market
+  partner_name: Whole Foods Market
+  category: brand owner covered by the Open Food Facts product database
+  type: coverage
+  channel: provider-built
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: system-coverage
+  contract_reference:
+    register: Open Food Facts bulk CSV export (brand_owner field)
+    spec_file: null
+    registered_names:
+    - WHOLE FOODS MARKET
+    - WHOLEFOODS MARKET
+    - Whole Foods Market, Inc.
+    matched_by: register-name
+    register_name_note: register-name 'wholefoodsmarket' = whole-foods-market; wikidata P856 wholefoodsmarket.com
+      agrees or unheld
+    signal_note: 'coverage: the platform''s own database lists this brand owner''s products; one edge per brand
+      owner, never a count'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
