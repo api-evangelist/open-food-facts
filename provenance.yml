@@ -11,6 +11,12 @@ artifacts:
   capabilities/open-food-facts-capability-edges.yml:
     method: unknown
     evidence: no authorship recorded
+  certification/observations-2026-11-11.jsonl:
+    method: unknown
+    evidence: no authorship recorded
+  certification/status.yml:
+    method: unknown
+    evidence: no authorship recorded
   changelog/open-food-facts-changelog.yml:
     method: searched
     evidence: declared in the artifact
@@ -59,8 +65,14 @@ artifacts:
   conventions/open-food-facts-conventions.yml:
     method: searched
     evidence: declared in the artifact
+  data-license/open-food-facts-data-license.yml:
+    method: harvested
+    evidence: declared in the artifact
   data-model/open-food-facts-data-model.yml:
     method: derived
+    evidence: declared in the artifact
+  eligibility/open-food-facts-eligibility.yml:
+    method: harvested
     evidence: declared in the artifact
   errors/open-food-facts-problem-types.yml:
     method: derived
@@ -77,6 +89,9 @@ artifacts:
   heartbeat/2026-11-06.yml:
     method: unknown
     evidence: no authorship recorded
+  heartbeat/2026-11-13.yml:
+    method: unknown
+    evidence: no authorship recorded
   integrations/_index.yml:
     method: generated
     evidence: carries an API Evangelist house phrase
@@ -86,7 +101,7 @@ artifacts:
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  kin/checks-2026-11-02T082323.yml:
+  kin/checks-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-23T000603.yml:
@@ -150,6 +165,9 @@ artifacts:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-11-02T082323.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   lifecycle/open-food-facts-lifecycle.yml:
@@ -343,6 +361,9 @@ artifacts:
   overlays/open-food-facts-folksonomy-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  overlays/open-food-facts-keys-values-api-certification-overlay.yaml:
+    method: derived
+    evidence: declared in the artifact
   overlays/open-food-facts-nutripatrol-overlay.yaml:
     method: generated
     evidence: declared in the artifact
@@ -352,11 +373,17 @@ artifacts:
   overlays/open-food-facts-search-a-licious-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  overlays/open-food-facts-search-api-certification-overlay.yaml:
+    method: derived
+    evidence: declared in the artifact
   packages/open-food-facts-packages.yml:
     method: searched
     evidence: declared in the artifact
   plans/open-food-facts-plans-pricing.yml:
     method: searched
+    evidence: declared in the artifact
+  privacy/open-food-facts-privacy-policy.yml:
+    method: harvested
     evidence: declared in the artifact
   rate-limits/open-food-facts-rate-limits.yml:
     method: searched
@@ -390,6 +417,9 @@ artifacts:
     evidence: declared in the artifact
   sla/open-food-facts-sla.yml:
     method: searched
+    evidence: declared in the artifact
+  terms/open-food-facts-terms-of-service.yml:
+    method: harvested
     evidence: declared in the artifact
   vocabulary/open-food-facts-taxonomies.yml:
     method: searched
