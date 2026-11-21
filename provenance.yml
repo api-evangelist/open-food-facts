@@ -92,6 +92,9 @@ artifacts:
   heartbeat/2026-11-13.yml:
     method: unknown
     evidence: no authorship recorded
+  heartbeat/2026-11-20.yml:
+    method: unknown
+    evidence: no authorship recorded
   integrations/_index.yml:
     method: generated
     evidence: carries an API Evangelist house phrase
@@ -101,7 +104,7 @@ artifacts:
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  kin/checks-2026-11-06T143934.yml:
+  kin/checks-2026-11-13T214628.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-23T000603.yml:
@@ -168,6 +171,9 @@ artifacts:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-11-06T143934.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-13T214628.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   lifecycle/open-food-facts-lifecycle.yml:
@@ -349,25 +355,133 @@ artifacts:
   openapi/open-food-facts-users-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  overlays/open-food-facts-admin-property-management-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-admin-value-management-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/open-food-facts-api-v2-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/open-food-facts-api-v3-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  overlays/open-food-facts-auth-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-authentication-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-autocomplete-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-badges-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-cgi-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-challenges-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-document-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/open-food-facts-facets-knowledge-panels-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-flags-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/open-food-facts-folksonomy-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  overlays/open-food-facts-health-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-images-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/open-food-facts-keys-values-api-certification-overlay.yaml:
     method: derived
+    evidence: declared in the artifact
+  overlays/open-food-facts-keys-values-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-knowledge-panel-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-knowledge-panels-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-locations-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-metrics-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-moderation-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-nutrients-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-nutripatrol-api-phrasing-overlay.yaml:
+    method: generated
     evidence: declared in the artifact
   overlays/open-food-facts-nutripatrol-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  overlays/open-food-facts-ocr-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-off-test-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-open-food-facts-knowledge-panels-api-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/open-food-facts-open-prices-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-personal-search-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-price-tags-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-prices-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-product-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-product-attributes-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-product-tags-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-products-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-proofs-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-receipt-items-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-render-to-html-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-robots-txt-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-schema-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-search-a-licious-api-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/open-food-facts-search-a-licious-overlay.yaml:
@@ -375,6 +489,36 @@ artifacts:
     evidence: declared in the artifact
   overlays/open-food-facts-search-api-certification-overlay.yaml:
     method: derived
+    evidence: declared in the artifact
+  overlays/open-food-facts-search-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-stats-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-status-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-suggestions-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-system-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-taxonomy-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-taxonomy-suggestions-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-tickets-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-user-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/open-food-facts-users-api-phrasing-overlay.yaml:
+    method: generated
     evidence: declared in the artifact
   packages/open-food-facts-packages.yml:
     method: searched
